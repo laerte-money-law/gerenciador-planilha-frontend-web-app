@@ -1,0 +1,207 @@
+<app-select-company *ngIf="!isAdmin()" (subsidiarySelected)="handleSubsidiaryChange($event)"> </app-select-company>
+<div class="card" *ngIf="allRecords?.length > 0">
+    <!-- Header: campo de pesquisa e botão de cadastro -->
+    <div class="card-header border-0 pt-6">
+        <div class="card-title flex-grow-1">
+            <div class="d-flex align-items-center position-relative my-1 w-100">
+                <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5">
+                    <span class="path1"></span><span class="path2"> </span>
+                </i>
+                <input
+                    type="text"
+                    class="form-control form-control-solid ps-13"
+                    placeholder="Pesquise pelo nome ou documento do segurado"
+                    autocomplete="off"
+                    [(ngModel)]="searchText"
+                    (keyup)="onSearchFilterChange()"
+                />
+            </div>
+        </div>
+
+        <!-- TODO: Incluir um filtro p/ buscar se cotação foi ou não enviada -->
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-end mx-3">
+                <button type="button" class="btn btn-primary" [routerLink]="[URLS.PATHS.CLIENT.INSURANCE_COMPANY.REGISTRATION()]">
+                    <i class="fa-solid fa-paper-plane fs-2"></i> Solicitar nova cotação
+                </button>
+            </div>
+            <a role="button" class="btn btn-primary" [routerLink]="[URLS.PATHS.ADMIN.POLICY.CREATE()]">
+                <i class="fa-solid fa-plus fs-2"></i> Cadastrar apólice
+            </a>
+        </div>
+    </div>
+
+    <!-- Card: tabela -->
+    <div class="card-body py-4">
+        <div id="" class="dt-container dt-bootstrap5 dt-empty-footer">
+            <!-- Lista de registros -->
+            <div id="" class="table-responsive">
+                <table
+                    class="table table-striped align-middle table-row-dashed fs-6 gy-5 dataTable"
+                    id="kt_table_users"
+                    style="width: 100%"
+                >
+                    <thead>
+                        <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0" role="row">
+                            <th class="min-w-125px">
+                                <span>Tomador</span>
+                            </th>
+
+                            <th class="min-w-125px">
+                                <span>Segurado</span>
+                            </th>
+
+                            <th class="min-w-125px">
+                                <span>Seguradora | Status </span>
+                            </th>
+
+                            <th class="min-w-125px">
+                                <span>Modalidade</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span>Importância Segurada</span>
+                            </th>
+
+                            <th class="min-w-125px">
+                                <span>Cotações solicitadas em</span>
+                            </th>
+
+                            <th class="">
+                                <span>Ações</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 fw-semibold">
+                        <tr *ngFor="let insuredQuotation of allRecords">
+                            <td>
+                                <a class="text-gray-800 text-hover-primary mb-1">{{insuredQuotation.clientName}}</a>
+                                <br />
+                                <span class="text-nowrap">{{formatDocument(insuredQuotation.clientCnpj)}}</span>
+                            </td>
+
+                            <td>
+                                <a class="text-gray-800 text-hover-primary mb-1">{{insuredQuotation.name}}</a>
+                                <br />
+                                <span class="text-nowrap">{{formatDocument(insuredQuotation.document)}}</span>
+                            </td>
+
+                            <td>
+                                <div *ngFor="let company of insuredQuotation.quotations" class="mb-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 text-gray-800 text-hover-primary">{{ company.insuranceCompany }}</div>
+                                        <div class="text-center" style="min-width: 100px">
+                                            <app-badge-quotation-status [status]="company.quotationStatus"></app-badge-quotation-status>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <app-badge-appeal-type status="{{insuredQuotation.quotations[0].appealType}}"> </app-badge-appeal-type>
+                            </td>
+
+                            <td>{{formatCurrency(insuredQuotation.quotations[0].insuredAmount)}}</td>
+
+                            <td>{{formatDateTime(insuredQuotation.createdAt)}}</td>
+                            <td class="text-end">
+                                <span ngbDropdown container="body">
+                                    <a
+                                        role="button"
+                                        class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm text-gray-600"
+                                        ngbDropdownToggle
+                                    >
+                                        Ações
+                                        <i class="fa-solid fa-angle-down fs-6 ms-2 text-gray-600"></i>
+                                    </a>
+                                    <div
+                                        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                        ngbDropdownMenu
+                                        *ngIf="!insuredQuotation.isProposalSent"
+                                    >
+                                        <div class="menu-item px-3">
+                                            <a role="button" class="menu-link px-3" (click)="onShowQuotationDetails(insuredQuotation.code)">
+                                                Ver detalhes da cotação
+                                            </a>
+                                        </div>
+                                        <div class="menu-item px-3">
+                                            <a role="button" class="menu-link px-3" (click)="onDeleteQuotation(insuredQuotation.code)">
+                                                Excluir cotação
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4"
+                                        ngbDropdownMenu
+                                        *ngIf="insuredQuotation.isProposalSent"
+                                    >
+                                        <div class="menu-item px-3">
+                                            <a
+                                                role="button"
+                                                class="menu-link px-3"
+                                                (click)="onGoToPolicyDetailsPage(insuredQuotation.document)"
+                                            >
+                                                Ver detalhes da apólice
+                                            </a>
+                                        </div>
+                                    </div>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            <div id="" class="row" *ngIf="pagination?.getTotalPages() > 1">
+                <div
+                    id=""
+                    class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
+                ></div>
+                <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                    <div class="dt-paging paging_simple_numbers">
+                        <nav>
+                            <ul class="pagination">
+                                <li class="dt-paging-button page-item" [class]="pagination?.isFirstPage() ? 'disabled' : ''">
+                                    <button class="page-link previous" role="link" type="button" (click)="pagination?.goToPreviousPage()">
+                                        <i class="previous"></i>
+                                    </button>
+                                </li>
+                                <li
+                                    class="dt-paging-button page-item"
+                                    *ngFor="let pageNumber of pagination?.getTotalPagesAsArray()"
+                                    [ngClass]="{ active: pageNumber === pagination?.getCurrentPage() }"
+                                >
+                                    <button class="page-link" role="link" type="button" (click)="pagination?.goToPage(pageNumber)">
+                                        {{pageNumber}}
+                                    </button>
+                                </li>
+                                <li class="dt-paging-button page-item" [class]="pagination?.isLastPage() ? 'disabled' : ''">
+                                    <button class="page-link next" role="link" type="button" (click)="pagination?.goToNextPage()">
+                                        <i class="next"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Empty state -->
+<div class="card" *ngIf="allRecords?.length == 0">
+    <div class="card-body">
+        <div class="d-flex flex-column justify-content-center align-items-center pb-10">
+            <img class="img-fluid" style="max-width: 250px" src="assets/images/storyset/Forms-rafiki.png" />
+            <div class="text-gray-400 fs-4 fw-bold mb-4 text-center">
+                <p class="text-muted">Sua empresa ainda não solicitou nenhuma cotação.</p>
+                <p class="text-muted">Clique no botão abaixo para solicitar sua primeira cotação.</p>
+            </div>
+            <a role="button" class="btn btn-primary" [routerLink]="[URLS.PATHS.CLIENT.INSURANCE_COMPANY.REGISTRATION()]">
+                <i class="fa-solid fa-plus fs-2"></i> Solicitar cotação
+            </a>
+        </div>
+    </div>
+</div>

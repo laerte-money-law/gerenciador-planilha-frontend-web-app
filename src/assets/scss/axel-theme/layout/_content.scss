@@ -1,0 +1,91 @@
+//
+// Content
+//
+
+// General
+.app-content {
+    //OBS: THIS IS REMOVING THE BACKGROUND FOR THE MAIN CONTENT IN PAGES   background-color: var(--#{$prefix}body-bg);
+    //box-shadow: var(--#{$prefix}app-content-shadow);
+}
+
+// Desktop mode
+@include media-breakpoint-up(lg) {
+    .app-content {
+        margin-top: 15px; //-#{$app-toolbar-offset};
+        @include border-radius($app-content-border-radius);
+
+        .app-content-menu.menu {
+            margin: 0 -#{$app-content-padding-x};
+
+            // Root links
+            > .menu-item {
+                // Customize menu link default state
+                @include menu-link-default-state(
+                    $title-color: var(--#{$prefix}gray-600),
+                    $icon-color: null,
+                    $bullet-color: null,
+                    $arrow-color: null,
+                    $bg-color: null,
+                    $all-links: false
+                );
+
+                // Customize menu link hover state
+                @include menu-link-hover-state(
+                    $title-color: var(--#{$prefix}gray-900),
+                    $icon-color: null,
+                    $bullet-color: null,
+                    $arrow-color: null,
+                    $bg-color: null,
+                    $all-links: false
+                );
+
+                // Customize menu link here state
+                @include menu-link-here-state(
+                    $title-color: var(--#{$prefix}gray-900),
+                    $icon-color: null,
+                    $bullet-color: null,
+                    $arrow-color: null,
+                    $bg-color: null,
+                    $all-links: false
+                );
+
+                // Customize menu link show state
+                @include menu-link-show-state(
+                    $title-color: var(--#{$prefix}gray-900),
+                    $icon-color: null,
+                    $bullet-color: null,
+                    $arrow-color: null,
+                    $bg-color: null,
+                    $all-links: false
+                );
+
+                // Customize menu link active state
+                @include menu-link-active-state(
+                    $title-color: var(--#{$prefix}gray-900),
+                    $icon-color: null,
+                    $bullet-color: null,
+                    $arrow-color: null,
+                    $bg-color: var(--#{$prefix}gray-200),
+                    $all-links: false
+                );
+            }
+        }
+    }
+}
+
+// Tablet & mobile modes
+@include media-breakpoint-down(lg) {
+    .app-content {
+        @include border-radius($app-content-border-radius-mobile);
+        //margin-top: -#{$app-toolbar-offset-mobile};
+
+        .app-content-menu {
+            margin: 0 -#{$app-content-padding-x-mobile};
+
+            // Root links
+            > .nav-item {
+                margin-right: 2rem !important;
+            }
+        }
+    }
+}

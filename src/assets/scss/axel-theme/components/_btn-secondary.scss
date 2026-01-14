@@ -1,0 +1,16 @@
+//
+// Secondary button
+//
+
+.btn.btn-secondary {
+	@include button-custom-variant(
+		$color: var(--#{$prefix}body-bg), 
+		$icon-color: var(--#{$prefix}body-bg), 
+		$border-color: null, 
+		$bg-color: var(--#{$prefix}gray-800),
+		$color-active: var(--#{$prefix}body-bg), 
+		$icon-color-active: var(--#{$prefix}body-bg), 
+		$border-color-active: null, 
+		$bg-color-active: var(--#{$prefix}gray-700),
+	);
+}

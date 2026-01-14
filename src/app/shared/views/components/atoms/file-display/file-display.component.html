@@ -1,0 +1,41 @@
+<div class="bg-body-tertiary py-2 px-4 rounded-1">
+    <div class="d-flex justify-content-between">
+        <div class="d-flex flex-column">
+            <span class="fw-bold">
+                {{ cropText(fileInfo?.fileName, 24, 4) }}
+            </span>
+            <small class="text-muted">{{ formatFileSize(fileInfo?.fileSize) }} | {{ formatDate(fileInfo?.createdAt) }}</small>
+        </div>
+        <div>
+            <button
+                type="button"
+                class="btn btn-sm btn-icon btn-light-primary btn-active-primary ms-3"
+                placement="top"
+                ngbTooltip="Download do arquivo"
+                (click)="onDownloadFile()"
+            >
+                <i class="fa-solid fa-download"></i>
+            </button>
+            <button
+                type="button"
+                class="btn btn-sm btn-icon btn-light-primary btn-active-primary ms-3"
+                placement="top"
+                ngbTooltip="Substituir arquivo"
+                *ngIf="isEditable"
+                (click)="onReplaceFile()"
+            >
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            </button>
+            <button
+                type="button"
+                class="btn btn-sm btn-icon btn-light-danger btn-active-danger ms-3"
+                placement="top"
+                ngbTooltip="Excluir arquivo"
+                *ngIf="isEditable"
+                (click)="onDeleteFile()"
+            >
+                <i class="fa-solid fa-trash"></i>
+            </button>
+        </div>
+    </div>
+</div>

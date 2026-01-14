@@ -1,0 +1,410 @@
+<section class="section">
+    <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Processo</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #processNumber
+                                    label="Processo"
+                                    placeholder="0000815-74.2022.5.06.0182"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                    [mask]="PROCESS_NUMBER_MASK"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #policyNumber
+                                    label="Apólice No."
+                                    placeholder="12024000107750031918"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #insuranceBranch
+                                    label="Ramo"
+                                    placeholder="0775 – SEGURO GARANTIA - SETOR PÚBLICO"
+                                    [required]="true"
+                                    initialValue="0775 – SEGURO GARANTIA - SETOR PÚBLICO"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #proposalNumber
+                                    label="Proposta No."
+                                    placeholder="107750060695"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados do segurado</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row" *ngIf="!insuredSelected">
+                            <div class="col-12 mb-6 flex flex-column">
+                                <app-input-autocomplete-single-choice
+                                    label="Nome ou CPF do Segurado"
+                                    placeholder="Pesquise um cliente cadastrado. Ex: Wayne Enterprises Inc."
+                                    [allSuggestions]="autocompleteInsuredSuggestions"
+                                    [clearInputIfNoItemIsSelected]="false"
+                                    (suggestionClicked)="onInsuredSelected($event)"
+                                    [autocompleteSuggestions]="autocompleteInsuredSuggestions"
+                                >
+                                </app-input-autocomplete-single-choice>
+                                <div class="mt-3">
+                                    <app-save-modal-button
+                                        [formComponent]="saveInsuredFormComponent"
+                                        buttonText="Adicionar Segurado"
+                                        (saved)="loadInsuredsAsAutocompleteSuggestions()
+                                    "
+                                    ></app-save-modal-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="insuredSelected">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="Nome" [value]="insuredSelected.name"></app-input-readonly>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="Documento" [value]="insuredSelected.document"></app-input-readonly>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="Email" [value]="insuredSelected.email"></app-input-readonly>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="Fone" [value]="insuredSelected.phone"></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <app-input-readonly
+                                    label="Endereço do Segurado"
+                                    [value]="insuredSelected.formattedAddress"
+                                ></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <div class="d-grid gap-2">
+                                    <button
+                                        type="button"
+                                        name=""
+                                        id=""
+                                        class="btn btn-outline-primary border-primary border-1 btn-active-icon-white btn-icon-primary"
+                                        (click)="onInsuredSelected(null)"
+                                    >
+                                        <i class="fa-solid fa-arrow-right-arrow-left me-3"></i>
+                                        Selecionar outro segurado
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados do tomador</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row" *ngIf="!clientSelected">
+                            <div class="col-12 mb-6">
+                                <app-input-autocomplete-single-choice
+                                    label="Nome ou CNPJ da empresa"
+                                    placeholder="Pesquise um cliente cadastrado. Ex: Wayne Enterprises Inc."
+                                    [allSuggestions]="autocompleteClientSuggestions"
+                                    [clearInputIfNoItemIsSelected]="false"
+                                    (suggestionClicked)="onClientSelected($event)"
+                                    authService.userClientInfo.cnpj
+                                    [autocompleteSuggestions]="autocompleteClientSuggestions"
+                                >
+                                </app-input-autocomplete-single-choice>
+
+                                <div class="mt-3">
+                                    <app-save-modal-button
+                                        (saved)="loadClientsAsAutocompleteSuggestions()"
+                                        [formComponent]="saveClientFormComponent"
+                                        buttonText="Adicionar Cliente"
+                                    ></app-save-modal-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="clientSelected">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="Nome da Empresa" [value]="clientSelected.companyName"></app-input-readonly>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="CNPJ da Empresa" [value]="clientSelected.cnpj"></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <app-input-readonly label="Endereço da Empresa" [value]="clientSelected.address"></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <div class="d-grid gap-2">
+                                    <button
+                                        type="button"
+                                        name=""
+                                        id=""
+                                        class="btn btn-outline-primary border-primary border-1 btn-active-icon-white btn-icon-primary"
+                                        (click)="onClientSelected(null)"
+                                    >
+                                        <i class="fa-solid fa-arrow-right-arrow-left me-3"></i>
+                                        Selecionar outra empresa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+            </div>
+            <!--
+            -->
+
+            <!--dados seguradora-->
+            <div class="col-4">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados da Seguradora</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row" *ngIf="!insuranceCompanySelected">
+                            <div class="col-12 mb-6">
+                                <app-input-autocomplete-single-choice
+                                    label="Nome ou CNPJ da Seguradora"
+                                    placeholder="Pesquise uma seguradora cadastrada. Ex: Pottencial Inc."
+                                    [allSuggestions]="autocompleteInsuranceCompanySuggestions"
+                                    [clearInputIfNoItemIsSelected]="false"
+                                    (suggestionClicked)="onInsuranceCompanySelected($event)"
+                                    authService.userClientInfo.cnpj
+                                    [autocompleteSuggestions]="autocompleteInsuranceCompanySuggestions"
+                                >
+                                </app-input-autocomplete-single-choice>
+                                <div class="mt-3">
+                                    <app-save-modal-button
+                                        (saved)="loadInsuranceCompaniesAsAutocompleteSuggestions()"
+                                        [formComponent]="saveInsuranceCompanyFormComponent"
+                                        buttonText="Adicionar Seguradora"
+                                    ></app-save-modal-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="insuranceCompanySelected">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly
+                                    label="Nome da Empresa"
+                                    [value]="insuranceCompanySelected.insuranceCompanyName"
+                                ></app-input-readonly>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="CNPJ da Empresa" [value]="insuranceCompanySelected.cnpj"></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <app-input-readonly
+                                    label="Endereço da Empresa"
+                                    [value]="insuranceCompanySelected.address"
+                                ></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <div class="d-grid gap-2">
+                                    <button
+                                        type="button"
+                                        name=""
+                                        id=""
+                                        class="btn btn-outline-primary border-primary border-1 btn-active-icon-white btn-icon-primary"
+                                        (click)="onInsuranceCompanySelected(null)"
+                                    >
+                                        <i class="fa-solid fa-arrow-right-arrow-left me-3"></i>
+                                        Selecionar outra Seguradora
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--dados seguradora fim-->
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados da Apólice</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-select-single-choice
+                                    #selectModality
+                                    label="Modalidade"
+                                    [options]="modalitySelectOptions"
+                                    [required]="true"
+                                    placeholder="Modalidade"
+                                ></app-select-single-choice>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #modalityType
+                                    label="Tipo"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #insuredAmount
+                                    label="Importância segurada"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-date #coverageStartDate label="Início da vigência"></app-input-date>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-date #coverageEndDate label="Fim da vigência"></app-input-date>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Demonstrativo de Prêmio</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #netPremium
+                                    label="Prêmio líquido"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #fractionalAdditional
+                                    label="Adicional de fracionamento"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="false"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #policyCost
+                                    label="Custo de apólice"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #iof
+                                    label="IOF"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="false"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #totalPremium
+                                    label="Prêmio total"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-12 mb-6">
+                                <app-input-text
+                                    #installmentPlan
+                                    label="Parcela"
+                                    placeholder="Única, 6x, 10x, 12x ..."
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-4 col-12 mb-6">
+                                <app-input-text
+                                    #installmentValue
+                                    label="Valor"
+                                    type="currency"
+                                    placeholder="R$ 1.234.567,89"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-4 col-12 mb-6">
+                                <app-input-date #dueDate label="Vencimento" [canBePastDate]="true"></app-input-date>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="button"
+                        class="btn btn-light me-5"
+                        (click)="onCancel()"
+                        [disabled]="!isFormInEditableState(formState)"
+                        [routerLink]="[URLS.PATHS.ADMIN.CONSULTANT.ROOT()]"
+                    >
+                        Cancelar
+                    </button>
+                    <app-button
+                        classes="btn-primary w-100"
+                        text="Salvar"
+                        [isLoading]="isFormInLoadingState(formState)"
+                        [loadingText]="'Processando...'"
+                        [isSubmitted]="isFormInSuccessState(formState)"
+                        [submittedText]="'Concluído!'"
+                    ></app-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

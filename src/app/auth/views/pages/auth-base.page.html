@@ -1,0 +1,70 @@
+<div class="d-flex flex-column flex-root h-100">
+    <!--begin::Authentication - Sign-in -->
+    <div class="d-flex flex-column flex-lg-row flex-column-fluid">
+        <!--begin::Aside-->
+        <div class="d-flex flex-column flex-lg-row-auto w-xl-600px positon-xl-relative" style="background-color: rgb(40, 97, 79)">
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px">
+                <!--begin::Header-->
+                <div class="d-flex flex-row-fluid flex-column text-center p-5 p-lg-10">
+                    <!--begin::Logo-->
+                    <a href="/axel-html-pro/index.html" class="py-2 py-lg-20">
+                        <!-- <img alt="Logo" src="/axel-html-pro/assets/media/logos/default.svg" class="theme-light-show h-40px h-lg-50px" /> -->
+                        <img
+                            alt="Logo"
+                            src="assets/images/logo/full-logo-text-white-bg-transparent.png"
+                            class="theme-light-show h-50px h-lg-125px"
+                        />
+                        <img alt="Logo" src="/axel-html-pro/assets/media/logos/default-dark.svg" class="theme-dark-show h-40px h-lg-50px" />
+                    </a>
+                    <!--end::Logo-->
+
+                    <!--begin::Title-->
+                    <h1 class="d-none d-lg-block fw-bold text-white display-6 pb-5 pb-md-10">Bem-vindo ao nosso App</h1>
+                    <!--end::Title-->
+
+                    <!--begin::Description-->
+                    <!-- <p class="d-none d-lg-block fw-semibold fs-2 text-white">Transforme a gestão dos seus ativos juduciais.</p> -->
+                    <!--end::Description-->
+                </div>
+                <!--end::Header-->
+
+                <!--begin::Illustration-->
+                <div
+                    class="d-none d-lg-block d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px"
+                    style="background-image: url(https://framerusercontent.com/images/nNnVKoXycNyObz1ahbGeG776T4.png)"
+                ></div>
+                <!-- <div
+                    class="d-none d-lg-block d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px"
+                    style="background-image: url(https://framerusercontent.com/images/XrinLbWa5tvIenk89kWpAeNc.png)"
+                ></div> -->
+                <!--end::Illustration-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--begin::Aside-->
+
+        <!--begin::Body-->
+        <div class="d-flex flex-column flex-lg-row-fluid py-10">
+            <router-outlet />
+
+            <!--begin::Footer-->
+            <div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
+                <!--begin::Links-->
+                <div class="d-flex flex-center fw-semibold fs-6">
+                    <a href="https://moneylaw.com.br/" class="text-muted text-hover-primary px-2" target="_blank">Sobre</a>
+
+                    <a href="https://moneylaw.com.br/contato" class="text-muted text-hover-primary px-2" target="_blank">Suporte</a>
+
+                    <a href="https://keenthemes.com/products/axel-html-pro" class="text-muted text-hover-primary px-2" target="_blank">
+                        Termos e Condições
+                    </a>
+                </div>
+                <!--end::Links-->
+            </div>
+            <!--end::Footer-->
+        </div>
+        <!--end::Body-->
+    </div>
+    <!--end::Authentication - Sign-in-->
+</div>

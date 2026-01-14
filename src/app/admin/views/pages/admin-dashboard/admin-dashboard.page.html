@@ -1,0 +1,135 @@
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card pt-4 mb-6">
+            <!--begin::Card header-->
+            <div class="card-header border-0">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <h2>Consultores x Valor</h2>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--end::Card header-->
+
+            <!--begin::Card body-->
+            <div class="card-body pt-0 pb-5">
+                <!--begin::Table wrapper-->
+                <div class="table-responsive">
+                    <!--begin::Table-->
+                    <table class="table align-middle table-row-dashed gy-5" id="kt_table_users_login_session">
+                        <thead class="border-bottom border-gray-200 fs-7 fw-bold">
+                            <tr class="text-start text-muted text-uppercase gs-0">
+                                <th class="min-w-100px">Nome</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody class="fs-6 fw-semibold text-gray-600">
+                            <tr class="">
+                                <td>Karla Marvin</td>
+                                <td>R$ 20.000,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Jerry Rogahn</td>
+                                <td>R$ 16.500,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Russell Runolfsson Jr.</td>
+                                <td>R$ 11.000,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Zachary Pfeffer</td>
+                                <td>R$ 5.750,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Pat Skiles</td>
+                                <td>R$ 4.200,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Eula Cremin</td>
+                                <td>R$ 1.850,00</td>
+                            </tr>
+                            <!-- 
+                            <tr class="">
+                                <td>Eugene Ledner</td>
+                                <td>R$ 1.300,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Annie McCullough</td>
+                                <td>R$ 900,00</td>
+                            </tr>
+                            <tr class="">
+                                <td>Eileen Erdman</td>
+                                <td>R$ 620,00</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                    <!--end::Table-->
+                </div>
+                <!--end::Table wrapper-->
+            </div>
+            <!--end::Card body-->
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card mb-6">
+            <div class="card-header border-0 pt-7">
+                <div class="card-title">
+                    <h2>Total de clientes/apólices por mês</h2>
+                </div>
+            </div>
+
+            <div class="card-body pt-5">
+                <div class="">
+                    <div style="position: relative; width: 100%; height: 100%">
+                        <div id="clients-policies-chart">
+                            <apx-chart
+                                [series]="clientsPoliciesChartOptions.series"
+                                [chart]="clientsPoliciesChartOptions.chart"
+                                [xaxis]="clientsPoliciesChartOptions.xaxis"
+                                [markers]="clientsPoliciesChartOptions.markers"
+                                [stroke]="clientsPoliciesChartOptions.stroke"
+                                [yaxis]="clientsPoliciesChartOptions.yaxis"
+                                [dataLabels]="clientsPoliciesChartOptions.dataLabels"
+                                [title]="clientsPoliciesChartOptions.title"
+                                [fill]="clientsPoliciesChartOptions.fill"
+                                [tooltip]="clientsPoliciesChartOptions.tooltip"
+                                [legend]="clientsPoliciesChartOptions.legend"
+                            ></apx-chart>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush">
+    <div class="card-header pt-7">
+        <div class="card-title align-items-start flex-column">
+            <h2 class="text-gray-900">Total de depósitos</h2>
+            <span class="text-gray-500 pt-2 fw-semibold fs-6">Outubro/2024</span>
+        </div>
+    </div>
+
+    <div class="card-body pt-5">
+        <div id="kt_charts_widget_15_chart" class="min-h-auto ps-4 pe-6 mb-3 h-350px">
+            <div style="position: relative; width: 100%; height: 100%">
+                <div id="deposits-chart">
+                    <apx-chart
+                        [series]="depositsChartOptions.series"
+                        [chart]="depositsChartOptions.chart"
+                        [dataLabels]="depositsChartOptions.dataLabels"
+                        [plotOptions]="depositsChartOptions.plotOptions"
+                        [yaxis]="depositsChartOptions.yaxis"
+                        [legend]="depositsChartOptions.legend"
+                        [colors]="depositsChartOptions.colors"
+                        [fill]="depositsChartOptions.fill"
+                        [stroke]="depositsChartOptions.stroke"
+                        [tooltip]="depositsChartOptions.tooltip"
+                        [xaxis]="depositsChartOptions.xaxis"
+                    ></apx-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

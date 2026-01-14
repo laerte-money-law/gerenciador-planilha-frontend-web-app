@@ -1,0 +1,105 @@
+<section class="section">
+    <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados do consultor</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #inputName
+                                    label="Nome"
+                                    placeholder="Ex: Bruce Wayne"
+                                    [required]="true"
+                                    [modifier]="nameInputTextModifier"
+                                    [readOnly]="!isFormInEditableState()"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #inputPhone
+                                    label="Telefone"
+                                    type="tel"
+                                    placeholder="Ex: (11) 123 456 789"
+                                    [mask]="PHONE_MASK"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState()"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #inputEmail
+                                    label="Email"
+                                    placeholder="Ex: fulano@exemplo.com"
+                                    [required]="true"
+                                    [modifier]="lowerCaseInputTextModifier"
+                                    [validators]="[emailInputTextValidator]"
+                                    [readOnly]="!isFormInEditableState()"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <label class="form-label">Senha temporária</label>
+                                <div *ngIf="isPasswordInEditMode">
+                                    <div class="input-group">
+                                        <input
+                                            name="password"
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="Ex: P@ssw0rd"
+                                            [(ngModel)]="form.fields.password.value"
+                                            (keyup)="isFormInErrorState() && form.fields.password.validate()"
+                                            [ngClass]="{ 'is-invalid': !form.fields.password.isValid() && isFormInErrorState()}"
+                                        />
+                                        <span class="input-group-text" role="button" (click)="onGeneratePassword()">Gerar senha</span>
+                                        <div class="invalid-feedback" *ngIf="!form.fields.password.isValid() && isFormInErrorState()">
+                                            <div *ngIf="form.fields.password.failedValidations.required">A senha é obrigatória.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-text">
+                                        Ao realizar o login com esta senha, o usuário será forçado a definir uma nova senha.
+                                    </div>
+                                </div>
+                                <div *ngIf="!isPasswordInEditMode">
+                                    <div class="input-group">
+                                        <input name="password" type="password" class="form-control" value="12caracteres" readonly />
+                                        <span class="input-group-text" role="button" (click)="onChangePassword()">Alterar senha</span>
+                                    </div>
+                                    <div class="form-text">
+                                        Para alterar a senha de login do consultor, clique no botão "Alterar senha". Caso a senha seja
+                                        alterada, ao realizar o login, o usuário será obrigado a definir uma nova senha.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="button"
+                        class="btn btn-light btn-active-light-primary me-5"
+                        [disabled]="!isFormInEditableState()"
+                        [routerLink]="[URLS.PATHS.ADMIN.CONSULTANT.ROOT()]"
+                    >
+                        Cancelar
+                    </button>
+                    <app-button
+                        classes="btn-primary w-100"
+                        text="Salvar"
+                        [isLoading]="isFormInLoadingState()"
+                        [loadingText]="'Processando...'"
+                        [isSubmitted]="isFormInSuccessState()"
+                        [submittedText]="'Concluído!'"
+                    ></app-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

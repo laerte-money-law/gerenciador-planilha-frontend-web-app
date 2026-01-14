@@ -1,0 +1,18 @@
+{
+    "projects": {
+        "default": "money-law"
+    },
+    "targets": {
+        "money-law": {
+            "hosting": {
+                "qa": [
+                    "money-law-frontend-qa"
+                ],
+                "prod": [
+                    "money-law-frontend-prod"
+                ]
+            }
+        }
+    },
+    "etags": {}
+}

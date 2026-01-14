@@ -1,0 +1,220 @@
+<div class="card">
+    <div class="card-header border-0 pt-6">
+        <!-- Cabeçalho: Campo de pesquisa -->
+        <div class="card-title flex-grow-1">
+            <div class="d-flex align-items-center position-relative my-1 w-100">
+                <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5">
+                    <span class="path1"></span><span class="path2"> </span>
+                </i>
+                <input
+                    #inputSearch
+                    type="text"
+                    class="form-control form-control-solid ps-13"
+                    placeholder="Pesquise por parte do nº do processo, cidade, autor, réu ou depositante"
+                    autocomplete="off"
+                />
+            </div>
+        </div>
+
+        <!-- Cabeçalho: Botões de ação -->
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-light-primary mx-3" (click)="advancedFilterOption.hide = !advancedFilterOption.hide">
+                    <i class="fa-solid fa-filter fs-2"><span class="path1"></span><span class="path2"></span></i> Filtro avançado
+                </button>
+
+                <a role="button" class="btn btn-primary" (click)="onRequestInsuranceRegistration()">
+                    <i class="fa-solid fa-file-contract fs-2"></i> Solicitar cadastro na seguradora
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body py-4">
+        <!-- Cabeçalho: Filtros avançados -->
+        <div class="" #collapse="ngbCollapse" [(ngbCollapse)]="advancedFilterOption.hide">
+            <div class="row mb-5 mb-md-0">
+                <div class="col-md-4">
+                    <h6 class="text-muted">Dt. de vencimento do boleto</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <app-input-date
+                                #inputFromDueDate
+                                label="A partir de"
+                                class="me-3 d-inline"
+                                fieldName="dueDateFrom"
+                            ></app-input-date>
+                        </div>
+                        <div class="col-6">
+                            <app-input-date #inputToDueDate label="Até" class="me-3 d-inline"></app-input-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Dt. da guia</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <app-input-date #inputFromGuideDate label="A partir de" class="me-3 d-inline"></app-input-date>
+                        </div>
+                        <div class="col-6">
+                            <app-input-date #inputToGuideDate label="Até" class="me-3 d-inline"></app-input-date>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h6 class="text-muted">Valor</h6>
+                    <div class="row">
+                        <div class="col-6">
+                            <app-input-text type="currency" #inputMinValue label="De" placeholder="R$ 0,00"></app-input-text>
+                        </div>
+                        <div class="col-6">
+                            <app-input-text type="currency" #inputMaxValue label="Até" placeholder="R$ 0,00"></app-input-text>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a role="button" class="btn btn-primary" (click)="(onClickSearchFilters())">
+                            <i class="fa-solid fa-magnifying-glass me-2 fs-5"></i> Pesquisar
+                        </a>
+                        <a class="btn btn-light border" role="button" (click)="onClearAdvancedFilter()">Limpar filtros</a>
+                        <a role="button" class="btn btn-light border" (click)="onExport()">Exportar Excel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dt-container dt-bootstrap5 dt-empty-footer">
+            <!-- Listagem -->
+            <span class="dt-column-title text-muted fw-bold">
+                Exibindo {{ pagination.getPage().length }} de {{pagination.getTotalRecords()}} itens
+            </span>
+            <div id="" class="table-responsive">
+                <table
+                    class="table table-striped align-middle table-row-dashed fs-7 gy-5 dataTable"
+                    id="kt_table_users"
+                    style="width: 100%"
+                >
+                    <thead>
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" role="row" style="font-size: 0.97rem">
+                            <th class="w-10px"></th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Dt. de vencimento do boleto</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Dt. da guia</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Valor</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Processo</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Estado/Cidade</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Autor</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Réu</span>
+                            </th>
+                            <th class="min-w-125px">
+                                <span class="dt-column-title" role="button">Depositante</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 fw-semibold">
+                        <tr *ngFor="let depositGuide of pagination?.getPage()">
+                            <td>
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="radioGroup"
+                                    [value]="depositGuide.id"
+                                    (change)="onInvoiceSelected(depositGuide.id)"
+                                />
+                            </td>
+                            <td>{{ formatDate(depositGuide.dueDate)}}</td>
+                            <td>{{ formatDate(depositGuide.guideDate)}}</td>
+                            <td>{{ formatCurrency(depositGuide.value)}}</td>
+                            <td>{{depositGuide.processNumber}}</td>
+
+                            <td class="text-center">
+                                {{ depositGuide.state && depositGuide.city ? depositGuide.state + ' / ' + depositGuide.city : '-' }}
+                            </td>
+                            <td>
+                                <div>
+                                    {{depositGuide.author}}
+                                    <br />
+                                    {{ formatDocument(depositGuide.authorDocument)}}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {{depositGuide.defendant}}
+                                    <br />
+                                    {{ formatDocument(depositGuide.defendantDocument)}}
+                                </div>
+                            </td>
+                            <td>
+                                <div>
+                                    {{depositGuide.depositor}}
+                                    <br />
+                                    {{ formatDocument(depositGuide.depositorDocument)}}
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            <div id="" class="row">
+                <div
+                    id=""
+                    class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
+                ></div>
+
+                <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                    <div class="dt-paging paging_simple_numbers">
+                        <nav>
+                            <ul class="pagination">
+                                <!-- First -->
+                                <li class="dt-paging-button page-item" [class.disabled]="pagination.isFirstPage()">
+                                    <button class="page-link" (click)="pagination.goToFirstPage()">«</button>
+                                </li>
+
+                                <!-- Previous -->
+                                <li class="dt-paging-button page-item" [class.disabled]="pagination.isFirstPage()">
+                                    <button class="page-link" (click)="pagination.goToPreviousPage()">‹</button>
+                                </li>
+
+                                <!-- Page numbers -->
+                                <li
+                                    class="dt-paging-button page-item"
+                                    *ngFor="let page of pagination.getVisiblePages(5)"
+                                    [class.active]="pagination.getCurrentPage() === page"
+                                >
+                                    <button class="page-link" (click)="pagination.goToPage(page)">{{ page }}</button>
+                                </li>
+
+                                <!-- Next -->
+                                <li class="dt-paging-button page-item" [class.disabled]="pagination.isLastPage()">
+                                    <button class="page-link" (click)="pagination.goToNextPage()">›</button>
+                                </li>
+
+                                <!-- Last -->
+                                <li class="dt-paging-button page-item" [class.disabled]="pagination.isLastPage()">
+                                    <button class="page-link" (click)="pagination.goToLastPage()">»</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

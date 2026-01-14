@@ -1,0 +1,140 @@
+//
+// Form controls
+//
+
+// Customization
+.form-control {
+    // Transparent style
+    &.form-control-transparent {
+        background-color: transparent;
+        border-color: transparent;
+
+        .dropdown.show > &,
+        &:active,
+        &.active,
+        &:focus,
+        &.focus {
+            background-color: transparent;
+            border-color: transparent;
+        }
+    }
+
+    // Flush
+    &.form-control-flush {
+        @include input-reset();
+    }
+
+    & ~ .form-control-icon {
+        top: 0.6rem;
+    }
+    &.form-control-lg {
+        padding: 0.55rem 1rem;
+        font-size: 1.05rem;
+        & ~ .form-control-icon {
+            top: 0.55rem;
+        }
+    }
+    &.form-control-xl {
+        padding: 0.85rem 1rem;
+        font-size: 1.2rem;
+        & ~ .form-control-icon {
+            top: 0.55rem;
+        }
+    }
+}
+
+// Solid style
+.form-control.form-control-solid {
+    background-color: $input-solid-bg;
+    border-color: $input-solid-bg;
+    color: $input-solid-color;
+    @include placeholder($input-solid-placeholder-color);
+    transition: $transition-input;
+
+    .dropdown.show > &,
+    &:active,
+    &.active,
+    &:focus,
+    &.focus {
+        background-color: $input-solid-bg-focus;
+        border-color: $input-solid-bg-focus;
+        color: $input-solid-color;
+        transition: $transition-input;
+    }
+}
+
+// Form control solid bg
+.form-control-solid-bg {
+    background-color: $input-solid-bg;
+}
+
+// Readonly controls as plain text
+.form-control-plaintext {
+    color: $input-plaintext-color;
+}
+
+// Placeholder colors
+.placeholder-gray-500 {
+    @include placeholder(var(--#{$prefix}gray-500));
+}
+
+.placeholder-white {
+    @include placeholder($white);
+}
+
+// Textarea reset resize
+.resize-none {
+    resize: none;
+}
+
+.form-group {
+    &[class*="has-icon-"] {
+        &.has-icon-left {
+            .form-control {
+                padding-left: 2.5rem;
+            }
+            .form-control-icon {
+                left: 0;
+            }
+        }
+        &.has-icon-right {
+            .form-control {
+                padding-right: 2.5rem;
+            }
+            .form-control-icon {
+                right: 0;
+            }
+        }
+        .form-control {
+            &:focus ~ .form-control-icon {
+                i,
+                svg {
+                    // color: #5a8dee;
+                    color: $primary;
+                }
+            }
+            &.form-control-xl {
+                padding-left: 3rem;
+                & ~ .form-control-icon i {
+                    font-size: 1.6rem;
+                    &:before {
+                        color: #a6a8aa;
+                    }
+                }
+            }
+        }
+        .form-control-icon {
+            position: absolute;
+            padding: 0 0.6rem;
+            i,
+            svg {
+                width: 1.8rem;
+                color: $input-placeholder-color;
+                font-size: 1.8rem;
+                &:before {
+                    vertical-align: sub;
+                }
+            }
+        }
+    }
+}

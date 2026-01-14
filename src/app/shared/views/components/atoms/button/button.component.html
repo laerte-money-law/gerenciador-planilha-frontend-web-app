@@ -1,0 +1,8 @@
+<button class="btn" [class]="classes" [type]="type" [disabled]="isDisabled || isLoading || isSubmitted">
+    <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-1" aria-hidden="true"></span>
+        {{ loadingText ?? text }}
+    </span>
+    <span *ngIf="isSubmitted">{{ submittedText ?? text }}</span>
+    <span *ngIf="!isLoading && !isSubmitted">{{ text }}</span>
+</button>

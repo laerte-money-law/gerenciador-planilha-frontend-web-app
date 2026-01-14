@@ -1,0 +1,145 @@
+<div class="card">
+    <div class="card-header border-0 pt-6">
+        <!-- Cabeçalho: Campo de pesquisa -->
+        <div class="card-title flex-grow-1">
+            <div class="d-flex align-items-center position-relative my-1 w-100">
+                <label class="form-label me-4">Cliente:</label>
+                <input
+                    type="text"
+                    class="form-control form-control-solid readonly"
+                    [value]="client ? client.companyName + ' - ' + client.cnpj : ''"
+                    readonly
+                />
+            </div>
+        </div>
+
+        <!-- Cabeçalho: Botões de ação -->
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-end">
+                <a role="button" class="btn btn-primary" (click)="onRequestInsuranceProposal()">
+                    <i class="fa-solid fa-paper-plane fs-2"></i> Gerar Cotação</a
+                >
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body py-4">
+        <!-- Listagem -->
+        <div id="" class="table-responsive">
+            <table class="table table-striped align-middle table-row-dashed fs-7 gy-5 dataTable" style="width: 100%">
+                <thead>
+                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0" role="row">
+                        <th class="w-10px"></th>
+                        <th class="min-w-125px">
+                            <span class="dt-column-title" role="button">Tomador</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span class="dt-column-title" role="button">Seguradora</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span class="dt-column-title" role="button">Valor limite</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span class="dt-column-title" role="button">Taxa</span>
+                        </th>
+
+                        <th class="min-w-125px">
+                            <span class="dt-column-title" role="button">Status</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span class="dt-column-title" role="button">Obs</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 fw-semibold">
+                    <tr *ngFor="let registration of registrations">
+                        <td>
+                            <div class="form-check form-switch" *ngIf="registration.statusInInsuranceCompany === 'APPROVED'">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    role="switch"
+                                    [id]="'flexSwitchCheckDefault' + registration.clientCode"
+                                    (change)="onSelectInsuranceCompany(registration.insuranceCompanyRegistrationCode)"
+                                />
+                                <label class="form-check-label" [for]="'flexSwitchCheckDefault' + registration.clientCode"></label>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                {{ client.companyName }} <br />
+                                <span class="text-nowrap">{{ client.cnpj }}</span>
+                            </div>
+                        </td>
+                        <td>{{ registration.insuranceCompanyName }}</td>
+                        <td>{{ formatCurrency( registration.creditLimit) }}</td>
+                        <td>{{ registration.annualInterest }}</td>
+                        <td>
+                            <app-badge-insurance-company-registration-status
+                                [insuranceCompanyRegistrationStatus]="registration.statusInInsuranceCompany"
+                            ></app-badge-insurance-company-registration-status>
+                        </td>
+                        <td>{{registration.notes}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginação
+        <div id="" class="row">
+            <div
+                id=""
+                class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
+            ></div>
+            <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                <div class="dt-paging paging_simple_numbers">
+                    <nav>
+                        <ul class="pagination">
+                            <li class="dt-paging-button page-item disabled">
+                                <button
+                                    class="page-link previous"
+                                    role="link"
+                                    type="button"
+                                    aria-controls="kt_table_users"
+                                    aria-disabled="true"
+                                    data-dt-idx="previous"
+                                    tabindex="-1"
+                                >
+                                    <i class="previous"></i>
+                                </button>
+                            </li>
+                            <li class="dt-paging-button page-item active">
+                                <button
+                                    class="page-link"
+                                    role="link"
+                                    type="button"
+                                    aria-controls="kt_table_users"
+                                    aria-current="page"
+                                    data-dt-idx="0"
+                                >
+                                    1
+                                </button>
+                            </li>
+                            <li class="dt-paging-button page-item">
+                                <button class="page-link" role="link" type="button" aria-controls="kt_table_users" data-dt-idx="1">
+                                    2
+                                </button>
+                            </li>
+                            <li class="dt-paging-button page-item">
+                                <button class="page-link" role="link" type="button" aria-controls="kt_table_users" data-dt-idx="2">
+                                    3
+                                </button>
+                            </li>
+                            <li class="dt-paging-button page-item">
+                                <button class="page-link next" role="link" type="button" aria-controls="kt_table_users" data-dt-idx="next">
+                                    <i class="next"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+</div>

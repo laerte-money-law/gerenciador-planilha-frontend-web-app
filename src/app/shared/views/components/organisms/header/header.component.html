@@ -1,0 +1,61 @@
+<div class="app-header">
+    <!-- Esquerda: menu hamburguer -->
+    <div class="d-flex align-items-center flex-shrink-0 ms-2" title="Mostrar menu lateral">
+        <button class="btn btn-icon btn-active-color-primary w-35px h-35px" (click)="toggleSidebar()">
+            <i class="fa-solid fa-bars fs-1 text-white"></i>
+        </button>
+    </div>
+    <div class="app-container container-xxl d-flex align-items-center justify-content-between w-100">
+        <!-- Centro: logo (usa flex-grow para centralizar) -->
+        <!-- src="assets/images/logo/full-logo-text-white-bg-transparent.png" -->
+
+        <div class="d-flex justify-content-center flex-grow-1 p-1">
+            <a [routerLink]="[URLS.PATHS.ADMIN.DASHBOARD()]" class="d-flex align-items-center h-40px overflow-hidden">
+                >
+                <img
+                    alt="Logo"
+                    src="assets/images/logo/MoneyLaw-neg.svg"
+                    class="h-70px d-inline app-sidebar-logo-default theme-light-show"
+                />
+            </a>
+        </div>
+    </div>
+    <!-- Direita: avatar do usuário -->
+    <div class="d-flex align-items-center flex-shrink-0 me-5">
+        <div class="app-navbar-item" id="kt_header_user_menu_toggle" ngbDropdown>
+            <div class="cursor-pointer symbol symbol-35px symbol-md-45px" ngbDropdownToggle>
+                <img class="symbol symbol-35px symbol-md-45px" src="assets/images/profile-icon.png" alt="user" />
+                <span class="user-status bg-success position-absolute translate-middle p-1 border border-white rounded-circle mt-2"> </span>
+            </div>
+
+            <div
+                class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px dropdown-menu dropdown-menu-end"
+                ngbDropdownMenu
+            >
+                <div class="menu-item px-3">
+                    <div class="menu-content d-flex align-items-center px-3">
+                        <div class="symbol symbol-50px me-5 position-relative">
+                            <img alt="Logo" src="assets/images/profile-icon.png" />
+                        </div>
+                        <div class="d-flex flex-column">
+                            <div class="fw-bold d-flex align-items-center fs-5">{{ userInfo?.name }}</div>
+                            <a href="#" class="fw-semibold text-muted text-hover-primary fs-7">Perfil: {{ userRoleLabel }}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="separator my-2"></div>
+
+                <div class="menu-item px-5">
+                    <a href="/axel-html-pro/account/overview.html" class="menu-link px-5"> Meu perfil </a>
+                </div>
+                <div class="menu-item px-5 my-1">
+                    <a href="/axel-html-pro/account/settings.html" class="menu-link px-5"> Configurações do Sistema </a>
+                </div>
+                <div class="menu-item px-5">
+                    <a role="button" class="menu-link px-5" (click)="onLogout()"> Sair </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

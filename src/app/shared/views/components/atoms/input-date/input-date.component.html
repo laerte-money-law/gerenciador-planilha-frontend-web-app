@@ -1,0 +1,18 @@
+<div class="" [ngClass]="{ 'd-inline-block': displayInline }">
+    <label for="{{ inputId }}" class="form-label" [ngClass]="{ 'd-none': label === null }">{{ label }}</label>
+    <input
+        [type]="showTime ? 'datetime-local' : 'date'"
+        class="form-control"
+        name="{{ inputId }}"
+        id="{{ inputId }}"
+        [readOnly]="readOnly"
+        (change)="onChangeDate()"
+        [(ngModel)]="selectedDate"
+        [ngClass]="{ 'is-invalid': !valid && isValidated, readonly: readOnly }"
+    />
+    <div class="invalid-feedback" *ngIf="!valid && isValidated">
+        <div>{{ errorMessage }}</div>
+    </div>
+    <span *ngIf="ageToString" class="text-muted">{{ ageCalculationRelativePrefix }} {{ ageToString }}.</span>
+    <div class="form-text" *ngIf="helperText">{{ helperText }}</div>
+</div>

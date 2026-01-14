@@ -1,0 +1,8 @@
+<div *ngIf="subsidiaries.length > 0" class="w-100 w-250px me-4 d-flex align-items-center mb-3">
+    <p class="mb-0 me-2">TOMADOR:</p>
+    <select class="form-select form-select-dark w-auto" (change)="onSubsidiaryChange($event)">
+        <option *ngFor="let subsdiary of subsidiaries" [value]="subsdiary.code">
+            {{ subsdiary.companyName }} - {{ subsdiary.cnpj && formatDocument(subsdiary.cnpj, "CNPJ") }}
+        </option>
+    </select>
+</div>

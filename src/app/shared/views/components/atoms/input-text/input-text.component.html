@@ -1,0 +1,49 @@
+<div class="">
+    <label [for]="inputId" class="form-label" *ngIf="label">
+        {{ label }}
+        <i
+            class="fa-solid fa-circle-info"
+            role="button"
+            *ngIf="showInfoPopover"
+            [ngbPopover]="popContent"
+            [openDelay]="300"
+            triggers="mouseenter:mouseleave"
+        ></i>
+        <ng-template #popContent>
+            <ng-content></ng-content>
+        </ng-template>
+    </label>
+    <div class="form-group position-relative w-100" [ngClass]="{ 'has-icon-right': type === 'password' || showClearButton }">
+        <input
+            #inputField
+            class="form-control"
+            autocomplete="off"
+            [type]="type === 'password' ? (showPassword ? 'text' : 'password') : type"
+            [name]="inputId"
+            [id]="inputId"
+            [placeholder]="placeholder"
+            [mask]="mask"
+            [prefix]="type === 'currency' && value ? 'R$ ' : ''"
+            [thousandSeparator]="type === 'currency' ? '.' : ''"
+            [dropSpecialCharacters]="false"
+            [readOnly]="readOnly"
+            [ngClass]="{ 'is-invalid': !valid && isValidated, readonly: readOnly }"
+            (input)="onInputChange($event)"
+            [(ngModel)]="value"
+        />
+        <div class="form-control-icon" *ngIf="value && showClearButton" placement="top" ngbTooltip="Limpar">
+            <a role="button" (click)="onClearInput()">
+                <i class="fa-regular fa-circle-xmark fa-2x"></i>
+            </a>
+        </div>
+        <div class="form-control-icon" *ngIf="type === 'password'" placement="top" ngbTooltip="Exibir/Ocultar senha">
+            <a role="button" (click)="showPassword = !showPassword">
+                <i class="bi" [class]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+            </a>
+        </div>
+        <div class="invalid-feedback" *ngIf="!valid && isValidated">
+            <div>{{ errorMessage }}</div>
+        </div>
+    </div>
+    <div class="form-text" *ngIf="helperText">{{ helperText }}</div>
+</div>

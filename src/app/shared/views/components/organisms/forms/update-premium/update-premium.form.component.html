@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Atualizar Valor do Prêmio</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<form class="form" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+        <div class="mb-3">
+            <div class="card-body pt-0">
+                <div class="row" *ngIf="quotationUpdateInfo; else noUpdate">
+                    <p>
+                        O Valor do prêmio atual é
+                        <b> {{ formatCurrency(quotationUpdateInfo.premiumValue) }}</b> e o valor máximo permitido para o prêmio é
+                        <b> {{ formatCurrency(quotationUpdateInfo.maxPremiumValue) }}</b>
+                    </p>
+
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text
+                            #premiumValue
+                            label="Novo Valor do Prêmio"
+                            placeholder="R$ 0,00"
+                            type="currency"
+                            [required]="true"
+                            [readOnly]="!isFormInEditableState(formState)"
+                        ></app-input-text>
+                    </div>
+                </div>
+
+                <ng-template #noUpdate>
+                    <p class="text-muted">Update do prêmio não está disponível.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <app-button
+            *ngIf="quotationUpdateInfo"
+            classes="btn-primary w-100"
+            text="Atualizar"
+            [isLoading]="isFormInLoadingState()"
+            [loadingText]="'Processando...'"
+            [isSubmitted]="isFormInSuccessState()"
+            [submittedText]="'Concluído!'"
+        ></app-button>
+    </div>
+</form>

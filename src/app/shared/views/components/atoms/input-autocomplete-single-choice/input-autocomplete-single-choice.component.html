@@ -1,0 +1,47 @@
+<div class="form-group">
+    <label [for]="inputId" class="form-label">
+        {{ label }}
+        <i
+            class="fa-solid fa-circle-info"
+            role="button"
+            *ngIf="showInfoPopover"
+            [ngbPopover]="popContent"
+            [openDelay]="300"
+            triggers="mouseenter:mouseleave"
+        ></i>
+        <ng-template #popContent>
+            <ng-content></ng-content>
+        </ng-template>
+    </label>
+    <div class="form-group mb-0 position-relative has-icon-right w-100">
+        <input
+            #input
+            type="text"
+            class="form-control"
+            role=""
+            autocomplete="off"
+            placeholder="{{ placeholder }}"
+            (focus)="onFocus(input)"
+            (blur)="onBlur()"
+            (input)="onInput($event)"
+            (keydown)="onKeyDown($event)"
+            [ngClass]="{ 'is-invalid': !valid && isValidated }"
+            [(ngModel)]="value"
+        />
+        <div class="form-control-icon" *ngIf="value !== ''" placement="top" ngbTooltip="Limpar">
+            <a (click)="onClearInput()" role="button">
+                <i class="fa-regular fa-circle-xmark fa-2x"></i>
+            </a>
+        </div>
+        <div class="invalid-feedback" *ngIf="!valid && isValidated">
+            <div>{{ errorMessage }}</div>
+        </div>
+    </div>
+    <ul *ngIf="showSuggestions && suggestions.length > 0" class="list-group autocomplete-suggestions">
+        <li class="list-group-item" *ngFor="let suggestion of suggestions" (click)="onSuggestionClick(suggestion)">
+            <div>
+                {{ suggestion.text }}
+            </div>
+        </li>
+    </ul>
+</div>

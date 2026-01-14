@@ -1,0 +1,110 @@
+<section class="section">
+    <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Gestão da apólice</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row" *ngIf="!clientSelected">
+                            <div class="col-12 mb-6">
+                                <app-input-autocomplete-single-choice
+                                    label="Nome ou CNPJ da empresa"
+                                    placeholder="Pesquise um cliente cadastrado. Ex: Wayne Insurance Inc."
+                                    [allSuggestions]="autocompleteClientSuggestions"
+                                    [clearInputIfNoItemIsSelected]="true"
+                                    (suggestionClicked)="onClientSelected($event)"
+                                >
+                                </app-input-autocomplete-single-choice>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="clientSelected">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly label="Nome da Empresa" [value]="clientSelected.companyName"></app-input-readonly>
+                            </div>
+
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-readonly
+                                    label="CNPJ da Empresa"
+                                    [value]="formatDocument(clientSelected.cnpj,'CNPJ')"
+                                ></app-input-readonly>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <div class="d-grid gap-2">
+                                    <button
+                                        type="button"
+                                        name=""
+                                        id=""
+                                        class="btn btn-outline-primary border-primary border-1 btn-active-icon-white btn-icon-primary"
+                                        (click)="onClientSelected(null)"
+                                    >
+                                        <i class="fa-solid fa-arrow-right-arrow-left me-3"></i>
+                                        Selecionar outra empresa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #inputPrice
+                                    label="Valor"
+                                    placeholder="R$ 0,00"
+                                    type="currency"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-date
+                                    #inputDate
+                                    label="Data de vencimento"
+                                    [canBePastDate]="false"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-date>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-autocomplete-single-choice
+                                    label="Apólice"
+                                    placeholder="Digite uma parte do número da apólice. Ex: 12024000..."
+                                    [allSuggestions]="autocompletePolicySuggestions"
+                                    [clearInputIfNoItemIsSelected]="true"
+                                    (suggestionClicked)="onPolicySelected($event)"
+                                >
+                                </app-input-autocomplete-single-choice>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <label for="" class="form-label">Nota fiscal</label>
+
+                                <file-pond #filePond [options]="pondOptions" (onprocessfiles)="onFinishProcessFile()"> </file-pond>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                    <button
+                        type="button"
+                        class="btn btn-light btn-active-light-primary me-5"
+                        [disabled]="!isFormInEditableState(formState)"
+                        [routerLink]="[URLS.PATHS.ADMIN.CONSULTANT.ROOT()]"
+                    >
+                        Cancelar
+                    </button>
+                    <app-button
+                        classes="btn-primary w-100"
+                        text="Salvar"
+                        [isLoading]="isFormInLoadingState(formState)"
+                        [loadingText]="'Processando...'"
+                        [isSubmitted]="isFormInSuccessState(formState)"
+                        [submittedText]="'Concluído!'"
+                    ></app-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

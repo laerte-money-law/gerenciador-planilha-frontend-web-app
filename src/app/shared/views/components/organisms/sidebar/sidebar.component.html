@@ -1,0 +1,78 @@
+<div class="sidebar" [class.collapsed]="isSidebarCollapsed" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
+    <nav class="menu">
+        <ng-container *ngIf="userInfo && userInfo.role === USER_ROLE.ADMIN">
+            <a [routerLink]="[URLS.PATHS.ADMIN.DASHBOARD()]" routerLinkActive="active" class="menu-item mt-10">
+                <i class="fa-solid fa-chart-line fa-lg firs-icon"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Dashboard</span>
+            </a>
+            <a [routerLink]="[URLS.PATHS.ADMIN.DEPOSIT_INVOICE.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-file-invoice-dollar fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Guias Depósito</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.QUOTATIONS.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-money-check-alt fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Cotações</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.CLIENT.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-users fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Clientes</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.POLICY.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-file-shield fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Apólices</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.CONSULTANT.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-user-tie fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Consultores</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.INSURANCE_COMPANY.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-building-shield fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Seguradoras</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.BROKERS.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-people-roof fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Corretoras</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.ADMIN.BILLING.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-file-invoice fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Faturamento</span>
+            </a>
+        </ng-container>
+
+        <ng-container *ngIf="userInfo && userInfo.role === USER_ROLE.CLIENT">
+            <a [routerLink]="[URLS.PATHS.CLIENT.DASHBOARD()]" routerLinkActive="active" class="menu-item mt-10">
+                <i class="fa-solid fa-chart-line fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Dashboard</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.CLIENT.QUOTATIONS.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-money-check-alt fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Cotações</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.CLIENT.POLICY.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-file-shield fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Apólices</span>
+            </a>
+
+            <a [routerLink]="[URLS.PATHS.CLIENT.AGENDA.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-calendar-days fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Agenda</span>
+            </a>
+            <!--
+
+            <a class="menu-item">
+                <i class="fa-solid fa-dollar-sign fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Finanças</span>
+            </a>
+        -->
+        </ng-container>
+    </nav>
+</div>

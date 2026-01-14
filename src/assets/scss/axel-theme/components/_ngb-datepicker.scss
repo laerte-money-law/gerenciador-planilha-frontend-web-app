@@ -1,0 +1,110 @@
+ngb-datepicker {
+    display: flex;
+    font-family: "Montserrat", "Roboto", sans-serif;
+    font-size: 14px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 0.5rem;
+    //box-shadow: 0 1px 3px rgba(60, 64, 67, 0.15);
+    //width: 280px;
+    //margin-top: 40px;
+}
+
+.ngb-dp-month {
+    border: none;
+}
+
+/*
+TODO:: Suzana - removi essa estilização pq estava dando conflito com o form-select dos formularios [COTAÇÃO/APOLICE]
+.form-select {
+    border: none !important;
+}
+    */
+
+.ngb-dp-header {
+    //display: flex;
+    justify-content: space-around !important;
+    padding: 0.5rem 0;
+    background-color: none;
+
+    .ngb-dp-arrow {
+        cursor: pointer;
+        font-size: 0.5rem;
+        color: #5f6368;
+
+        &:hover {
+            color: #202124;
+        }
+    }
+
+    // .ngb-dp-navigation-select {
+    //display: none; // escondendo select de mês/ano
+    // }
+
+    .ngb-dp-month-name {
+        font-weight: 500;
+        font-size: 1rem;
+        color: #202124;
+    }
+}
+
+.ngb-dp-weekday {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #5f6368 !important;
+    text-align: center;
+    font-style: normal !important;
+    border: 0 !important; //nao esta funcionando
+    background-color: 0; //nao esta funcionando
+}
+
+.ngb-dp-day {
+    font-size: 0.85rem;
+    font-weight: 400;
+    border-radius: 50%;
+    width: 2.2rem;
+    height: 2.2rem;
+    line-height: 2.2rem;
+    margin: 0.1rem;
+    color: #202124;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.outside {
+        color: #dadce0;
+    }
+
+    &:hover {
+        background-color: #f1f3f4;
+    }
+
+    &.today {
+        background-color: #e8f0fe;
+        font-weight: 500;
+    }
+
+    &.selected {
+        background-color: #1a73e8 !important;
+        color: white !important;
+        font-weight: 500;
+    }
+
+    &.disabled {
+        color: #c0c0c0;
+    }
+}
+
+.ngb-dp-week {
+    justify-content: space-around;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0.2rem;
+}
+
+body .ngb-datepicker .ngb-dp-weekdays {
+    border-bottom: none !important;
+    background-color: transparent !important;
+}

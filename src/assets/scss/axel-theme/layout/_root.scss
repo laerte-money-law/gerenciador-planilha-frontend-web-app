@@ -1,0 +1,18 @@
+//
+// Root
+//
+
+// Light mode
+@include color-mode(light) {
+    // Content
+    --#{$prefix}app-content-shadow: #{$app-content-shadow};
+}
+
+// Dark mode
+@include color-mode(dark) {
+    // Content
+    --#{$prefix}app-content-shadow: #{$app-content-shadow-dark};
+ 
+    // Toolbar
+    --#{$prefix}app-toolbar-bg: #{$app-toolbar-bg-dark};
+}

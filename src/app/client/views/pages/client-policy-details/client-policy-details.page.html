@@ -1,0 +1,235 @@
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Apólice</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Número da apólice" [value]="policy?.policyNumber"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Número da proposta" [value]="policy?.proposalNumber"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Ramo" [value]="policy?.segment"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Número do processo" [value]="policy?.processNumber || policy?.insured.caseNumber"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Tribunal/Vara" [value]="policy?.insured.court"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <div class="">
+                    <label class="form-label d-block">Link do contrato da apólice</label>
+                    <a
+                        class="form-control-static text-decoration-underline"
+                        rel="noopener noreferrer"
+                        role="button"
+                        (click)="onOpenPolicyDocument()"
+                    >
+                        <span class="me-2">Abrir link</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-primary"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <div class="">
+                    <label class="form-label d-block">Certidão da SUSEP</label>
+                    <app-file-display
+                        *ngIf="policy?.insuranceCompany.susepCertificate"
+                        [isEditable]="false"
+                        [fileInfo]="policy?.insuranceCompany.susepCertificate"
+                        (downloadFile)="onDownloadCertificate('susep')"
+                    ></app-file-display>
+                    <app-label-not-informed *ngIf="!policy?.insuranceCompany.susepCertificate"></app-label-not-informed>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <div class="">
+                    <label class="form-label d-block">Certidão dos Administradores</label>
+                    <app-file-display
+                        *ngIf="policy?.insuranceCompany.adminCertificate"
+                        [isEditable]="false"
+                        [fileInfo]="policy?.insuranceCompany.adminCertificate"
+                        (downloadFile)="onDownloadCertificate('admin')"
+                    ></app-file-display>
+                    <app-label-not-informed *ngIf="!policy?.insuranceCompany.adminCertificate"></app-label-not-informed>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Pagamento</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Forma de pagamento" [value]="'Boleto bancário'"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Parcela" [value]="policy?.bankSlipNumber"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Valor" [value]="formatCurrency(policy?.bankSlipValue)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Vencimento" [value]="formatDateUTC(policy?.bankSlipDueDate)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <div class="">
+                    <label class="form-label d-block">Link do boleto</label>
+                    <a
+                        class="form-control-static text-decoration-underline"
+                        rel="noopener noreferrer"
+                        role="button"
+                        (click)="onOpenBankSlip()"
+                    >
+                        <span class="me-2">Abrir link</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-primary"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Segurado</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Nome do segurado" [value]="policy?.insured.name"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Documento do segurado" [value]="formatDocument(policy?.insured.document)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Telefone do segurado" [value]="formatPhone(policy?.insured.phone)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Email do segurado" [value]="policy?.insured.email"></app-input-readonly>
+            </div>
+            <div class="col-lg-6 col-md-8 col-sm-12 col-12 mb-6">
+                <app-input-readonly label="Endereço" [value]="formatInsuredAddress()"></app-input-readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Tomador</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Nome/Razão Social" [value]="policy?.client.companyName"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="CPF/CNPJ" [value]="formatDocument(policy?.client.cnpj)"></app-input-readonly>
+            </div>
+            <div class="col-lg-6 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Endereço" [value]="formatClientAddress()"></app-input-readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Seguradora</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Nome/Razão Social" [value]="policy?.insuranceCompany.insuranceCompanyName"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="CPF/CNPJ" [value]="formatDocument(policy?.insuranceCompany.cnpj)"></app-input-readonly>
+            </div>
+            <!-- <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Código SUSEP" [value]="'02798'"></app-input-readonly>
+            </div> -->
+            <div class="col-lg-6 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Endereço" [value]="formatInsuranceCompanyAddress()"></app-input-readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Limite máximo de garantia/Modalidade</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="">
+                <app-input-readonly
+                    label="Limite máximo de garantia"
+                    type="currency"
+                    [value]="policy?.maximumWarrantyLimit"
+                ></app-input-readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Coberturas contratadas</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Cobertura" [value]="getAppealTypeText(policy?.modalityType) "></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Importância segurada" [value]="formatCurrency(policy?.insuredValue)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Prêmio líquido" [value]="formatCurrency(policy?.premiumNetValue)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Início da vigência" [value]="formatDate(policy?.startDate)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Fim da vigência" [value]="formatDate(policy?.endDate)"></app-input-readonly>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Prêmio</h2>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row">
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Prêmio líquido" [value]="formatCurrency(policy?.premiumNetValue)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly
+                    label="Adicional de Fracionamento"
+                    type="currency"
+                    [value]="policy?.franchisingAditive"
+                ></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Custo da apólice" [value]="formatCurrency(policy?.cost)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="IOF" [value]="formatCurrency(policy?.iof)"></app-input-readonly>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-6">
+                <app-input-readonly label="Prêmio total" [value]="formatCurrency(policy?.premiumTotalValue)"></app-input-readonly>
+            </div>
+        </div>
+    </div>
+</div>

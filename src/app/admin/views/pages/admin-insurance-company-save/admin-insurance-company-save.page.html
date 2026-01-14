@@ -1,0 +1,169 @@
+<section class="section">
+    <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados da seguradora</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-4 col-12 mb-6">
+                                <app-input-text
+                                    #inputName
+                                    label="Nome"
+                                    placeholder="Seguradora Wayne S.A."
+                                    [required]="true"
+                                    [modifier]="nameInputTextModifier"
+                                    [readOnly]="true"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-4 col-12 mb-6">
+                                <app-input-text
+                                    #inputRegistrationCode
+                                    label="Código"
+                                    placeholder="WAYNE"
+                                    [required]="true"
+                                    [modifier]="nameInputTextModifier"
+                                    [readOnly]="true"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-4 col-12 mb-6">
+                                <app-input-text
+                                    #inputCnpj
+                                    label="CNPJ"
+                                    type="tel"
+                                    placeholder=" 00.000.000/0001-00"
+                                    [mask]="CNPJ_MASK"
+                                    [validators]="[cnpjValidator]"
+                                    [required]="true"
+                                    [readOnly]="true"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <app-input-autocomplete-googlemaps
+                                    #inputAddress
+                                    placeholder="Ex: 51000-123 ou Rua dos bobos, num 0, ..."
+                                    label="Endereço"
+                                    [readOnly]="true"
+                                ></app-input-autocomplete-googlemaps>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-flush mb-5 mb-xl-10">
+                            <div class="card-header">
+                                <h2 class="card-title">Certidões</h2>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <label for="" class="form-label">Certidão da SUSEP</label>
+                                        <file-pond [options]="susepCertificatePondOptions" *ngIf="!editRecord?.susepCertificate">
+                                        </file-pond>
+                                        <app-file-display
+                                            *ngIf="editRecord?.susepCertificate"
+                                            [isEditable]="true"
+                                            [fileInfo]="editRecord?.susepCertificate"
+                                            (deleteFile)="onDeleteCertificate('susep')"
+                                            (replaceFile)="onReplaceSusepCertificate()"
+                                            (downloadFile)="onDownloadCertificate('susep')"
+                                        ></app-file-display>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <label for="" class="form-label">Certidão dos Administradores</label>
+                                        <file-pond [options]="adminCertificatePondOptions" *ngIf="!editRecord?.adminCertificate">
+                                        </file-pond>
+                                        <app-file-display
+                                            *ngIf="editRecord?.adminCertificate"
+                                            [isEditable]="true"
+                                            [fileInfo]="editRecord?.adminCertificate"
+                                            (deleteFile)="onDeleteCertificate('admin')"
+                                            (replaceFile)="onReplaceAdminCertificate()"
+                                            (downloadFile)="onDownloadCertificate('admin')"
+                                        ></app-file-display>
+                                    </div>
+                                </div>
+                                <p class="text-muted">
+                                    Após selecionar os arquivos na área cinza, clique no ícone <i class="fa-solid fa-upload"></i> que
+                                    aparecerá ao lado direito do nome do arquivo para iniciar o upload. Cada arquivo precisa ser enviado
+                                    individualmente. Após o upload concluido, o arquivo já estará salvo no servidor, não sendo necessário
+                                    clicar no botão "Salvar".
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-flush mb-5 mb-xl-10">
+                            <div class="card-header">
+                                <h2 class="card-title">Dados do contato</h2>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-md-4 col-12 mb-6">
+                                        <app-input-text
+                                            #inputContactName
+                                            label="Nome do contato"
+                                            placeholder="Bruce Wayner"
+                                            [modifier]="nameInputTextModifier"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-4 col-12 mb-6">
+                                        <app-input-text
+                                            #inputContactPhone
+                                            label="Telefone"
+                                            placeholder=" (00) 000 00 00 00"
+                                            [mask]="PHONE_MASK"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-4 col-12 mb-6">
+                                        <app-input-text
+                                            #inputContactEmail
+                                            label="Email"
+                                            placeholder="fulano@exemplo.com"
+                                            [modifier]="lowerCaseInputTextModifier"
+                                            [validators]="[emailInputTextValidator]"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-end">
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-active-light-primary me-5"
+                                    [disabled]="!isFormInEditableState(formState)"
+                                    [routerLink]="[URLS.PATHS.ADMIN.INSURANCE_COMPANY.ROOT()]"
+                                >
+                                    Cancelar
+                                </button>
+                                <app-button
+                                    classes="btn-primary w-100"
+                                    text="Salvar"
+                                    [isLoading]="isFormInLoadingState(formState)"
+                                    [loadingText]="'Processando...'"
+                                    [isSubmitted]="isFormInSuccessState(formState)"
+                                    [submittedText]="'Concluído!'"
+                                ></app-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

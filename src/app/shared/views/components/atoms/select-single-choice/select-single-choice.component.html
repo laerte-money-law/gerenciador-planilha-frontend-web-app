@@ -1,0 +1,20 @@
+<div class="form-group">
+    <label [for]="inputId" class="form-label" [ngClass]="{ 'd-none': label === null }">{{ label }}</label>
+    <select
+        class="form-select"
+        [name]="inputId"
+        [id]="inputId"
+        [(ngModel)]="selectedValue"
+        [ngClass]="{ 'is-invalid': !valid && isValidated, readonly: readOnly }"
+        (change)="onChange($event)"
+    >
+        <option value="" disabled>{{ placeholder || "Selecione uma opção" }}</option>
+        <option *ngFor="let option of options" [value]="option.value">
+            {{ option.text }}
+        </option>
+    </select>
+    <div class="invalid-feedback" *ngIf="!valid && isValidated">
+        <div>{{ errorMessage }}</div>
+    </div>
+    <div class="form-text" *ngIf="helperText">{{ helperText }}</div>
+</div>

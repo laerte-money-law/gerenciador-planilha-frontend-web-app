@@ -1,0 +1,17 @@
+<div class="">
+    <label [for]="inputId" class="form-label">{{ label }}</label>
+    <p class="form-control-static fw-bold" [id]="inputId" *ngIf="value && type !== 'link'">{{ valueText }}</p>
+    <p class="form-control-static text-body-tertiary" [id]="inputId" *ngIf="!value">
+        <app-label-not-informed></app-label-not-informed>
+    </p>
+    <a
+        class="form-control-static d-block text-decoration-underline"
+        href="{{ value }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        *ngIf="value && type === 'link'"
+    >
+        <span class="me-2">{{ displayValue }} </span>
+        <i class="fa-solid fa-arrow-up-right-from-square text-primary"></i>
+    </a>
+</div>

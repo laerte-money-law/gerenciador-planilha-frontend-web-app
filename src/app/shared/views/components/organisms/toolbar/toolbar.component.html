@@ -1,0 +1,94 @@
+<div class="app-toolbar">
+    <div class="app-container d-flex align-items-start">
+        <div class="d-flex flex-column flex-row-fluid">
+            <div class="d-flex align-items-center pt-5">
+                <ul class="breadcrumb breadcrumb-separatorless fw-semibold">
+                    <li class="breadcrumb-item text-white fw-bold lh-1">
+                        <a [routerLink]="[URLS.PATHS.ADMIN.DASHBOARD()]" class="text-white hover-scale">
+                            <i class="fa-solid fa-house fs-3 text-white me-1"></i>
+                        </a>
+                    </li>
+
+                    <div class="d-flex flex-row" *ngFor="let route of breadcrumbs; last as last">
+                        <li class="breadcrumb-item">
+                            <i class="fa-solid fa-chevron-right fs-7 text-white mx-2"></i>
+                        </li>
+
+                        <li class="breadcrumb-item text-white fw-bold lh-1">{{ route.breadcrumbName }}</li>
+                    </div>
+
+                    <!-- <li class="breadcrumb-item">
+                        <i class="fa-solid fa-chevron-right fs-7 text-white mx-2"></i>
+                    </li> -->
+
+                    <!-- <li class="breadcrumb-item text-white fw-bold lh-1">Cadastrar</li> -->
+                </ul>
+            </div>
+
+            <div
+                class="d-flex flex-column flex-lg-row gap-4 gap-lg-10 pt-6 pb-18 py-lg-13 justify-content-between align-items-start">
+                <div class="d-flex align-items-end me-3 ms-auto gap-4">
+                    <button class="btn-yellow py-5" [routerLink]="[URLS.PATHS.CLIENT.INSURANCE_COMPANY.REGISTRATION()]"
+                        *ngIf="shouldShowCotationButton()">
+                        <span class="fs-4">NOVA COTAÇÃO</span>
+                    </button>
+                </div>
+
+                <div *ngIf="client">
+                    <div class="mb-5">
+                        <h1 class="page-heading d-flex flex-column justify-content-center my-3">
+                            <span class="text-white fs-7">{{ client?.companyName }} </span>
+                            <span class="text-white-50 fs-7 pt-3 text-end"> {{ client?.cnpj &&
+                                formatDocument(client.cnpj, "CNPJ") }}</span>
+                        </h1>
+                    </div>
+                </div>
+
+                <div class="items d-flex gap-4 gap-lg-13" *ngIf="!client">
+                    <div class="d-flex flex-column">
+                        <span class="item-number fs-3 mb-1">{{adminToolbarInfo.numberClients}}</span>
+
+                        <div class="item-desc">Clientes</div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span
+                            class="item-number fs-3 mb-1">{{formatCurrency(adminToolbarInfo.premiumValueReceived)}}</span>
+
+                        <div class="item-desc">Valor do prêmio pago total</div>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <span class="item-number fs-3 mb-1">
+                            {{adminToolbarInfo.numberPolicies}}
+                            <i class="fa-solid fa-circle-info text-white fa-xs" [ngbPopover]="popContent"
+                                [popoverTitle]="popTitle" triggers="mouseenter:mouseleave">
+                            </i>
+                        </span>
+
+                        <div class="item-desc">Apólices</div>
+                    </div>
+                    <ng-template #popTitle>
+                        <h5 class="text-white mb-0">Detalhes das apólices</h5>
+                    </ng-template>
+                    <ng-template #popContent>
+                        <table class="table align-middle table-row-dashed my-0">
+                            <tbody class="fs-6 fw-semibold text-gray-600">
+                                <tr>
+                                    <th class="fw-bold">Ativas</th>
+                                    <td>{{adminToolbarInfo.policiesSummaryDTO.numberPoliciesActives}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-bold">Próximas do vencimentos</th>
+                                    <td>{{adminToolbarInfo.policiesSummaryDTO.numberPoliciesNearToDueDate}}</td>
+                                </tr>
+                                <tr>
+                                    <th class="fw-bold">Canceladas</th>
+                                    <td>{{adminToolbarInfo.policiesSummaryDTO.numberPoliciesCancelled}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="badge rounded-pill badge-light-secondary fw-bold" *ngIf="insuranceCompanyRegistrationStatus === STATUS_ENUM.PENDING">
+    Pendente
+</div>
+<div class="badge rounded-pill badge-light-success fw-bold" *ngIf="insuranceCompanyRegistrationStatus === STATUS_ENUM.APPROVED">
+    Aprovado
+</div>
+<div class="badge rounded-pill badge-light-warning fw-bold" *ngIf="insuranceCompanyRegistrationStatus === STATUS_ENUM.ANALYSIS">
+    Em Análise
+</div>
+<div class="badge rounded-pill badge-light-danger fw-bold" *ngIf="insuranceCompanyRegistrationStatus === STATUS_ENUM.DENIED">Negado</div>
+<div class="badge rounded-pill badge-dark fw-bold" *ngIf="insuranceCompanyRegistrationStatus === STATUS_ENUM.NOT_ALLOWED">
+    Não Permitido
+</div>

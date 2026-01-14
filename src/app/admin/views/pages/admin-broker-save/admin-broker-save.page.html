@@ -1,0 +1,133 @@
+<section class="section">
+    <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados da corretora</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #inputName
+                                    label="Nome"
+                                    placeholder="Empresa tarara"
+                                    [required]="true"
+                                    [modifier]="nameInputTextModifier"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-3 col-12 mb-6">
+                                <app-input-text
+                                    #inputCnpj
+                                    label="CNPJ"
+                                    type="tel"
+                                    placeholder=" 00.000.000/0001-00"
+                                    [mask]="CNPJ_MASK"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-3 col-12 mb-6">
+                                <app-input-text
+                                    #inputRegistration
+                                    label="Código SUSEP"
+                                    placeholder="000000000000000000000000"
+                                    [mask]="CODIGO_SUSEP"
+                                    [required]="true"
+                                    [readOnly]="!isFormInEditableState(formState)"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-12 mb-6">
+                                <app-input-autocomplete-googlemaps
+                                    #inputAddress
+                                    placeholder="Ex: 51000-123 ou Rua dos bobos, num 0, ..."
+                                    label="Endereço"
+                                ></app-input-autocomplete-googlemaps>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-flush mb-5 mb-xl-10">
+                            <div class="card-header">
+                                <h2 class="card-title">Dados do corretor</h2>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputName
+                                            label="Corretor"
+                                            placeholder="Mulher Maravilha"
+                                            [required]="true"
+                                            [modifier]="nameInputTextModifier"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputTelefone
+                                            label="Telefone"
+                                            placeholder=" 00 000 000 000"
+                                            [mask]="PHONE_MASK"
+                                            [required]="true"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputEmail
+                                            label="Email"
+                                            placeholder="fulano@exemplo.com"
+                                            [required]="true"
+                                            [modifier]="lowerCaseInputTextModifier"
+                                            [validators]="[emailInputTextValidator]"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-radiogroup
+                                            #radioStatus
+                                            label="Status"
+                                            [options]="statusOptions"
+                                            [required]="true"
+                                            [initialCheckedOption]="STATUS.ACTIVE"
+                                        ></app-input-radiogroup>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-end">
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-active-light-primary me-5"
+                                    [disabled]="!isFormInEditableState(formState)"
+                                    [routerLink]="[URLS.PATHS.ADMIN.BROKERS.ROOT()]"
+                                >
+                                    Cancelar
+                                </button>
+                                <app-button
+                                    classes="btn-primary w-100"
+                                    text="Salvar"
+                                    [isLoading]="isFormInLoadingState(formState)"
+                                    [loadingText]="'Processando...'"
+                                    [isSubmitted]="isFormInSuccessState(formState)"
+                                    [submittedText]="'Concluído!'"
+                                ></app-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

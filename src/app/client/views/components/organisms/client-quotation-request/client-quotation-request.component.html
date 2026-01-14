@@ -1,0 +1,283 @@
+<div class="card card-flush mb-5 mb-xl-10">
+    <div class="card-header">
+        <h2 class="card-title">Seguradoras selecionadas</h2>
+    </div>
+    <div class="card-body pt-0">
+        <!-- Listagem de seguradoras -->
+        <div id="" class="table-responsive">
+            <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable" style="width: 100%">
+                <thead>
+                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0" role="row">
+                        <th class="min-w-125px">
+                            <span role="button">Seguradora</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span role="button">Tipo de recurso</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span role="button">Valor da importância segurada</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span role="button">Dt. início de vigência da apólice</span>
+                        </th>
+                        <th class="min-w-125px">
+                            <span role="button">Tempo de vigência</span>
+                        </th>
+                        <!--
+                        <th *ngIf="isAdmin" class="min-w-125px">
+                            <span role="button">Taxa</span>
+                        </th>
+                        -->
+
+                        <th *ngIf="insuranceCompaniesTableForm.length > 1"></th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-600 fw-semibold">
+                    <tr *ngFor="let insuranceCompany of insuranceCompaniesTableForm">
+                        <td class="h-100px" style="vertical-align: baseline">
+                            <a class="text-gray-800 text-hover-primary mb-1">{{ insuranceCompany.insuranceCompanyName }}</a>
+                        </td>
+                        <td class="h-100px" style="vertical-align: baseline">
+                            <app-select-single-choice
+                                #selectAppealType
+                                [fieldName]="'Tipo do recurso da ' + insuranceCompany.insuranceCompanyName"
+                                [required]="true"
+                                [options]="appealTypeSelectOptions"
+                            ></app-select-single-choice>
+                        </td>
+                        <td class="h-100px" style="vertical-align: baseline">
+                            <app-input-text
+                                #inputInsuredAmount
+                                [fieldName]="'Valor do prêmio da ' + insuranceCompany.insuranceCompanyName"
+                                type="currency"
+                                placeholder="R$ 1.234.567,89"
+                                class="mt-2"
+                                [required]="true"
+                                [readOnly]="!isFormInEditableState(formState)"
+                                [helperText]="
+                                    insuranceCompany.creditLimit ? 'Valor máximo: ' + formatCurrency(insuranceCompany.creditLimit) : ''
+                                "
+                            ></app-input-text>
+                            <button class="btn btn-link p-0" (click)="addThirtyPercent()" href="">Adicionar 30%</button>
+                        </td>
+
+                        <td class="h-100px" style="vertical-align: baseline">
+                            <app-input-date
+                                #inputPolicyStartDate
+                                [fieldName]="'Dt. de início da ' + insuranceCompany.insuranceCompanyName"
+                                [initialValue]="now"
+                                [canBePastDate]="false"
+                                [required]="true"
+                            ></app-input-date>
+                        </td>
+                        <td class="h-100px" style="vertical-align: baseline">
+                            <app-select-single-choice
+                                #selectPolicyDuration
+                                [fieldName]="'Tempo de vigência da ' + insuranceCompany.insuranceCompanyName"
+                                [required]="true"
+                                [options]="policyDurationSelectOptions"
+                                initialSelectedValue="3"
+                            ></app-select-single-choice>
+                        </td>
+
+                        <!--<td *ngIf="isAdmin" class="h-60px" style="vertical-align: baseline">
+                            <app-input-text
+                                #inputTax
+                                [fieldName]="'Taxa da ' + insuranceCompany.insuranceCompanyName"
+                                type="text"
+                                placeholder="0.9"
+                                class="mt-2"
+                            ></app-input-text>
+                        </td>-->
+
+                        <td style="vertical-align: baseline" *ngIf="insuranceCompaniesTableForm.length > 1">
+                            <a
+                                class="btn btn-outline btn-outline-dashed text-primary fw-bold text-nowrap"
+                                role="button"
+                                (click)="replicateInsuranceCompanyTableFormToAll(insuranceCompany.insuranceCompanyCode)"
+                            >
+                                <i class="fa-regular fa-copy me-2"></i>
+                                Replicar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<section class="section">
+    <form class="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-flush mb-5 mb-xl-10">
+                    <div class="card-header">
+                        <h2 class="card-title">Dados legais</h2>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="row">
+                            <div class="col-md-6 col-12 mb-6">
+                                <app-input-text
+                                    #inputCaseNumber
+                                    label="Nº do processo"
+                                    placeholder="0000815-74.2022.5.06.0182"
+                                    [mask]="PROCESS_NUMBER_MASK"
+                                ></app-input-text>
+                            </div>
+                            <div class="col-md-6 col-12 mb-6">
+                                <!--<app-input-text
+                                    #inputCourt
+                                    label="Tribunal/Vara"
+                                    placeholder="Ex: Tribunal de Gotham City"
+                                ></app-input-text>-->
+                                <app-input-autocomplete-single-choice
+                                    #inputCourt
+                                    label="Tribunal/Vara"
+                                    placeholder=""
+                                    [allSuggestions]="autocompleteCourtNameSuggestions"
+                                    [clearInputIfNoItemIsSelected]="false"
+                                    [autocompleteSuggestions]="autocompleteCourtNameSuggestions"
+                                    (suggestionClicked)="onSelectCourtName($event)"
+                                >
+                                </app-input-autocomplete-single-choice>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card card-flush mb-5 mb-xl-10">
+                            <div class="card-header">
+                                <h2 class="card-title">Dados do segurado</h2>
+                            </div>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputInsuredName
+                                            label="Nome"
+                                            placeholder="Ex: Bruce Wayne"
+                                            [required]="true"
+                                            [validators]="[nameInputTextValidator]"
+                                            [readOnly]="!isFormInEditableState()"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputInsuredDocument
+                                            label="CPF/CNPJ"
+                                            placeholder="Ex: 123.456.789-00 ou 12.345.678/0009-00"
+                                            [mask]="CPF_CNPJ_MASK"
+                                            [validators]="[cpfValidator, cnpjValidator]"
+                                            [validatorsCombination]="'OR'"
+                                            [required]="true"
+                                            [readOnly]="!isFormInEditableState()"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-4 col-12 mb-6">
+                                        <app-input-autocomplete-googlemaps
+                                            #inputCepAutocomplete
+                                            label="CEP"
+                                            placeholder="Digite o CEP"
+                                            [mask]="CEP_MASK"
+                                            [onlyCepAutocomplete]="true"
+                                            [required]="true"
+                                        >
+                                        </app-input-autocomplete-googlemaps>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text 
+                                            #inputStreet 
+                                            placeholder="Av. Principal" 
+                                            label="Rua"
+                                            [required]="true"></app-input-text>
+                                    </div>
+                                    <div class="col-md-2 col-12 mb-6">
+                                        <app-input-text 
+                                            #inputNumber 
+                                            label="Número" 
+                                            placeholder="1298"
+                                            [required]="true"> 
+                                        </app-input-text>
+                                    </div>
+                                    <div class="col-md-4 col-12 mb-6">
+                                        <app-input-text 
+                                            #inputNeighborhood 
+                                            label="Bairro" 
+                                            placeholder="Bristol"
+                                            [required]="true">
+                                        </app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text 
+                                            #inputCity 
+                                            label="Cidade" 
+                                            placeholder="Gotham"
+                                            [required]="true"> 
+                                        </app-input-text>
+                                    </div>
+                                    <div class="col-md-2 col-12 mb-6">
+                                        <app-input-text 
+                                            #inputState
+                                            label="Estado"
+                                            placeholder="UF"
+                                            [required]="true"> </app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputInsuredPhone
+                                            label="Telefone"
+                                            type="tel"
+                                            placeholder="(11) 987 654 321"
+                                            [mask]="PHONE_MASK"
+                                            [required]="true"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                    <div class="col-md-6 col-12 mb-6">
+                                        <app-input-text
+                                            #inputInsuredEmail
+                                            label="Email"
+                                            placeholder="bruce@wayne-enterprises.com"
+                                            [modifier]="lowerCaseInputTextModifier"
+                                            [validators]="[emailInputTextValidator]"
+                                            [required]="true"
+                                            [readOnly]="!isFormInEditableState(formState)"
+                                        ></app-input-text>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-end">
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-active-light-primary me-5"
+                                    [disabled]="!isFormInEditableState()"
+                                    [routerLink]="[URLS.PATHS.CLIENT.INSURANCE_COMPANY.REGISTRATION()]"
+                                >
+                                    Cancelar
+                                </button>
+                                <app-button
+                                    classes="btn-primary w-100"
+                                    text="Enviar solicitação"
+                                    [isLoading]="isFormInLoadingState()"
+                                    [loadingText]="'Processando...'"
+                                    [isSubmitted]="isFormInSuccessState()"
+                                    [submittedText]="'Concluído!'"
+                                ></app-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

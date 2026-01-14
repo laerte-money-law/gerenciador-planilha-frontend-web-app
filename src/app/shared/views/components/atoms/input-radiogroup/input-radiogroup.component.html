@@ -1,0 +1,22 @@
+<div class="">
+    <label class="form-label" *ngIf="label">{{ label }}</label>
+
+    <div class="btn-group d-flex align-items-stretch" role="group" [ngClass]="{ 'is-invalid': !valid && isValidated, readonly: readOnly }">
+        <ng-container *ngFor="let option of internalOptions; let last = last">
+            <input
+                type="{{ enableMultipleChoices ? 'checkbox' : 'radio' }}"
+                class="btn-check"
+                [id]="option.id"
+                [name]="inputId"
+                [checked]="option.checked"
+                (change)="onCheckboxChange(option.id)"
+            />
+            <label class="btn btn-outline d-block" [for]="option.id" [ngClass]="{ 'btn-active-primary': option.checked }">{{
+                option.label
+            }}</label>
+        </ng-container>
+    </div>
+    <div class="invalid-feedback" *ngIf="!valid && isValidated">
+        <div>{{ errorMessage }}</div>
+    </div>
+</div>

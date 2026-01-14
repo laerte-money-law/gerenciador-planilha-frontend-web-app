@@ -1,0 +1,4 @@
+<span class="badge badge-danger" *ngIf="status === STATUS_ENUM.CLOSED">PROCESSO BAIXADO</span>
+<span class="badge badge-warning" *ngIf="status === STATUS_ENUM.PENDING_PAYMENT">PAGAMENTO PENDENTE</span>
+<span class="badge badge-success" *ngIf="status === STATUS_ENUM.OPEN">ABERTO</span>
+

@@ -1,0 +1,21 @@
+<div class="">
+    <label for="input-autocomplete-googlemaps" class="form-label">{{ label }}</label>
+    <input
+        #inputAutocompleteGooglemaps
+        type="text"
+        class="form-control"
+        name="input-autocomplete-googlemaps"
+        id="input-autocomplete-googlemaps"
+        autocomplete="off"
+        role="presentation"
+        [readOnly]="readOnly"
+        [(ngModel)]="value"
+        [value]="addressValueByGoogleMapsAutocomplete.formatted"
+        [placeholder]="placeholder"
+        [ngClass]="{ 'is-invalid': !valid && isValidated, readonly: readOnly }"
+    />
+
+    <div class="invalid-feedback" *ngIf="!valid && isValidated">
+        <div>{{ errorMessage }}</div>
+    </div>
+</div>

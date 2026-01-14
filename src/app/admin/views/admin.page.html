@@ -1,0 +1,19 @@
+<div class="d-flex flex-column flex-root app-root">
+    <app-sidebar #sidebarRef></app-sidebar>
+
+    <div class="app-page flex-column flex-column-fluid">
+        <app-header [sidebar]="sidebarRef"></app-header>
+
+        <div class="app-wrapper d-flex">
+            <!-- Sidebar fixo -->
+
+            <!-- Conteúdo -->
+            <div class="app-main flex-column flex-row-fluid">
+                <app-toolbar></app-toolbar>
+                <div class="app-container w-app py-10 my-5">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Adição rápida de Segurado</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+
+<form class="form" (ngSubmit)="onSubmit()">
+    <div class="modal-body">
+        <div class="mb-3">
+            <div class="card-body pt-0">
+                <div class="row">
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text
+                            #inputInsuredName
+                            label="Nome"
+                            placeholder="Ex: Bruce Wayne"
+                            [required]="true"
+                            [validators]="[nameInputTextValidator]"
+                            [readOnly]="!isFormInEditableState()"
+                        ></app-input-text>
+                    </div>
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text
+                            #inputInsuredDocument
+                            label="CPF/CNPJ"
+                            placeholder="Ex: 123.456.789-00 ou 12.345.678/0009-00"
+                            [mask]="CPF_CNPJ_MASK"
+                            [validators]="[cpfValidator, cnpjValidator]"
+                            [validatorsCombination]="'OR'"
+                            [required]="true"
+                            [readOnly]="!isFormInEditableState()"
+                        ></app-input-text>
+                    </div>
+                    <div class="col-md-4 col-12 mb-6">
+                        <app-input-autocomplete-googlemaps
+                            #inputCepAutocomplete
+                            label="CEP"
+                            placeholder="Digite o CEP"
+                            [mask]="CEP_MASK"
+                            [onlyCepAutocomplete]="true"
+                        >
+                        </app-input-autocomplete-googlemaps>
+                    </div>
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text #inputStreet placeholder="Av. Principal" label="Rua"></app-input-text>
+                    </div>
+                    <div class="col-md-2 col-12 mb-6">
+                        <app-input-text #inputNumber label="Número" placeholder="1298"> </app-input-text>
+                    </div>
+                    <div class="col-md-4 col-12 mb-6">
+                        <app-input-text #inputNeighborhood label="Bairro" placeholder="Bristol"> </app-input-text>
+                    </div>
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text #inputCity label="Cidade" placeholder="Gotham"> </app-input-text>
+                    </div>
+                    <div class="col-md-2 col-12 mb-6">
+                        <app-input-text #inputState label="Estado" placeholder="UF"> </app-input-text>
+                    </div>
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text
+                            #inputInsuredPhone
+                            label="Telefone"
+                            type="tel"
+                            placeholder="(11) 987 654 321"
+                            [mask]="PHONE_MASK"
+                            [required]="true"
+                            [readOnly]="!isFormInEditableState(formState)"
+                        ></app-input-text>
+                    </div>
+                    <div class="col-md-6 col-12 mb-6">
+                        <app-input-text
+                            #inputInsuredEmail
+                            label="Email"
+                            placeholder="bruce@wayne-enterprises.com"
+                            [modifier]="lowerCaseInputTextModifier"
+                            [validators]="[emailInputTextValidator]"
+                            [required]="true"
+                            [readOnly]="!isFormInEditableState(formState)"
+                        ></app-input-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <app-button
+            classes="btn-primary w-100"
+            text="Salvar"
+            [isLoading]="isFormInLoadingState()"
+            [loadingText]="'Processando...'"
+            [isSubmitted]="isFormInSuccessState()"
+            [submittedText]="'Concluído!'"
+        ></app-button>
+    </div>
+</form>

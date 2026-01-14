@@ -1,0 +1,78 @@
+//
+// Layout
+//
+
+// General mode
+.bg-green {
+    background-color: #253b4c;
+}
+
+.font-mont {
+    font-family: "Montserrat", sans-serif;
+}
+
+.w-app {
+    width: 90vw;
+    margin: 0 auto;
+}
+
+.app-toolbar {
+    //  background: var(--#{$prefix}app-toolbar-bg);
+    background-color: #253b4c;
+    font-weight: $font-weight-bold;
+    font-family: "Montserrat", sans-serif;
+
+    .page-title {
+        .page-heading {
+            color: rgba(255, 255, 255, 1);
+            font-weight: $font-weight-bolder;
+        }
+
+        .page-desc {
+            color: rgba(255, 255, 255, 0.6);
+        }
+    }
+
+    .items {
+        .item-number {
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .item-desc {
+            color: rgba(255, 255, 255, 0.6);
+        }
+    }
+    .btn-yellow {
+        background-image: linear-gradient(to bottom, #fdcf51, #7c5c01);
+        color: #253b4c;
+        font-weight: bold;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.7rem;
+        border: none;
+        font-family: "Montserrat", sans-serif;
+
+        &:hover {
+            background-color: darken(#0a772e, 20%);
+        }
+    }
+}
+
+@include color-mode(light) {
+    .app-toolbar {
+        background-color: #253b4c;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        object-position: center center;
+        object-fit: cover;
+        image-rendering: auto;
+    }
+}
+
+// Desktop mode
+@include media-breakpoint-up(lg) {
+    .app-toolbar {
+        // padding-bottom: $app-toolbar-offset !important;
+    }
+}

@@ -1,0 +1,48 @@
+<div class="d-flex flex-center flex-column flex-column-fluid">
+    <div class="w-lg-500px p-10 p-lg-15 mx-auto">
+        <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" (ngSubmit)="onSubmit()">
+            <div class="text-center mb-10">
+                <h1 class="text-gray-900 mb-3">Login</h1>
+            </div>
+
+            <div class="mb-9">
+                <label for="input-username" class="form-label mb-3">Email ou Celular</label>
+                <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Ex: (11) 999 88 77 66 ou bruce@waynecorp.com"
+                    name="input-username"
+                    id="input-username"
+                    [disabled]="!isFormInEditableState(formState)"
+                    [mask]="form.fields.username.mask"
+                    (input)="onChangeUsername()"
+                    [(ngModel)]="form.fields.username.value"
+                    [ngClass]="{ 'is-invalid': !form.fields.username.isValid() && isFormInErrorState(formState) }"
+                />
+                <div class="invalid-feedback" *ngIf="!form.fields.username.isValid() && isFormInErrorState(formState)">
+                    <div *ngIf="form.fields.username.failedValidations.required">O campo "Email ou Celular" é obrigatório.</div>
+                    <div *ngIf="form.fields.username.failedValidations.email">O Email informado está inválido.</div>
+                    <div *ngIf="form.fields.username.failedValidations.phone">O Celular informado está inválido.</div>
+                </div>
+            </div>
+
+            <div class="mb-9">
+                <app-input-text
+                    #inputPassword
+                    label="Senha"
+                    type="password"
+                    [required]="true"
+                    [disabled]="!isFormInEditableState(formState)"
+                ></app-input-text>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-lg btn-primary w-100 mb-5" (click)="onSubmit()">
+                    <span class="indicator-label"> Prosseguir </span>
+                </button>
+
+                <a role="button" class="link-primary fs-6 fw-bold"> Esqueceu sua senha? </a>
+            </div>
+        </form>
+    </div>
+</div>
