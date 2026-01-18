@@ -4,7 +4,7 @@ export class ErrorMessages {
      * @param formName
      * @returns
      */
-    public static readonly FORM_HAS_ERRORS = (formName = "do formulário"): string =>
+    public static readonly FORM_HAS_ERRORS = (formName = "do s"): string =>
         `Encontramos erros no preenchimento ${formName}. Por favor, corrija e tente novamente`;
     public static readonly INPUT_FIELD_REQUIRED = (fieldName: string): string => `O campo '${fieldName}' é obrigatório.`;
     public static readonly SELECT_FIELD_REQUIRED = (fieldName: string): string =>

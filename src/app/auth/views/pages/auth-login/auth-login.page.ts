@@ -1,15 +1,15 @@
-import { Component, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { NgxSpinnerService } from "ngx-spinner";
-import { NotificationService } from "../../../../shared/services/notification.service";
-import { BaseValidator } from "../../../../shared/validators/base.validator";
-import { EmailValidator } from "../../../../shared/validators/email.validator";
-import { PhoneValidator } from "../../../../shared/validators/phone.validator";
-import { FormStateEnum } from "../../../../shared/views/base-form.view";
-import { BasePageFormView } from "../../../../shared/views/base-page-form.view";
-import { InputTextComponent } from "../../../../shared/views/components/atoms/input-text/input-text.component";
-import { LogInFormDto } from "../../../models/form/log-in.form.dto";
-import { AuthService } from "../../../services/auth.service";
+import {Component, ViewChild} from "@angular/core";
+import {Router} from "@angular/router";
+import {NgxSpinnerService} from "ngx-spinner";
+import {NotificationService} from "../../../../shared/services/notification.service";
+import {BaseValidator} from "../../../../shared/validators/base.validator";
+import {EmailValidator} from "../../../../shared/validators/email.validator";
+import {PhoneValidator} from "../../../../shared/validators/phone.validator";
+import {FormStateEnum} from "../../../../shared/views/base-form.view";
+import {BasePageFormView} from "../../../../shared/views/base-page-form.view";
+import {InputTextComponent} from "../../../../shared/views/components/atoms/input-text/input-text.component";
+import {LogInFormDto} from "../../../models/form/log-in.form.dto";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
     selector: "auth-login-page",
@@ -19,7 +19,7 @@ import { AuthService } from "../../../services/auth.service";
 export class AuthLoginPage extends BasePageFormView {
     @ViewChild("inputPassword") inputPasswordComponent: InputTextComponent;
 
-    form = {
+    public form = {
         fields: {
             username: {
                 value: "",
@@ -38,13 +38,19 @@ export class AuthLoginPage extends BasePageFormView {
                     this.form.fields.username.failedValidations.required = false;
                     this.form.fields.username.failedValidations.phone = false;
                     this.form.fields.username.failedValidations.email = false;
+
                     if (!this.form.fields.username.value) {
                         this.form.fields.username.failedValidations.required = true;
-                    } else if (!this.form.fields.username.mask && !new EmailValidator().isValid(this.form.fields.username.value)) {
+                    }
+
+                    if (!this.form.fields.username.mask && !new EmailValidator().isValid(this.form.fields.username.value)) {
                         this.form.fields.username.failedValidations.email = true;
-                    } else if (this.form.fields.username.mask && !new PhoneValidator().isValid(this.form.fields.username.value)) {
+                    }
+
+                    if (this.form.fields.username.mask && !new PhoneValidator().isValid(this.form.fields.username.value)) {
                         this.form.fields.username.failedValidations.phone = true;
                     }
+
                     return this.form.fields.username.isValid();
                 },
             },
@@ -55,7 +61,6 @@ export class AuthLoginPage extends BasePageFormView {
         private readonly authService: AuthService,
         private readonly notifier: NotificationService,
         private readonly spinner: NgxSpinnerService,
-        private readonly router: Router
     ) {
         super();
     }
@@ -79,11 +84,14 @@ export class AuthLoginPage extends BasePageFormView {
                     throw e;
                 },
             });
-        } else {
-            this.formState = FormStateEnum.SUBMITION_FAILED;
-            this.notifier.showError(this.ERROR_MESSAGES.FORM_HAS_ERRORS("do login"));
+
+            return;
         }
+
+        this.formState = FormStateEnum.SUBMITION_FAILED;
+        this.notifier.showError(this.ERROR_MESSAGES.FORM_HAS_ERRORS("do login"));
     }
+
     override isFormValid(): boolean {
         let isValid = true;
         isValid = this.form.fields.username.validate() && isValid;

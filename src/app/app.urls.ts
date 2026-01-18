@@ -1,19 +1,8 @@
-import { en } from "@fullcalendar/core/internal-common";
 import { environment } from "../environments/environment";
 import { DepositGuideFilter } from "./admin/models/admin-deposit-guide-query-params.dto";
-import { InsurancePolicyFormDto } from "./admin/models/forms/admin-policy-save.form.dto";
 
 export class AppUrls {
     public static readonly PATHS = {
-        /**
-         * ROOT: "/"
-         * AUTH: {
-         *     ROOT: "/acesso",
-         *     LOG_IN: "/acesso/entrar",
-         *     SIGN_UP: "/acesso/cadastro",
-         *     PASSWORD_FORGOT: "/acesso/senha/esqueci",
-         * }
-         */
         ROOT: (relative: boolean = false) => (relative ? "" : "/"),
         AUTH: {
             ROOT: (relative: boolean = false) => (relative ? "acesso" : "/acesso"),
@@ -193,6 +182,4 @@ export class AppUrls {
             COMPANY_INFORMATION: (cnpj: string) => `${environment.receitawsApiUrl}${cnpj}`,
         },
     };
-
-    public static readonly EXTERNAL = {};
 }

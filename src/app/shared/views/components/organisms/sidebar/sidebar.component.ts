@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { getUserRoleEnumLabel, UserRoleEnum } from 'src/app/auth/models/enum/user-role.enum';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,7 @@ export class SidebarComponent extends BaseView {
     USER_ROLE = UserRoleEnum;
     isSidebarCollapsed = true;
     isMobile = false;
+
     constructor(private readonly authService: AuthService, private readonly offcanvasService: NgbOffcanvas) {
         super();
     }
@@ -25,7 +26,7 @@ export class SidebarComponent extends BaseView {
     public get userRoleLabel(): string {
         return getUserRoleEnumLabel(this.userInfo?.role);
     }
-    
+
 
     onDismissSidebar(): void {
         this.offcanvasService.dismiss();

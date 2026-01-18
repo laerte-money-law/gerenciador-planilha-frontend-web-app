@@ -1,7 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { BaseView } from "../../shared/views/base.view";
-import { Router } from "@angular/router";
-import { AuthService } from "../../auth/services/auth.service";
+import {Component, OnInit} from "@angular/core";
+import {BaseView} from "../../shared/views/base.view";
+import {Router} from "@angular/router";
+import {AuthService} from "../../auth/services/auth.service";
 
 @Component({
     selector: "admin-page",
@@ -10,7 +10,12 @@ import { AuthService } from "../../auth/services/auth.service";
 })
 export class AdminPage extends BaseView implements OnInit {
     [x: string]: any;
-    constructor(private readonly authService: AuthService, private readonly router: Router) {
+
+    constructor(
+        private readonly authService: AuthService,
+        private readonly router: Router
+    ) {
+
         super();
     }
 

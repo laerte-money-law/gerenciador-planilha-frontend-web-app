@@ -39,10 +39,9 @@ export class AuthService {
         private readonly router: Router
     ) { }
 
-    logIn(data: LogInFormDto): Observable<any> {
-        return this.http.post<any>(AppUrls.API_ENDPOINTS.AUTH.LOG_IN(), data);
+    logIn(loginInputDTO: LogInFormDto): Observable<any> {
+        return this.http.post<any>(AppUrls.API_ENDPOINTS.AUTH.LOG_IN(), loginInputDTO);
     }
-
 
     getDashboardSummary(): Observable<any> {
         return this.http.get<any>(AppUrls.API_ENDPOINTS.ADMIN.DASHBOARD_SUMMARY());
@@ -90,6 +89,7 @@ export class AuthService {
 
     redirectToApp(): void {
         const jwtTokenDecoded = jwtDecode(AuthService.accessToken);
+
         switch (jwtTokenDecoded["role"]) {
             case UserRoleEnum.ADMIN:
                 this.spinner.hide();
