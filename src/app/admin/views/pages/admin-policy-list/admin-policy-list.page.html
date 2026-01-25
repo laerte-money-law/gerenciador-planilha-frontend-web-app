@@ -23,17 +23,11 @@
             <!--begin::Toolbar-->
             <div class="d-flex justify-content-end">
                 <!--begin::Filter-->
-                <button type="button" class="btn btn-light-primary mx-3">
-                    <i class="fa-solid fa-search fs-2"><span class="path1"></span><span class="path2"></span></i> Pesquisar
+                <input type="file" hidden #fileInput>
+                <button role="button" class="btn btn-primary"
+                   (click)="fileInput.click()">
+                    <i class="fa-solid fa-plus fs-2"></i> Adicionar Planilha
                 </button>
-
-                <!--end::Filter-->
-
-                <!--begin::Add user-->
-                <a role="button" class="btn btn-primary" [routerLink]="[URLS.PATHS.ADMIN.POLICY.CREATE()]">
-                    <i class="fa-solid fa-plus fs-2"></i> Cadastrar apólice
-                </a>
-                <!--end::Add user-->
             </div>
             <!--end::Toolbar-->
         </div>

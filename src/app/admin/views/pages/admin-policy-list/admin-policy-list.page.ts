@@ -17,6 +17,8 @@ export class AdminPolicyListPage extends BaseAppPageView {
     filteredList: ClientPolicyDto[] = [];
     pagination: Pagination<ClientPolicyDto> = new Pagination<ClientPolicyDto>([]);
 
+    test = null
+
     override getBreadcrumbs(): PageRoute[] {
         return [new PageRoute(this.URLS.PATHS.ADMIN.POLICY.ROOT(), "Apólices", "Apólices")];
     }
