@@ -10,7 +10,7 @@
                 <input
                     type="text"
                     class="form-control form-control-solid ps-13"
-                    placeholder="Pesquise pelo nº da apólice, cnpj ou nome da empresa"
+                    placeholder="Pesquise pelo nome da Planilha, Cliente, Status"
                     autocomplete="off"
                 />
             </div>
@@ -25,7 +25,7 @@
                 <!--begin::Filter-->
                 <input type="file" hidden #fileInput>
                 <button role="button" class="btn btn-primary"
-                   (click)="fileInput.click()">
+                        (click)="fileInput.click()">
                     <i class="fa-solid fa-plus fs-2"></i> Adicionar Planilha
                 </button>
             </div>
@@ -44,70 +44,66 @@
                     style="width: 100%"
                 >
                     <thead>
-                        <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0" role="row">
-                            <th
-                                class="min-w-125px dt-orderable-asc dt-orderable-desc"
-                                data-dt-column="1"
-                                rowspan="1"
-                                colspan="1"
-                                tabindex="0"
-                            >
-                                <span class="dt-column-title" role="button">Planilha</span>
-                            </th>
-                            <th
-                                class="min-w-125px dt-orderable-asc dt-orderable-desc"
-                                data-dt-column="2"
-                                rowspan="1"
-                                colspan="1"
-                                tabindex="0"
-                            >
-                                <span class="dt-column-title" role="button">Cliente</span>
-                            </th>
-                            <th
-                                class="min-w-125px dt-orderable-asc dt-orderable-desc"
-                                data-dt-column="3"
-                                rowspan="1"
-                                colspan="1"
-                                tabindex="0"
-                            >
-                                <span class="dt-column-title" role="button">Adicionada em</span>
-                            </th>
-                            <th
-                                class="min-w-125px dt-orderable-asc dt-orderable-desc"
-                                data-dt-column="3"
-                                rowspan="1"
-                                colspan="1"
-                                tabindex="0"
-                            >
-                                <span class="dt-column-title" role="button">Status</span>
-                            </th>
+                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0" role="row">
+                        <th
+                            class="min-w-125px dt-orderable-asc dt-orderable-desc"
+                            data-dt-column="1"
+                            rowspan="1"
+                            colspan="1"
+                            tabindex="0"
+                        >
+                            <span class="dt-column-title" role="button">Planilha</span>
+                        </th>
+                        <th
+                            class="min-w-125px dt-orderable-asc dt-orderable-desc"
+                            data-dt-column="2"
+                            rowspan="1"
+                            colspan="1"
+                            tabindex="0"
+                        >
+                            <span class="dt-column-title" role="button">Cliente</span>
+                        </th>
+                        <th
+                            class="min-w-125px dt-orderable-asc dt-orderable-desc"
+                            data-dt-column="3"
+                            rowspan="1"
+                            colspan="1"
+                            tabindex="0"
+                        >
+                            <span class="dt-column-title" role="button">Adicionada em</span>
+                        </th>
+                        <th
+                            class="min-w-125px dt-orderable-asc dt-orderable-desc"
+                            data-dt-column="3"
+                            rowspan="1"
+                            colspan="1"
+                            tabindex="0"
+                        >
+                            <span class="dt-column-title" role="button">Status</span>
+                        </th>
 
-                            <th class="text-gray-600 text-center min-w-100px dt-orderable-none" data-dt-column="6" rowspan="1" colspan="1">
-                                <span class="dt-column-title">Ações</span>
-                            </th>
-                        </tr>
+                        <th class="text-gray-600 text-center min-w-100px dt-orderable-none" data-dt-column="6" rowspan="1" colspan="1">
+                            <span class="dt-column-title">Ações</span>
+                        </th>
+                    </tr>
                     </thead>
                     <tbody class="text-gray-600 fw-semibold">
-                        <tr *ngFor="let policy of pagination.getPage()">
-                            <td><a class="text-gray-600 text-hover-primary mb-1">{{policy.policyNumber}}</a></td>
-                            <td class="text-nowrap">
-                                <a class="text-gray-800 text-hover-primary mb-1">{{policy.client.companyName}}</a>
-                                <br />
-                                <span class="text-nowrap">{{formatDocument(policy.client.cnpj)}}</span>
-                            </td>
-                            <td>
-                                <a class="text-gray-800 text-hover-primary mb-1 d-inline-block text-truncate" style="max-width: 320px;">{{policy.insured.name}}</a>
-                                <br />
-                                <span class="text-nowrap">{{formatDocument(policy.insured.document)}}</span>
-                            </td>
-                            <td>{{policy.bankSlipNumber}}</td>
-                            <td>{{formatCurrency(policy.cost)}}</td>
-                            <td>{{formatDate(policy.bankSlipDueDate)}}</td>
-                            <td>{{formatDate(policy.endDate)}}</td>
-                            <td>
-                                <app-badge-policy-status status="{{policy.status}}"></app-badge-policy-status>
-                            </td>
-                            <td class="text-end text-gray-600">
+                    <tr *ngFor="let spreadsheet of pagination.getPage()">
+
+                        <td>
+                            <a class="text-gray-600 text-hover-primary mb-1">{{ spreadsheet.name }}</a>
+                        </td>
+
+                        <td class="text-nowrap">
+                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.client }}</a>
+                        </td>
+
+                        <td>{{ formatDate(spreadsheet.createdAt) }}</td>
+
+                        <td>
+                            <app-badge-policy-status status="{{spreadsheet.status}}"></app-badge-policy-status>
+                        </td>
+                        <td class="text-end text-gray-600">
                                 <span ngbDropdown container="body">
                                     <a
                                         role="button"
@@ -125,21 +121,25 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <a href="/axel-html-pro/apps/user-management/users/view.html" class="menu-link px-3">
-                                                Editar
+                                                Acessar
                                             </a>
                                         </div>
                                         <!--end::Menu item-->
 
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3"> Excluir </a>
+                                            <a href="#" class="menu-link px-3">Gerenciar Acesso</a>
                                         </div>
                                         <!--end::Menu item-->
+
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link px-3">Exportar</a>
+                                        </div>
                                     </div>
                                     <!--end::Menu-->
                                 </span>
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
                     </tbody>
                     <tfoot></tfoot>
                 </table>
@@ -175,7 +175,7 @@
                                         [ngClass]="{ active: pageNumber === pagination?.getCurrentPage() }"
                                     >
                                         <button class="page-link" role="link" type="button" (click)="pagination?.goToPage(pageNumber)">
-                                            {{pageNumber}}
+                                            {{ pageNumber }}
                                         </button>
                                     </li>
                                     <li class="dt-paging-button page-item" [class]="pagination?.isLastPage() ? 'disabled' : ''">
