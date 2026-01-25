@@ -43,7 +43,6 @@ export class AuthService {
         return this.http.post<any>(AppUrls.API_ENDPOINTS.AUTH.LOG_IN(), data);
     }
 
-
     getDashboardSummary(): Observable<any> {
         return this.http.get<any>(AppUrls.API_ENDPOINTS.ADMIN.DASHBOARD_SUMMARY());
     }
