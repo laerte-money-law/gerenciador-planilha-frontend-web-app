@@ -13,7 +13,7 @@ import { Pagination } from "src/app/shared/utils/pagination";
     styles: ``,
 })
 export class AdminPolicyListPage extends BaseAppPageView {
-    allRecords: SpreadsheetDto[] = [];
+    allRecords:  SpreadsheetDto[] = [];
     filteredList: SpreadsheetDto[] = [];
     pagination: Pagination<SpreadsheetDto> = new Pagination<SpreadsheetDto>([]);
 
@@ -54,20 +54,23 @@ export class AdminPolicyListPage extends BaseAppPageView {
         });*/
         this.allRecords = [
             {
-                name: "Processos Trabalhistas",
-                client: "Itaú",
+                name: "Planilha 01",
+                servico: "DNI",
+                client: "Cliente 01",
                 createdAt: new Date(),
                 status: "PENDING"
             },
             {
-                name: "Processos Judiciais",
-                client: "Nestle",
+                name: "Planilha 02",
+                servico: "Recuperação",
+                client: "CLiente 02",
                 createdAt: new Date(),
                 status: "IN_PROGRESS"
             },
             {
-                name: "Processos de Garantia",
-                client: "e-Core",
+                name: "Planilha 03",
+                servico: "DNI",
+                client: "Cliente 03",
                 createdAt: new Date(),
                 status: "DONE"
             },

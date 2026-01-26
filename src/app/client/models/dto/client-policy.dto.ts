@@ -20,6 +20,7 @@ export class ClientPolicyDto {
 
 export class SpreadsheetDto {
     name: string
+    servico: string
     client: string
     createdAt: Date
     status: string

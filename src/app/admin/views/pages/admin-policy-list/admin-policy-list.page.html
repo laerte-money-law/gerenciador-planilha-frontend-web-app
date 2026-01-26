@@ -61,6 +61,15 @@
                             colspan="1"
                             tabindex="0"
                         >
+                            <span class="dt-column-title" role="button">Serviço</span>
+                        </th>
+                        <th
+                            class="min-w-125px dt-orderable-asc dt-orderable-desc"
+                            data-dt-column="2"
+                            rowspan="1"
+                            colspan="1"
+                            tabindex="0"
+                        >
                             <span class="dt-column-title" role="button">Cliente</span>
                         </th>
                         <th
@@ -93,6 +102,9 @@
                         <td>
                             <a class="text-gray-600 text-hover-primary mb-1">{{ spreadsheet.name }}</a>
                         </td>
+                        <td class="text-nowrap">
+                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.servico }}</a>
+                        </td>
 
                         <td class="text-nowrap">
                             <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.client }}</a>
@@ -120,7 +132,7 @@
                                     >
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="/axel-html-pro/apps/user-management/users/view.html" class="menu-link px-3">
+                                            <a [routerLink]="[URLS.PATHS.ADMIN.DEPOSIT_INVOICE.ROOT()]" class="menu-link px-3">
                                                 Acessar
                                             </a>
                                         </div>
