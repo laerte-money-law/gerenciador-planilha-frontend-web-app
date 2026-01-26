@@ -1,10 +1,6 @@
 <div class="sidebar" [class.collapsed]="isSidebarCollapsed" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
     <nav class="menu">
         <ng-container *ngIf="userInfo && userInfo.role === USER_ROLE.ADMIN">
-            <a [routerLink]="[URLS.PATHS.ADMIN.DASHBOARD()]" routerLinkActive="active" class="menu-item mt-10">
-                <i class="fa-solid fa-chart-line fa-lg firs-icon"></i>
-                <span class="label" *ngIf="!isSidebarCollapsed">Dashboard</span>
-            </a>
             <a [routerLink]="[URLS.PATHS.ADMIN.CLIENT.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-users fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Usuários e Times</span>
@@ -13,11 +9,6 @@
             <a [routerLink]="[URLS.PATHS.ADMIN.POLICY.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-file-shield fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Planilhas</span>
-            </a>
-
-            <a [routerLink]="[URLS.PATHS.ADMIN.QUOTATIONS.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
-                <i class="fa-solid fa-money-check-alt fa-lg"></i>
-                <span class="label" *ngIf="!isSidebarCollapsed">Cotações</span>
             </a>
 
         </ng-container>

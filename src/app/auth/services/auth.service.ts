@@ -88,7 +88,7 @@ export class AuthService {
         switch (jwtTokenDecoded["role"]) {
             case UserRoleEnum.ADMIN:
                 this.spinner.hide();
-                this.router.navigate([AppUrls.PATHS.ADMIN.ROOT()]);
+                this.router.navigate([AppUrls.PATHS.ADMIN.POLICY.ROOT()]);
                 break;
 
             case UserRoleEnum.CLIENT:
