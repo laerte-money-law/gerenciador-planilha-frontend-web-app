@@ -4,7 +4,7 @@ import { BaseAppPageView } from "../../../../shared/views/base-app-page.view";
 import { PageRoute } from "../../../../shared/models/page-route";
 import { NgxSpinnerService } from "ngx-spinner";
 import { AdminPolicyService } from "src/app/admin/services/admin-policy.service";
-import { ClientPolicyDto } from "src/app/client/models/dto/client-policy.dto";
+import {ClientPolicyDto, SpreadsheetDto} from "src/app/client/models/dto/client-policy.dto";
 import { Pagination } from "src/app/shared/utils/pagination";
 
 @Component({
@@ -13,9 +13,11 @@ import { Pagination } from "src/app/shared/utils/pagination";
     styles: ``,
 })
 export class AdminPolicyListPage extends BaseAppPageView {
-    allRecords: ClientPolicyDto[] = [];
-    filteredList: ClientPolicyDto[] = [];
-    pagination: Pagination<ClientPolicyDto> = new Pagination<ClientPolicyDto>([]);
+    allRecords:  SpreadsheetDto[] = [];
+    filteredList: SpreadsheetDto[] = [];
+    pagination: Pagination<SpreadsheetDto> = new Pagination<SpreadsheetDto>([]);
+
+    test = null
 
     override getBreadcrumbs(): PageRoute[] {
         return [new PageRoute(this.URLS.PATHS.ADMIN.POLICY.ROOT(), "Apólices", "Apólices")];
@@ -37,7 +39,7 @@ export class AdminPolicyListPage extends BaseAppPageView {
     private loadRecords(): void {
         this.spinner.show();
 
-        this.adminPolicyService.findAllPolicies().subscribe({
+        /*this.adminPolicyService.findAllPolicies().subscribe({
             next: (response) => {
                 this.allRecords = response;
                 this.filteredList = this.allRecords;
@@ -49,7 +51,34 @@ export class AdminPolicyListPage extends BaseAppPageView {
                 this.spinner.hide();
                 throw e;
             },
-        });
+        });*/
+        this.allRecords = [
+            {
+                name: "Planilha 01",
+                servico: "DNI",
+                client: "Cliente 01",
+                createdAt: new Date(),
+                status: "PENDING"
+            },
+            {
+                name: "Planilha 02",
+                servico: "Recuperação",
+                client: "CLiente 02",
+                createdAt: new Date(),
+                status: "IN_PROGRESS"
+            },
+            {
+                name: "Planilha 03",
+                servico: "DNI",
+                client: "Cliente 03",
+                createdAt: new Date(),
+                status: "DONE"
+            },
+        ]
+
+        this.filteredList = this.allRecords;
+        this.refreshPagination();
+        this.spinner.hide();
     }
 
     private refreshPagination(): void {

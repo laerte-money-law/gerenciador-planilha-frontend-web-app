@@ -57,18 +57,6 @@ export class ToolbarComponent extends BaseView implements OnInit {
             this.breadcrumbs = breadcrumbs;
         });
         this.client = this.authService.userClientInfo;
-        console.log("this.client", this.client);
-        this.loadAdminInfo()
     }
 
-    private loadAdminInfo() {
-        this.authService.getDashboardSummary().subscribe({
-            next: (response) => {
-                this.adminToolbarInfo = response;
-            },
-            error: (e) => {
-                console.error("Error: ", e)
-            },
-        })
-    }
 }

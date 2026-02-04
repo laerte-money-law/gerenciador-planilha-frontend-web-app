@@ -1,2 +1,5 @@
 <div class="badge rounded-pill badge-success fw-bold" *ngIf="status === STATUS_ENUM.PAID">Pago</div>
 <div class="badge rounded-pill text-bg-warning fw-bold" *ngIf="status === STATUS_ENUM.PENDING_PAYMENT">Pagamento pendente</div>
+<div class="badge rounded-pill text-bg-warning fw-bold" *ngIf="status === STATUS_ENUM.PENDING">Pendente</div>
+<div class="badge rounded-pill text-bg-warning fw-bold" *ngIf="status === STATUS_ENUM.IN_PROGRESS">Em Andamento</div>
+<div class="badge rounded-pill badge-success fw-bold" *ngIf="status === STATUS_ENUM.DONE">Finalizada</div>

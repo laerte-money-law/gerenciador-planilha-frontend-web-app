@@ -43,11 +43,6 @@ export class AuthService {
         return this.http.post<any>(AppUrls.API_ENDPOINTS.AUTH.LOG_IN(), data);
     }
 
-
-    getDashboardSummary(): Observable<any> {
-        return this.http.get<any>(AppUrls.API_ENDPOINTS.ADMIN.DASHBOARD_SUMMARY());
-    }
-
     logout(): void {
         localStorage.removeItem(AuthService.ACCESS_TOKEN);
         localStorage.removeItem(AuthService.REFRESH_TOKEN);
@@ -93,7 +88,7 @@ export class AuthService {
         switch (jwtTokenDecoded["role"]) {
             case UserRoleEnum.ADMIN:
                 this.spinner.hide();
-                this.router.navigate([AppUrls.PATHS.ADMIN.ROOT()]);
+                this.router.navigate([AppUrls.PATHS.ADMIN.POLICY.ROOT()]);
                 break;
 
             case UserRoleEnum.CLIENT:
