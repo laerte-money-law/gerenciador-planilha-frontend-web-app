@@ -1,4 +1,4 @@
-import { registerLocaleData } from "@angular/common";
+import { CommonModule, registerLocaleData } from "@angular/common";
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import localePt from "@angular/common/locales/pt";
 import { CUSTOM_ELEMENTS_SCHEMA, ErrorHandler, NgModule } from "@angular/core";
@@ -25,7 +25,6 @@ import { AdminClientSavePage } from "./admin/views/pages/admin-client-save/admin
 import { AdminDashboardPage } from "./admin/views/pages/admin-dashboard/admin-dashboard.page";
 import { AdminDepositInvoiceListPage } from "./admin/views/pages/admin-deposit-invoice-list/admin-deposit-invoice-list.page";
 import { AdminInsuranceRequestClientCreationPage } from "./admin/views/pages/admin-insurance-request-client-creation/admin-insurance-request-client-creation.page";
-import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin-policy-list.page";
 import { AdminPolicySavePage } from "./admin/views/pages/admin-policy-save/admin-policy-save.page";
 import { AdminConsultantListPage } from "./admin/views/pages/admin-consultant-list/admin-consultant-list.page";
 import { AdminConsultantSavePage } from "./admin/views/pages/admin-consultant-save/admin-consultant-save.page";
@@ -85,6 +84,9 @@ import { SaveInsuranceCompanyFormComponent } from "./shared/views/components/org
 import { UpdatePremiumFormComponent } from "./shared/views/components/organisms/forms/update-premium/update-premium.form.component";
 import { PaginationComponent } from "./shared/views/components/organisms/pagination/pagination-component";
 import { CompactNumberPipe } from "./shared/pipes/compact-number-pipes";
+import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin-policy-list.page";
+import { SpreadSheetListPage } from "./admin/views/pages/spreadsheet-list/spreadsheet-list.page";
+import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/spreadsheet-details.page";
 registerLocaleData(localePt);
 
 dayjs.extend(duration);
@@ -125,6 +127,8 @@ dayjs.locale("pt-br");
         AdminInsuranceRequestClientCreationPage,
         AdminPolicyListPage,
         AdminPolicySavePage,
+        SpreadSheetListPage,
+        SpreadSheetDetailsPage,
         AdminQuotationRequestPage,
         AuthBasePage,
         AuthLoginPage,
@@ -176,6 +180,7 @@ dayjs.locale("pt-br");
             progressBar: true,
         }),
         FullCalendarModule,
+        CommonModule
     ],
     providers: [
         provideNgxMask(),
