@@ -87,6 +87,8 @@ import { CompactNumberPipe } from "./shared/pipes/compact-number-pipes";
 import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin-policy-list.page";
 import { SpreadSheetListPage } from "./admin/views/pages/spreadsheet-list/spreadsheet-list.page";
 import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/spreadsheet-details.page";
+import { UploadSpreadSheetModal } from "./admin/views/pages/spreadsheet-upload-modal/spreadsheet-upload-modal";
+import { SpreadsheetDetailsModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-details-modal";
 registerLocaleData(localePt);
 
 dayjs.extend(duration);
@@ -151,6 +153,8 @@ dayjs.locale("pt-br");
         SelectCompanyComponent,
         SidebarComponent,
         ModalButtonComponent,
+        UploadSpreadSheetModal,
+        SpreadsheetDetailsModal,
         SaveInsuredFormComponent,
         SaveClientFormComponent,
         SaveInsuranceCompanyFormComponent,

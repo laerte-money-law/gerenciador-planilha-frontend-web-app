@@ -1,0 +1,70 @@
+<div class="modal-header">
+  <h4 class="modal-title">Criar planilha</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="cancel()">
+  </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="modal-body">
+
+    <div class="mb-3">
+      <label class="form-label">Team</label>
+
+      <select
+        class="form-select"
+        formControlName="team">
+        <option value="" disabled selected>
+          Selecione um team
+        </option>
+
+        <option
+          *ngFor="let team of teams"
+          [value]="team.id">
+          {{ team.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Serviço</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="service"
+        placeholder="Ex: DNI"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Arquivo da planilha</label>
+      <input
+        type="file"
+        class="form-control"
+        accept=".csv,.xlsx"
+        (change)="onFileChange($event)"
+      />
+      <small *ngIf="file" class="text-muted">{{ file.name }}</small>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="cancel()">
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid || !file">
+      Criar planilha
+    </button>
+  </div>
+</form>

@@ -23,16 +23,11 @@
             <!--begin::Toolbar-->
 
             <div class="d-flex justify-content-end">
-                <input type="file"
-                       hidden
-                       #fileInput
-                       (change)="onFileSelected($event)" />
-
-                <button type="button"
-                        class="btn btn-primary"
-                        (click)="fileInput.click()">
-                    <i class="fa-solid fa-plus fs-2"></i> Adicionar Planilha
-                </button>
+                <app-save-modal-button
+                    buttonText="Adicionar Planilha"
+                    [formComponent]="uploadModal"
+                    (saved)="handleUpload($event)">
+                </app-save-modal-button>
             </div>
             <!--end::Toolbar-->
         </div>

@@ -1,14 +1,18 @@
-import { Component } from "@angular/core";
+import { Component} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { PageService } from "../../../../shared/services/page.service";
 import { BaseAppPageView } from "../../../../shared/views/base-app-page.view";
 import { PageRoute } from "../../../../shared/models/page-route";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SpreadSheetService } from "src/app/admin/services/spreadsheet.service";
+import { SpreadsheetDetailsModal } from "./spreadsheet-details-modal";
+
 import {
     SpreadSheetDetailsDto,
+    SpreadSheetDto,
     SpreadSheetRequestParamsDto,
 } from "src/app/admin/models/spreadsheet.dto";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: "spreadsheet-details-page",
@@ -34,7 +38,9 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         private readonly pageService: PageService,
         private readonly spinner: NgxSpinnerService,
         private readonly spreadsheetService: SpreadSheetService,
-        private readonly route: ActivatedRoute
+        private readonly route: ActivatedRoute,
+        private modalService: NgbModal
+
     ) {
         super();
     }
@@ -166,6 +172,13 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
     trackByRowId(_: number, row: any): any {
         return row.id;
     }
+    openRowDetails(row: Record<string, any>): void {
+  const modalRef = this.modalService.open(SpreadsheetDetailsModal, {
+    centered: true,
+    scrollable: true,
+  });
 
-    
+  modalRef.componentInstance.data = row;
+}
+
 }
