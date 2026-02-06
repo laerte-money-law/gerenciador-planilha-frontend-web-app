@@ -31,7 +31,7 @@ export class SpreadSheetListPage extends BaseAppPageView {
         private readonly pageService: PageService,
         private readonly spreadSheetService: SpreadSheetService,
         private readonly router: Router
-        
+
     ) {
         super();
     }
@@ -56,17 +56,56 @@ export class SpreadSheetListPage extends BaseAppPageView {
 
 
                 this.spinner.hide();
-            },                                                   
-            error: (e) => {              
+            },
+            error: (e) => {
                 this.spinner.hide();
                 throw e;
             },
         });
-   
+
         this.spinner.hide();
     }
 
      onEdit(id: string): void {
         this.router.navigate([this.URLS.PATHS.ADMIN.SPREADSHEET.DETAIL(false, id)]);
+    }
+
+    onFileSelected(event: Event): void {
+        const input = event.target as HTMLInputElement;
+
+        if (!input.files || input.files.length === 0) {
+            return;
+        }
+
+        const file = input.files[0];
+        this.uploadFile(file);
+
+        // limpa o input para permitir reenviar o mesmo arquivo
+        input.value = '';
+    }
+
+    private uploadFile(file: File): void {
+        const formData = new FormData();
+
+        // arquivo (FileInterceptor('file'))
+        formData.append('file', file);
+
+        // campos do Body (CreateSpreadsheetDto)
+        formData.append('service', 'DNI');
+        formData.append('status', 'active');
+        formData.append('teamId', '1'); // atenção ao nome do campo
+
+        this.spinner.show();
+
+        this.spreadSheetService.importSpreadsheet(formData).subscribe({
+            next: () => {
+                this.spinner.hide();
+                this.loadRecords();
+            },
+            error: (e) => {
+                this.spinner.hide();
+                throw e;
+            }
+        });
     }
 }

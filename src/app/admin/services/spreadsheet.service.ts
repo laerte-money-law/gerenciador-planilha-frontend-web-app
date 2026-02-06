@@ -26,18 +26,22 @@ export class SpreadSheetService {
 
     getSpreadSheetPaged(id: string, filter?: SpreadSheetRequestParamsDto): Observable<SpreadSheetDetailsDto>{
         return this.http.get<SpreadSheetDetailsDto>(AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_LIST_DETAIL(id),
-            {params: this.toHttpParams(filter)}
+            {params: this.toHttpParams(filter)},
         );
+    }
+
+    importSpreadsheet(formData: FormData): Observable<any> {
+        return this.http.post(AppUrls.API_ENDPOINTS.ADMIN.IMPORT(), formData);
     }
 
     getQuotationContext(): SpreadsheetContext {
         return{ id: this.id}
-         
+
     }
 
     private toHttpParams<T extends object>(obj: T): HttpParams {
         return new HttpParams({ fromObject: obj as any });
     }
-    
+
 
 }

@@ -115,7 +115,7 @@ export class AppUrls {
                 ROOT: (relative: boolean = false) => (relative ? "agenda" : `${this.PATHS.CLIENT.ROOT(relative)}/agenda`),
             },
 
-            
+
         },
     };
 
@@ -161,8 +161,10 @@ export class AppUrls {
 
             SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}`,
-            },
 
+            IMPORT: () => `${environment.apiUrl}/api/import`,
+
+            },
         CLIENT: {
             UPDATE_INSURANCE_COMPANY_REGISTRATIONS: (insuranceCompanyRegistrationCode, clientCode: string) =>
                 `${environment.apiUrl}/api/client/insurance-companies/${insuranceCompanyRegistrationCode}?clientCode=${clientCode}`,

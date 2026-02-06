@@ -21,10 +21,15 @@
         <!--begin::Card toolbar-->
         <div class="card-toolbar">
             <!--begin::Toolbar-->
+
             <div class="d-flex justify-content-end">
-                <!--begin::Filter-->
-                <input type="file" hidden #fileInput>
-                <button role="button" class="btn btn-primary"
+                <input type="file"
+                       hidden
+                       #fileInput
+                       (change)="onFileSelected($event)" />
+
+                <button type="button"
+                        class="btn btn-primary"
                         (click)="fileInput.click()">
                     <i class="fa-solid fa-plus fs-2"></i> Adicionar Planilha
                 </button>
