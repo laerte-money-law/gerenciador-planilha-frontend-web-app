@@ -3,10 +3,11 @@ import { PageService } from "../../../../shared/services/page.service";
 import { BaseAppPageView } from "../../../../shared/views/base-app-page.view";
 import { PageRoute } from "../../../../shared/models/page-route";
 import { NgxSpinnerService } from "ngx-spinner";
-import {  SpreadSheetDto, SpreadSheetRequestParamsDto } from "src/app/admin/models/spreadsheet.dto";
+import {  SpreadSheetDto, SpreadSheetRequestParamsDto, TeamDto } from "src/app/admin/models/spreadsheet.dto";
 import { SpreadSheetService } from "src/app/admin/services/spreadsheet.service";
 import { PaginationSpreadsheet } from "src/app/shared/utils/pagination-spreadsheet";
 import { Router } from "@angular/router";
+import { UploadSpreadSheetModal } from "../spreadsheet-upload-modal/spreadsheet-upload-modal";
 
 @Component({
     selector: "spreadsheet-list-page",
@@ -20,6 +21,7 @@ export class SpreadSheetListPage extends BaseAppPageView {
         limit: 15,
         page: 1
     }
+    uploadModalOpen: boolean;
 
 
     override getBreadcrumbs(): PageRoute[] {
@@ -70,42 +72,29 @@ export class SpreadSheetListPage extends BaseAppPageView {
         this.router.navigate([this.URLS.PATHS.ADMIN.SPREADSHEET.DETAIL(false, id)]);
     }
 
-    onFileSelected(event: Event): void {
-        const input = event.target as HTMLInputElement;
+    uploadModal = UploadSpreadSheetModal;
 
-        if (!input.files || input.files.length === 0) {
-            return;
-        }
-
-        const file = input.files[0];
-        this.uploadFile(file);
-
-        // limpa o input para permitir reenviar o mesmo arquivo
-        input.value = '';
-    }
-
-    private uploadFile(file: File): void {
+    handleUpload(data: { team: number; service: string; file: File }) {
         const formData = new FormData();
-
-        // arquivo (FileInterceptor('file'))
-        formData.append('file', file);
-
-        // campos do Body (CreateSpreadsheetDto)
-        formData.append('service', 'DNI');
-        formData.append('status', 'active');
-        formData.append('teamId', '1'); // atenção ao nome do campo
+        formData.append("file", data.file);
+        console.log("file", formData.get("file"))
+        formData.append("service", data.service);
+        formData.append("team_id", String(data.team));
+        formData.append("status", "active");
 
         this.spinner.show();
 
         this.spreadSheetService.importSpreadsheet(formData).subscribe({
             next: () => {
-                this.spinner.hide();
-                this.loadRecords();
+                console.log("fui chamado")
+            this.spinner.hide();
+            this.loadRecords();
             },
             error: (e) => {
-                this.spinner.hide();
-                throw e;
-            }
+            this.spinner.hide();
+            throw e;
+            },
         });
     }
+
 }

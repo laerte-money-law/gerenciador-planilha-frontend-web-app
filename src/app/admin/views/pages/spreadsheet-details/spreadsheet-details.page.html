@@ -58,7 +58,11 @@
                     *ngIf="allRecordsInProgress"
                 >
                     <thead>
-                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" role="row" style="font-size: 0.97rem">
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
+                            role="row"
+                            style="font-size: 0.97rem"
+                            
+                        >
                             <th class="w-10px"></th>
                             <th *ngFor="let column of allRecordsInProgress.columns">
                             {{ column }}
@@ -66,7 +70,9 @@
                         </tr>
                     </thead>
                    <tbody class="text-gray-600 fw-semibold">
-                        <tr *ngFor="let row of allRecordsInProgress?.rows">
+                        <tr *ngFor="let row of allRecordsInProgress?.rows"
+                            (dblclick)="openRowDetails(row)"
+                            style="cursor: pointer;">
                             <th class="w-10px"></th>
                             <td *ngFor="let column of allRecordsInProgress.columns">
                             {{ row[column] }}
@@ -168,7 +174,10 @@
                     *ngIf="allRecordsValidated"
                 >
                     <thead>
-                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" role="row" style="font-size: 0.97rem">
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
+                            role="row"
+                            style="font-size: 0.97rem"
+                            >
                             <th class="w-10px"></th>
                             <th *ngFor="let column of allRecordsValidated.columns">
                             {{ column }}
@@ -176,13 +185,18 @@
                         </tr>
                     </thead>
                    <tbody class="text-gray-600 fw-semibold">
-                        <tr *ngFor="let row of allRecordsValidated?.rows">
+                        <tr
+                            *ngFor="let row of allRecordsValidated?.rows"
+                            (dblclick)="openRowDetails(row)"
+                            style="cursor: pointer;"
+                        >
                             <th class="w-10px"></th>
                             <td *ngFor="let column of allRecordsValidated.columns">
                             {{ row[column] }}
                             </td>
                         </tr>
-                        </tbody>
+                    </tbody>
+
                 </table>
                  
             </div>

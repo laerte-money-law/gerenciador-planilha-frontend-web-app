@@ -21,7 +21,7 @@ export class ModalButtonComponent {
 
         modalRef.result.then(
             (result) => {
-                this.saved.emit();
+                this.saved.emit(result);
             },
             (reason) => {
                 console.log("Modal dismissed:", reason);
