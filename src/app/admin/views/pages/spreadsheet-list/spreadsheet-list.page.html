@@ -97,23 +97,27 @@
                     </tr>
                     </thead>
                     <tbody class="text-gray-600 fw-semibold">
-                    <tr *ngFor="let spreadsheet of pagination.getPage()">
+                    <tr *ngFor="let spreadsheet of allRecords">
 
                         <td>
                             <a class="text-gray-600 text-hover-primary mb-1">{{ spreadsheet.name }}</a>
                         </td>
                         <td class="text-nowrap">
-                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.name }}</a>
+                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.service }}</a>
                         </td>
 
                         <td class="text-nowrap">
-                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.id }}</a>
+                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.team.name }}</a>
                         </td>
 
                         <td>{{ formatDate(spreadsheet.createdAt) }}</td>
-
+                        <!-- update to spreadsheet enum-
                         <td>
-                            <app-badge-policy-status status="{{spreadsheet.name}}"></app-badge-policy-status>
+                            <app-badge-policy-status status="{{spreadsheet.status}}"></app-badge-policy-status>
+                        </td>
+                        -->
+                        <td class="text-nowrap">
+                            <a class="text-gray-800 text-hover-primary mb-1">{{ spreadsheet.status }}</a>
                         </td>
                         <td class="text-end text-gray-600">
                                 <span ngbDropdown container="body">
@@ -132,7 +136,8 @@
                                     >
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a [routerLink]="[URLS.PATHS.ADMIN.DEPOSIT_INVOICE.ROOT()]" class="menu-link px-3">
+                                            <a [routerLink]="['detalhes', spreadsheet.id]"
+                                            class="menu-link px-3">
                                                 Acessar
                                             </a>
                                         </div>
@@ -161,7 +166,9 @@
                     id=""
                     class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
                 ></div>
+
                 <!-- Paginação -->
+                 <!--
                 <div id="" class="row" *ngIf="pagination?.getTotalPages() > 1">
                     <div
                         id=""
@@ -202,6 +209,7 @@
                 </div>
             </div>
         </div>
+    -->
         <!--end::Table-->
     </div>
 </div>

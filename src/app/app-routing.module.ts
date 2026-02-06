@@ -8,7 +8,6 @@ import { AdminConsultantListPage } from "./admin/views/pages/admin-consultant-li
 import { AdminInsuranceCompanyListPage } from "./admin/views/pages/admin-insurance-company-list/admin-insurance-company-list.page";
 import { AdminInsuranceCompanySavePage } from "./admin/views/pages/admin-insurance-company-save/admin-insurance-company-save.page";
 import { AdminClientListPage } from "./admin/views/pages/admin-client-list/admin-client-list.page";
-import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin-policy-list.page";
 import { AdminBillingListPage } from "./admin/views/pages/admin-billing-list/admin-billing-list.page";
 import { AuthBasePage } from "./auth/views/pages/auth-base.page";
 import { AuthLoginPage } from "./auth/views/pages/auth-login/auth-login.page";
@@ -31,6 +30,9 @@ import { ClientPolicyDetailsPage } from "./client/views/pages/client-policy-deta
 import { ClientPolicyListPage } from "./client/views/pages/client-policy-list/client-policy-list.page";
 import { ClientAgendaPage } from "./client/views/pages/client-agenda/client-agenda.page";
 import { AdminQuotationRequestPage } from "./admin/views/pages/admin-quotation-request/admin-quotation-request.page";
+import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin-policy-list.page";
+import { SpreadSheetListPage } from "./admin/views/pages/spreadsheet-list/spreadsheet-list.page";
+import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/spreadsheet-details.page";
 
 const routes: Routes = [
     {
@@ -61,6 +63,8 @@ const routes: Routes = [
                 component: AdminClientInsuranceCompaniesRegistrationPage,
             },
             { path: AppUrls.PATHS.ADMIN.POLICY.ROOT(true), component: AdminPolicyListPage },
+            { path: AppUrls.PATHS.ADMIN.SPREADSHEET.ROOT(true), component: SpreadSheetListPage },
+            { path: AppUrls.PATHS.ADMIN.SPREADSHEET.DETAIL(true), component: SpreadSheetDetailsPage },
             { path: AppUrls.PATHS.ADMIN.POLICY.CREATE(true), component: AdminPolicySavePage },
             { path: AppUrls.PATHS.ADMIN.CONSULTANT.ROOT(true), component: AdminConsultantListPage },
             { path: AppUrls.PATHS.ADMIN.CONSULTANT.CREATE(true), component: AdminConsultantSavePage },

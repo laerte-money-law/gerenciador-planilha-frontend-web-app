@@ -4,8 +4,9 @@ import { BaseAppPageView } from "../../../../shared/views/base-app-page.view";
 import { PageRoute } from "../../../../shared/models/page-route";
 import { NgxSpinnerService } from "ngx-spinner";
 import { AdminPolicyService } from "src/app/admin/services/admin-policy.service";
-import {ClientPolicyDto, SpreadsheetDto} from "src/app/client/models/dto/client-policy.dto";
+import {} from "src/app/client/models/dto/client-policy.dto";
 import { Pagination } from "src/app/shared/utils/pagination";
+import { SpreadSheetDto } from "src/app/admin/models/spreadsheet.dto";
 
 @Component({
     selector: "admin-policy-list-page",
@@ -13,9 +14,9 @@ import { Pagination } from "src/app/shared/utils/pagination";
     styles: ``,
 })
 export class AdminPolicyListPage extends BaseAppPageView {
-    allRecords:  SpreadsheetDto[] = [];
-    filteredList: SpreadsheetDto[] = [];
-    pagination: Pagination<SpreadsheetDto> = new Pagination<SpreadsheetDto>([]);
+    allRecords:  any[] = [];
+    filteredList: any[] = [];
+    pagination: Pagination<SpreadSheetDto> = new Pagination<any>([]);
 
     test = null
 

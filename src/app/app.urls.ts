@@ -2,6 +2,7 @@ import { en } from "@fullcalendar/core/internal-common";
 import { environment } from "../environments/environment";
 import { DepositGuideFilter } from "./admin/models/admin-deposit-guide-query-params.dto";
 import { InsurancePolicyFormDto } from "./admin/models/forms/admin-policy-save.form.dto";
+import { SpreadSheetRequestParamsDto } from "./admin/models/spreadsheet.dto";
 
 export class AppUrls {
     public static readonly PATHS = {
@@ -27,6 +28,7 @@ export class AppUrls {
             DEPOSIT_INVOICE: {
                 ROOT: (relative: boolean = false) => (relative ? "guias-deposito" : `${this.PATHS.ADMIN.ROOT(relative)}/guias-deposito`),
             },
+
             CLIENT: {
                 ROOT: (relative: boolean = false) => (relative ? "clientes" : `${this.PATHS.ADMIN.ROOT(relative)}/clientes`),
                 CREATE: (relative: boolean = false) => `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/cadastrar`,
@@ -39,6 +41,10 @@ export class AppUrls {
             POLICY: {
                 ROOT: (relative: boolean = false) => (relative ? "apolices" : `${this.PATHS.ADMIN.ROOT(relative)}/apolices`),
                 CREATE: (relative: boolean = false) => `${this.PATHS.ADMIN.POLICY.ROOT(relative)}/cadastrar`,
+            },
+            SPREADSHEET: {
+                ROOT: (relative: boolean = false) => (relative ? "spreadsheet" : `${this.PATHS.ADMIN.ROOT(relative)}/spreadsheet`),
+                DETAIL: (relative: boolean = false, id?: string) => `${this.PATHS.ADMIN.SPREADSHEET.ROOT(relative)}/detalhes/${id || ":id"}`,
             },
             CONSULTANT: {
                 ROOT: (relative: boolean = false) => (relative ? "consultores" : `${this.PATHS.ADMIN.ROOT(relative)}/consultores`),
@@ -108,6 +114,8 @@ export class AppUrls {
             AGENDA: {
                 ROOT: (relative: boolean = false) => (relative ? "agenda" : `${this.PATHS.CLIENT.ROOT(relative)}/agenda`),
             },
+
+            
         },
     };
 
@@ -148,7 +156,12 @@ export class AppUrls {
             QUOTATION_UPDATE_PREMIUM: (quotationCode: string) => `${environment.apiUrl}/api/admin/quotations/${quotationCode}/premium`,
             ADD_POLICY: () => `${environment.apiUrl}/api/admin/policies`,
             GET_POLICIES: () => `${environment.apiUrl}/api/admin/policies`,
-        },
+            SPREADSHEET_LIST: () =>
+                `${environment.apiUrl}/api/spreadsheets`,
+
+            SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) =>
+                `${environment.apiUrl}/api/spreadsheets/${id}`,
+            },
 
         CLIENT: {
             UPDATE_INSURANCE_COMPANY_REGISTRATIONS: (insuranceCompanyRegistrationCode, clientCode: string) =>

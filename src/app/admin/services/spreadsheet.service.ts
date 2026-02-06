@@ -1,0 +1,43 @@
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { AppUrls } from "src/app/app.urls";
+import { SpreadsheetContext, SpreadSheetDetailsDto, SpreadSheetDto, SpreadSheetRequestParamsDto } from "../models/spreadsheet.dto";
+import { Observable } from "rxjs";
+
+export class PaginatedResponseDto<T> {
+  data: T[];
+  page: number;
+  limit: number;
+  total: number;
+}
+@Injectable({
+    providedIn: "root",
+})
+export class SpreadSheetService {
+    private id: string;
+
+    constructor(private readonly http: HttpClient) {}
+
+    findAllSpreadSheetsPaged(filter?: SpreadSheetRequestParamsDto): Observable<PaginatedResponseDto<SpreadSheetDto>>{
+        return this.http.get<PaginatedResponseDto<SpreadSheetDto>>(AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_LIST(),
+            {params: this.toHttpParams(filter)}
+        );
+    }
+
+    getSpreadSheetPaged(id: string, filter?: SpreadSheetRequestParamsDto): Observable<SpreadSheetDetailsDto>{
+        return this.http.get<SpreadSheetDetailsDto>(AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_LIST_DETAIL(id),
+            {params: this.toHttpParams(filter)}
+        );
+    }
+
+    getQuotationContext(): SpreadsheetContext {
+        return{ id: this.id}
+         
+    }
+
+    private toHttpParams<T extends object>(obj: T): HttpParams {
+        return new HttpParams({ fromObject: obj as any });
+    }
+    
+
+}

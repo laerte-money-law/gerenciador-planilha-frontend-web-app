@@ -1,0 +1,224 @@
+<div class="card">
+
+    <div class="card-header border-0">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <h2>Andamento/Aguardando Validação</h2>
+                </div>
+                <!--end::Card title-->
+    </div>
+    <div class="card-header border-0 pt-6">
+        
+        <!-- Cabeçalho: Campo de pesquisa -->
+        <div class="card-title flex-grow-1">
+            <div class="d-flex align-items-center position-relative my-1 w-100">
+                <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5">
+                    <span class="path1"></span><span class="path2"> </span>
+                </i>
+                <input
+                    #inputSearch
+                    type="text"
+                    class="form-control form-control-solid ps-13"
+                    placeholder="Search"
+                    autocomplete="off"
+                />
+            </div>
+        </div>
+
+        <!-- Cabeçalho: Botões de ação -->
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-light-primary mx-3">
+                    <i class="fa-solid fa-filter fs-2"><span class="path1"></span><span class="path2"></span></i> Filtro avançado
+                </button>
+
+                <a role="button" class="btn btn-primary mx-3">
+                    <i class="fa-solid fa-plus fs-4"></i> Adicionar coluna
+                </a>
+                <a role="button" class="btn btn-primary mx-3" >
+                    <i class="fa-solid fa-minus fs-4"></i> Excluir coluna
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body py-4">
+        <div class="dt-container dt-bootstrap5 dt-empty-footer">
+            <!-- Listagem -->
+             <!--
+            <span class="dt-column-title text-muted fw-bold">
+                Exibindo {{0}} de {{0}} itens
+            </span>
+        -->
+            <div id="" class="table-responsive">
+                <table
+                    class="table table-striped align-middle table-row-dashed fs-7 gy-5 dataTable"
+                    id="kt_table_users"
+                    style="width: 100%"
+                    *ngIf="allRecordsInProgress"
+                >
+                    <thead>
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" role="row" style="font-size: 0.97rem">
+                            <th class="w-10px"></th>
+                            <th *ngFor="let column of allRecordsInProgress.columns">
+                            {{ column }}
+                            </th>
+                        </tr>
+                    </thead>
+                   <tbody class="text-gray-600 fw-semibold">
+                        <tr *ngFor="let row of allRecordsInProgress?.rows">
+                            <th class="w-10px"></th>
+                            <td *ngFor="let column of allRecordsInProgress.columns">
+                            {{ row[column] }}
+                            </td>
+                        </tr>
+                        </tbody>
+                </table>
+                <!-- outra planilha-->
+                 
+            </div>
+
+
+            <!-- Paginação -->
+            <div id="" class="row">
+                <div
+                    id=""
+                    class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
+                ></div>
+
+                <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                    <div class="dt-paging paging_simple_numbers">
+                        <nav *ngIf="inProgressTotalPages > 1">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item" [class.disabled]="inProgressPage === 1">
+                                <button class="page-link" (click)="goToInProgressPage(inProgressPage - 1)">‹</button>
+                                </li>
+
+                                <li
+                                    class="dt-paging-button page-item"
+                                    *ngFor="let page of getVisiblePages(inProgressPage, inProgressTotalPages)"
+                                    [class.active]="inProgressPage === page"
+                                >
+                                    <button class="page-link" (click)="goToInProgressPage(page)">
+                                        {{ page }}
+                                    </button>
+                                </li>
+                                <li class="page-item" [class.disabled]="inProgressPage === inProgressTotalPages">
+                                <button class="page-link" (click)="goToInProgressPage(inProgressPage + 1)">›</button>
+                                </li>
+                            </ul>
+                            </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+    
+    <!-- outra tabela-->
+    
+    <div class="card-header border-0">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <h2>Validado/Concluído</h2>
+                </div>
+                <!--end::Card title-->
+    </div>
+     
+      <div class="card-header border-0 pt-6">
+        <!-- Cabeçalho: Campo de pesquisa -->
+        <div class="card-title flex-grow-1">
+            <div class="d-flex align-items-center position-relative my-1 w-100">
+                <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5">
+                    <span class="path1"></span><span class="path2"> </span>
+                </i>
+                <input
+                    #inputSearch
+                    type="text"
+                    class="form-control form-control-solid ps-13"
+                    placeholder="Search"
+                    autocomplete="off"
+                />
+            </div>
+        </div>
+
+        <!-- Cabeçalho: Botões de ação -->
+        <div class="card-toolbar">
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-light-primary mx-3">
+                    <i class="fa-solid fa-filter fs-2"><span class="path1"></span><span class="path2"></span></i> Filtro avançado
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body py-4">
+        <div class="dt-container dt-bootstrap5 dt-empty-footer">
+            <!-- Listagem -->
+             <!--
+            <span class="dt-column-title text-muted fw-bold">
+                Exibindo {{ 0 }} de {{0}} itens
+            </span>
+        -->
+            <div id="" class="table-responsive">
+                <table
+                    class="table table-striped align-middle table-row-dashed fs-7 gy-5 dataTable"
+                    id="kt_table_users"
+                    style="width: 100%"
+                    *ngIf="allRecordsValidated"
+                >
+                    <thead>
+                        <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0" role="row" style="font-size: 0.97rem">
+                            <th class="w-10px"></th>
+                            <th *ngFor="let column of allRecordsValidated.columns">
+                            {{ column }}
+                            </th>
+                        </tr>
+                    </thead>
+                   <tbody class="text-gray-600 fw-semibold">
+                        <tr *ngFor="let row of allRecordsValidated?.rows">
+                            <th class="w-10px"></th>
+                            <td *ngFor="let column of allRecordsValidated.columns">
+                            {{ row[column] }}
+                            </td>
+                        </tr>
+                        </tbody>
+                </table>
+                 
+            </div>
+                         
+            <div id="" class="row">
+                <div
+                    id=""
+                    class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
+                ></div>
+
+                <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                    <div class="dt-paging paging_simple_numbers">
+                        <nav *ngIf="inProgressTotalPages > 1">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item" [class.disabled]="validatedPage === 1">
+                            <button class="page-link" (click)="goToValidatedPage(validatedPage - 1)">‹</button>
+                            </li>
+
+                            <li
+                            class="page-item"
+                            *ngFor="let _ of [].constructor(validatedTotalPages); let i = index"
+                            [class.active]="validatedPage === i + 1"
+                            >
+                            <button class="page-link" (click)="goToValidatedPage(i + 1)">
+                                {{ i + 1 }}
+                            </button>
+                            </li>
+
+                            <li class="page-item" [class.disabled]="inProgressPage === inProgressTotalPages">
+                            <button class="page-link" (click)="goToValidatedPage(validatedPage + 1)">›</button>
+                            </li>
+                        </ul>
+                        </nav>
+                                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
