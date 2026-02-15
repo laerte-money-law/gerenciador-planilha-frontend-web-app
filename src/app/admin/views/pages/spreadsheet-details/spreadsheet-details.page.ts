@@ -13,6 +13,7 @@ import {
     SpreadSheetRequestParamsDto,
 } from "src/app/admin/models/spreadsheet.dto";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AttachmentService } from "src/app/admin/services/attachment.service";
 
 @Component({
     selector: "spreadsheet-details-page",
@@ -38,6 +39,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         private readonly pageService: PageService,
         private readonly spinner: NgxSpinnerService,
         private readonly spreadsheetService: SpreadSheetService,
+        private readonly attachmentService: AttachmentService,
         private readonly route: ActivatedRoute,
         private modalService: NgbModal
 
@@ -76,7 +78,6 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
             limit: this.inProgressLimit,
             status: "IN PROGRESS",
         };
-
         this.spinner.show();
 
         this.spreadsheetService
@@ -173,12 +174,38 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         return row.id;
     }
     openRowDetails(row: Record<string, any>): void {
-  const modalRef = this.modalService.open(SpreadsheetDetailsModal, {
-    centered: true,
-    scrollable: true,
-  });
+        const modalRef = this.modalService.open(SpreadsheetDetailsModal, {
+            centered: true,
+            scrollable: true,
+        });
 
-  modalRef.componentInstance.data = row;
-}
+        modalRef.componentInstance.data = row;
+        modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
+        modalRef.componentInstance.rowId = row["id"];
 
+        modalRef.result.then((result) => {
+            if (result?.action === 'upload') {
+            this.handleUpload(result.payload, row["id"]);
+            }
+        });
+    }
+
+    private handleUpload(payload: any, rowId: number) {
+        const formData = new FormData();
+        formData.append('file', payload.file);
+        formData.append('spreadsheetMetadataId', this.spreadsheetId);
+        formData.append('rowId', rowId.toString());
+        formData.append('description', payload.description);
+
+        this.attachmentService.uploadAttachment(formData)
+            .subscribe({
+            next: () => {
+                // adc toast
+                console.log('Upload realizado com sucesso');
+            },
+            error: (err) => {
+                console.error('Erro no upload', err);
+            }
+            });
+    }
 }

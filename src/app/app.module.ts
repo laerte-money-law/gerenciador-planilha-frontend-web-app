@@ -89,6 +89,7 @@ import { SpreadSheetListPage } from "./admin/views/pages/spreadsheet-list/spread
 import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/spreadsheet-details.page";
 import { UploadSpreadSheetModal } from "./admin/views/pages/spreadsheet-upload-modal/spreadsheet-upload-modal";
 import { SpreadsheetDetailsModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-details-modal";
+import { UploadAttachmentModal } from "./admin/views/pages/attachment-upload-modal/attachment-upload-modal";
 registerLocaleData(localePt);
 
 dayjs.extend(duration);
@@ -154,6 +155,7 @@ dayjs.locale("pt-br");
         SidebarComponent,
         ModalButtonComponent,
         UploadSpreadSheetModal,
+        UploadAttachmentModal,
         SpreadsheetDetailsModal,
         SaveInsuredFormComponent,
         SaveClientFormComponent,

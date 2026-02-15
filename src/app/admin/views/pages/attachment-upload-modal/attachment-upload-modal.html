@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title">Adicionar arquivo</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="cancel()">
+  </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="modal-body">
+
+    <div class="mb-2">
+      <label class="form-label">Arquivo</label>
+      <input
+        type="file"
+        class="form-control"
+        accept=".csv,.xlsx,.pdf,.png,.jpeg,.jpg"
+        (change)="onFileChange($event)"
+      />
+      <small *ngIf="file" class="text-muted">{{ file.name }}</small>
+    </div>
+    <div class="mb-2">
+      <label class="form-label">Descrição</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="description"
+      />
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid || !file">
+      Enviar
+    </button>
+  </div>
+</form>

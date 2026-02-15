@@ -163,6 +163,10 @@ export class AppUrls {
                 `${environment.apiUrl}/api/spreadsheets/${id}`,
 
             IMPORT: () => `${environment.apiUrl}/api/import`,
+            ATTACHMENT: {
+                LIST:(spreadsheetMetadataId: string, rowId: number) => `${environment.apiUrl}/api/attachments?spreadsheetMetadataId=${spreadsheetMetadataId}&rowId=${rowId}`,
+                UPLOAD: () => `${environment.apiUrl}/api/attachments`
+            },
 
             },
         CLIENT: {
