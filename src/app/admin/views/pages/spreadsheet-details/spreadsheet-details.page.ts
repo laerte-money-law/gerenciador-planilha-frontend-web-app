@@ -190,6 +190,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         });
     }
 
+
     private handleUpload(payload: any, rowId: number) {
         const formData = new FormData();
         formData.append('file', payload.file);
@@ -200,7 +201,6 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         this.attachmentService.uploadAttachment(formData)
             .subscribe({
             next: () => {
-                // adc toast
                 console.log('Upload realizado com sucesso');
             },
             error: (err) => {

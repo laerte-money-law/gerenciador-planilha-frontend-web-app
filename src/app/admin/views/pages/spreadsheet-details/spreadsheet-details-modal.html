@@ -1,42 +1,66 @@
-
-<div class="modal-header">
-  <h4 class="modal-title">Detalhes do Registro</h4>
-  <button
-    type="button"
-    class="btn-close"
-    (click)="activeModal.dismiss()">
-  </button>
-</div>
-
-<div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
-  <div
-    *ngFor="let item of entries"
-    class="d-flex justify-content-between flex-wrap py-3" style="gap: 6px;"
-  >
-    <strong class="text-muted me-2" 
-    style="
-      width: 260px;
-      min-width: 260px;
-      word-break: break-word;
-    ">
-      {{ item[0]+":" }}
-    </strong>
-
-    <span style="
-      flex: 1;
-      word-break: break-word;
-    ">
-      {{ item[1] }}
-    </span>
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title">Detalhes do Registro</h4>
+    <button
+      type="button"
+      class="btn-close"
+      (click)="activeModal.dismiss()">
+    </button>
   </div>
-</div>
 
-<div class="modal-footer">
-  <button class="btn btn-primary" (click)="openUpload()">
-    Adicionar arquivo
-  </button>
+  <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
+    <div
+      *ngFor="let item of entries"
+      class="d-flex justify-content-between flex-wrap py-3" style="gap: 6px;"
+    >
+      <strong class="text-muted me-2" 
+      style="
+        width: 260px;
+        min-width: 260px;
+        word-break: break-word;
+      ">
+        {{ item[0]+":" }}
+      </strong>
 
-  <button class="btn btn-light-primary" (click)="activeModal.dismiss()">
-    Fechar
-  </button>
-</div>
+      <span style="
+        flex: 1;
+        word-break: break-word;
+      ">
+        {{ item[1] }}
+      </span>
+    </div>
+    <hr>
+    <h5 class="mt-2">Anexos</h5>
+
+  <div *ngIf="isLoadingAttachments">Carregando...</div>
+
+  <div *ngIf="!isLoadingAttachments && attachments.length === 0" class="text-muted">
+    Nenhum anexo encontrado.
+  </div>
+
+  <table
+    *ngIf="attachments.length > 0"
+    class="table table-sm table-hover"
+  >
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let attachment of attachments"
+        (dblclick)="openAttachment(attachment.url)"
+        style="cursor: pointer;"
+      >
+        <td>{{ attachment.name }}</td>
+        <td>{{ attachment.description }}</td>
+      </tr>
+    </tbody>
+    </table>
+    <div class="modal-footer">
+      <button class="btn btn-primary" (click)="openUpload()">
+        Adicionar arquivo
+    </button>
+    </div>
