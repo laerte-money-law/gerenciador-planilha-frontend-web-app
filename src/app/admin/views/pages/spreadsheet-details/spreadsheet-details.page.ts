@@ -183,6 +183,10 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         modalRef.componentInstance.data = row;
         modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
         modalRef.componentInstance.rowId = row["id"];
+        modalRef.componentInstance.onUpdateSuccess = () => {
+            this.loadInProgress();
+            this.loadValidated();
+        };
 
         modalRef.result.then((result) => {
             if (result?.action === 'upload') {

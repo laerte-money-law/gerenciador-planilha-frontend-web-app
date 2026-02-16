@@ -14,6 +14,7 @@ export class SpreadsheetDetailsModal {
     @Input() data!: Record<string, any>;
     @Input() spreadsheetId!: string;
     @Input() rowId!: number;
+    @Input() onUpdateSuccess?: () => void;  // callback to refresh parent table
 
     constructor(
         public activeModal: NgbActiveModal,
@@ -172,6 +173,9 @@ export class SpreadsheetDetailsModal {
                 next: (res) => {
                     this.toastr.success("Registro atualizado com sucesso");
                     this.activeModal.close({action: "update", payload: res});
+                    if (this.onUpdateSuccess) {
+                        this.onUpdateSuccess();
+                    }
                 },
                 error: (err) => {
                     console.error("Erro ao atualizar registro", err);
