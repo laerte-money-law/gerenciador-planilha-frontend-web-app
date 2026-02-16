@@ -48,6 +48,13 @@ export class SpreadSheetService {
         );
     }
 
+    updateRow(spreadsheetId: string, rowId: number, body: Record<string, any>): Observable<any> {
+        return this.http.post(
+            AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_UPDATE_ROW(spreadsheetId, rowId),
+            body
+        );
+    }
+
     getQuotationContext(): SpreadsheetContext {
         return{ id: this.id}
 
