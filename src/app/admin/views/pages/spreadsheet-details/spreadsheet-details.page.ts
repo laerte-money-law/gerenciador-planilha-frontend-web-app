@@ -6,6 +6,7 @@ import { PageRoute } from "../../../../shared/models/page-route";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SpreadSheetService } from "src/app/admin/services/spreadsheet.service";
 import { SpreadsheetDetailsModal } from "./spreadsheet-details-modal";
+import { SpreadsheetAddColumnModal } from "./spreadsheet-add-column-modal";
 
 import {
     SpreadSheetDetailsDto,
@@ -190,6 +191,21 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         });
     }
 
+    openAddColumnModal(): void {
+        const modalRef = this.modalService.open(SpreadsheetAddColumnModal, {
+            centered: true,
+            scrollable: true,
+        });
+
+        modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
+
+        modalRef.result.then((result) => {
+            if (result?.success) {
+                this.loadInProgress();
+                this.loadValidated();
+            }
+        });
+    }
 
     private handleUpload(payload: any, rowId: number) {
         const formData = new FormData();

@@ -8,7 +8,7 @@
                 <!--end::Card title-->
     </div>
     <div class="card-header border-0 pt-6">
-        
+
         <!-- Cabeçalho: Campo de pesquisa -->
         <div class="card-title flex-grow-1">
             <div class="d-flex align-items-center position-relative my-1 w-100">
@@ -32,7 +32,7 @@
                     <i class="fa-solid fa-filter fs-2"><span class="path1"></span><span class="path2"></span></i> Filtro avançado
                 </button>
 
-                <a role="button" class="btn btn-primary mx-3">
+                <a role="button" class="btn btn-primary mx-3" (click)="openAddColumnModal()">
                     <i class="fa-solid fa-plus fs-4"></i> Adicionar coluna
                 </a>
                 <a role="button" class="btn btn-primary mx-3" >
@@ -61,7 +61,7 @@
                         <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0"
                             role="row"
                             style="font-size: 0.97rem"
-                            
+
                         >
                             <th class="w-10px"></th>
                             <th *ngFor="let column of allRecordsInProgress.columns">
@@ -81,7 +81,7 @@
                         </tbody>
                 </table>
                 <!-- outra planilha-->
-                 
+
             </div>
 
 
@@ -120,9 +120,9 @@
         </div>
     </div>
     <div>
-    
+
     <!-- outra tabela-->
-    
+
     <div class="card-header border-0">
                 <!--begin::Card title-->
                 <div class="card-title">
@@ -130,7 +130,7 @@
                 </div>
                 <!--end::Card title-->
     </div>
-     
+
       <div class="card-header border-0 pt-6">
         <!-- Cabeçalho: Campo de pesquisa -->
         <div class="card-title flex-grow-1">
@@ -198,9 +198,9 @@
                     </tbody>
 
                 </table>
-                 
+
             </div>
-                         
+
             <div id="" class="row">
                 <div
                     id=""

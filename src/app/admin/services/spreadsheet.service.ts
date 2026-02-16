@@ -34,6 +34,13 @@ export class SpreadSheetService {
         return this.http.post(AppUrls.API_ENDPOINTS.ADMIN.IMPORT(), formData);
     }
 
+    addColumn(spreadsheetId: string, data: { columnName: string }): Observable<any> {
+        return this.http.post(
+            AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_ADD_COLUMN(spreadsheetId),
+            data
+        );
+    }
+
     getQuotationContext(): SpreadsheetContext {
         return{ id: this.id}
 
