@@ -165,6 +165,9 @@ export class AppUrls {
             SPREADSHEET_ADD_COLUMN: (id: string) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}/column`,
 
+            SPREADSHEET_DELETE_COLUMN: (id: string) =>
+                `${environment.apiUrl}/api/spreadsheets/${id}/column`,
+
             IMPORT: () => `${environment.apiUrl}/api/import`,
             ATTACHMENT: {
                 LIST:(spreadsheetMetadataId: string, rowId: number) => `${environment.apiUrl}/api/attachments?spreadsheetMetadataId=${spreadsheetMetadataId}&rowId=${rowId}`,

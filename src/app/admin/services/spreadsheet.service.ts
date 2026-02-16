@@ -41,6 +41,13 @@ export class SpreadSheetService {
         );
     }
 
+    deleteColumn(spreadsheetId: string, data: { columnName: string }): Observable<any> {
+        return this.http.delete(
+            AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_DELETE_COLUMN(spreadsheetId),
+            { body: data }
+        );
+    }
+
     getQuotationContext(): SpreadsheetContext {
         return{ id: this.id}
 
