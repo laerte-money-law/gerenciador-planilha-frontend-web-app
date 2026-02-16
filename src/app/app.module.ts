@@ -90,6 +90,7 @@ import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/
 import { UploadSpreadSheetModal } from "./admin/views/pages/spreadsheet-upload-modal/spreadsheet-upload-modal";
 import { SpreadsheetDetailsModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-details-modal";
 import { SpreadsheetAddColumnModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-add-column-modal";
+import { SpreadsheetDeleteColumnModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-delete-column-modal";
 import { UploadAttachmentModal } from "./admin/views/pages/attachment-upload-modal/attachment-upload-modal";
 registerLocaleData(localePt);
 
@@ -159,6 +160,7 @@ dayjs.locale("pt-br");
         UploadAttachmentModal,
         SpreadsheetDetailsModal,
         SpreadsheetAddColumnModal,
+        SpreadsheetDeleteColumnModal,
         SaveInsuredFormComponent,
         SaveClientFormComponent,
         SaveInsuranceCompanyFormComponent,
