@@ -162,6 +162,9 @@ export class AppUrls {
             SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}`,
 
+            SPREADSHEET_ADD_COLUMN: (id: string) =>
+                `${environment.apiUrl}/api/spreadsheets/${id}/column`,
+
             IMPORT: () => `${environment.apiUrl}/api/import`,
             ATTACHMENT: {
                 LIST:(spreadsheetMetadataId: string, rowId: number) => `${environment.apiUrl}/api/attachments?spreadsheetMetadataId=${spreadsheetMetadataId}&rowId=${rowId}`,
