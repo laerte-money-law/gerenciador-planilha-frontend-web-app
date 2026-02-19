@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title">Excluir Coluna</h4>
+  <button type="button" class="btn-close" (click)="cancel()"></button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="mb-3">
+      <label class="form-label">Nome da Coluna</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="columnName"
+        placeholder="Ex: Status, Data, Valor"
+      />
+      <small *ngIf="form.get('columnName')?.invalid && form.get('columnName')?.touched" class="text-danger">
+        Nome da coluna é obrigatório
+      </small>
+    </div>
+    <div class="alert alert-warning">
+      <strong>Aviso:</strong> Esta ação não pode ser desfeita. Todos os dados nesta coluna serão permanentemente deletados.
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="cancel()" [disabled]="isLoading">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-danger" [disabled]="form.invalid || isLoading">
+      <span *ngIf="isLoading">
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+      </span>
+      Excluir Coluna
+    </button>
+  </div>
+</form>
