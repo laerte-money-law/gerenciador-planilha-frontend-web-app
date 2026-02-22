@@ -97,4 +97,37 @@ export class SpreadSheetListPage extends BaseAppPageView {
         });
     }
 
+    exportSpreadsheet(spreadsheetId: string): void{
+        this.spreadSheetService.exportSpreadsheet(spreadsheetId)
+        .subscribe((response) => {
+
+            const contentDisposition = response.headers.get('content-disposition');
+            const fileName = this.extractFileName(contentDisposition);
+
+            const blob = response.body!;
+            const objectUrl = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = objectUrl;
+            a.download = fileName;
+            a.click();
+
+            URL.revokeObjectURL(objectUrl);
+        });
+    }
+
+    private extractFileName(contentDisposition: string | null): string {
+        if (!contentDisposition) {
+            return 'download.xlsx';
+        }
+
+        const match = contentDisposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/);
+
+        if (match && match[1]) {
+            return decodeURIComponent(match[1].replace(/["']/g, ''));
+        }
+
+        return 'download.xlsx';
+    }
+
 }

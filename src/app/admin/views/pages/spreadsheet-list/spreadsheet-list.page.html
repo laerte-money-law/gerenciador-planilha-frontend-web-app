@@ -150,7 +150,12 @@
                                         <!--end::Menu item-->
 
                                         <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3">Exportar</a>
+                                            <a
+                                            role="button"
+                                            class="menu-link px-3"
+                                            (click)="exportSpreadsheet(spreadsheet.id); $event.preventDefault()">
+                                            Exportar
+                                            </a>                                        
                                         </div>
                                     </div>
                                     <!--end::Menu-->
