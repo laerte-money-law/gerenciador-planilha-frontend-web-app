@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AppUrls } from "src/app/app.urls";
 import { SpreadsheetContext, SpreadSheetDetailsDto, SpreadSheetDto, SpreadSheetRequestParamsDto } from "../models/spreadsheet.dto";
@@ -32,6 +32,15 @@ export class SpreadSheetService {
 
     importSpreadsheet(formData: FormData): Observable<any> {
         return this.http.post(AppUrls.API_ENDPOINTS.ADMIN.IMPORT(), formData);
+    }
+
+    exportSpreadsheet(id: string): Observable<HttpResponse<Blob>> {
+        return this.http.get(
+            AppUrls.API_ENDPOINTS.ADMIN.EXPORT(id),
+            { responseType: 'blob',
+                observe: 'response',
+            }
+        );
     }
 
     addColumn(spreadsheetId: string, data: { columnName: string }): Observable<any> {
