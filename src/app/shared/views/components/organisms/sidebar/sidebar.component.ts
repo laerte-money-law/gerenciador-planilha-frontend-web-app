@@ -20,7 +20,6 @@ export class SidebarComponent extends BaseView {
     }
 
     public get userInfo(): UserInfoDto {
-        console.log(this.authService.userInfo)
         return this.authService.userInfo;
     }
     public get userRoleLabel(): string {

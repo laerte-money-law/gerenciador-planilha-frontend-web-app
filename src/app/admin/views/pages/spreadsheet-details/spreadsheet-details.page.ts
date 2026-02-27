@@ -182,7 +182,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         modalRef.componentInstance.data = row;
         modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
-        modalRef.componentInstance.rowId = row["id"];
+        modalRef.componentInstance.rowId = row["id_ml"];
         modalRef.componentInstance.onUpdateSuccess = () => {
             this.loadInProgress();
             this.loadValidated();
@@ -190,7 +190,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         modalRef.result.then((result) => {
             if (result?.action === 'upload') {
-            this.handleUpload(result.payload, row["id"]);
+            this.handleUpload(result.payload, row["id_ml"]);
             }
         });
     }
