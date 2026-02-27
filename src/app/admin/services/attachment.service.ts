@@ -1,8 +1,8 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AttachmentDto } from "../attachments.dto";
 import { AppUrls } from "src/app/app.urls";
-import { Observable } from "rxjs";
+import { filter, Observable } from "rxjs";
 
 @Injectable({
     providedIn: "root",
@@ -16,6 +16,15 @@ export class AttachmentService {
 
     listAttachments(metadataId: string, rowId: number): Observable<AttachmentDto[]> {
         return this.http.get<AttachmentDto[]>(AppUrls.API_ENDPOINTS.ADMIN.ATTACHMENT.LIST(metadataId, rowId))
+    }
+
+    deleteAttachment(id: string, spreadsheetMetadataId: string): Observable<AttachmentDto[]> {
+        return this.http.delete<AttachmentDto[]>(AppUrls.API_ENDPOINTS.ADMIN.ATTACHMENT.DELETE(id),
+         {params: this.toHttpParams({ spreadsheetMetadataId: spreadsheetMetadataId })})
+    }
+
+    private toHttpParams<T extends object>(obj: T): HttpParams {
+        return new HttpParams({ fromObject: obj as any });
     }
 
 }

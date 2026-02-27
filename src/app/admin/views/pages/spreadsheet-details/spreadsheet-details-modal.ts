@@ -182,6 +182,20 @@ export class SpreadsheetDetailsModal {
             });
     }
 
+    deleteAttachment(attachmentId: string): void {
+        this.attachmentService.deleteAttachment(attachmentId, this.spreadsheetId)
+            .subscribe({
+                next: (attachments) => {
+                    console.log('Anexo deletado com sucesso');
+                    this.loadAttachments();
+                },
+                error: (err) => {
+                    console.error('Erro ao deletar anexo', err);
+                    this.toastr.error("Erro ao deletar anexo");
+                }
+         });
+    }
+
     cancel(): void {
         this.activeModal.dismiss();
     }
