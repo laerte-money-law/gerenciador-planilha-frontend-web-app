@@ -185,4 +185,8 @@ export class SpreadsheetDetailsModal {
     cancel(): void {
         this.activeModal.dismiss();
     }
+
+    isStatusField(key: string): boolean {
+        return key === 'status_ml';
+    }
 }
