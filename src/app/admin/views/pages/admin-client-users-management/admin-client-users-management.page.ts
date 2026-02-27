@@ -242,7 +242,6 @@ export class AdminClientUsersManagementPage extends BaseAppPageFormView {
             this.adminClientService.findByCode(this.clientCode).subscribe({
                 next: (response) => {
                     this.client = response;
-                    console.log("this.client", this.client);
                 },
                 error: (e) => {
                     this.router.navigate([this.URLS.PATHS.ADMIN.CLIENT.ROOT()]);

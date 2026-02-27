@@ -38,7 +38,7 @@ export class SpreadsheetDetailsModal {
 
     // keys to exclude from editing
     private excludedKeys = new Set([
-        "id",
+        "id_ml",
         "created_by",
         "last_updated_by",
         "team_id",
@@ -101,7 +101,6 @@ export class SpreadsheetDetailsModal {
 
     loadAttachments() {
         this.isLoadingAttachments = true;
-
         this.attachmentService
             .listAttachments(this.spreadsheetId, this.rowId)
             .subscribe({
@@ -164,8 +163,6 @@ export class SpreadsheetDetailsModal {
             }
             payload[k] = value;
         });
-        console.log("PAYLOAD: ")
-        console.log(payload);
         // POST any object as body (API accepts arbitrary object shape)
         this.spreadsheetService
             .updateRow(this.spreadsheetId, this.rowId, payload)
@@ -185,7 +182,25 @@ export class SpreadsheetDetailsModal {
             });
     }
 
+    deleteAttachment(attachmentId: string): void {
+        this.attachmentService.deleteAttachment(attachmentId, this.spreadsheetId)
+            .subscribe({
+                next: (attachments) => {
+                    console.log('Anexo deletado com sucesso');
+                    this.loadAttachments();
+                },
+                error: (err) => {
+                    console.error('Erro ao deletar anexo', err);
+                    this.toastr.error("Erro ao deletar anexo");
+                }
+         });
+    }
+
     cancel(): void {
         this.activeModal.dismiss();
+    }
+
+    isStatusField(key: string): boolean {
+        return key === 'status_ml';
     }
 }
