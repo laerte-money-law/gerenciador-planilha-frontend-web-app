@@ -12,13 +12,13 @@
   <div class="modal-body">
 
     <div class="mb-3">
-      <label class="form-label">Team</label>
+      <label class="form-label">Cliente</label>
 
       <select
         class="form-select"
         formControlName="team">
         <option value="" disabled selected>
-          Selecione um team
+          Selecione um cliente
         </option>
 
         <option
@@ -48,6 +48,7 @@
         (change)="onFileChange($event)"
       />
       <small *ngIf="file" class="text-muted">{{ file.name }}</small>
+      <p class="text-gray-600"> *A planilha não deve conter colunas com nomes duplicados</p>
     </div>
 
   </div>
