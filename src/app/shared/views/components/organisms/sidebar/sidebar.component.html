@@ -1,7 +1,13 @@
 <div class="sidebar" [class.collapsed]="isSidebarCollapsed" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
     <nav class="menu">
         <ng-container *ngIf="userInfo && userInfo.role === USER_ROLE.ADMIN">
+
             <a [routerLink]="[URLS.PATHS.ADMIN.CLIENT.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+                <i class="fa-solid fa-building-shield fa-lg"></i>
+                <span class="label" *ngIf="!isSidebarCollapsed">Clientes</span>
+            </a>
+
+            <a routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-users fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Usuários e Times</span>
             </a>
