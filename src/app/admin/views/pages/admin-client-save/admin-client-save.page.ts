@@ -43,9 +43,6 @@ export class AdminClientSavePage extends BaseAppPageFormView implements OnInit {
     @ViewChild("inputContactPhone") inputContactPhone: InputTextComponent;
     @ViewChild("inputContactEmail") inputContactEmail: InputTextComponent;
 
-    @ViewChild("inputSubsidiaryName") inputSubsidiaryName: InputTextComponent;
-    @ViewChild("inputSubsidiaryCnpj") inputSubsidiaryCnpj: InputTextComponent;
-
     editRecord: ClientDto;
     CNPJ_MASK = BaseValidator.MASKS.CNPJ;
     PHONE_MASK = BaseValidator.MASKS.PHONE;
@@ -79,13 +76,6 @@ export class AdminClientSavePage extends BaseAppPageFormView implements OnInit {
             const sanitizedCnpj = value?.replace(/\D/g, "");
             if (CnpjValidator) {
                 this.getInfoFromCNPJAndFillFields(sanitizedCnpj);
-            }
-        });
-
-        this.inputSubsidiaryCnpj.registerOnChange((value: string) => {
-            const sanitizedCnpj = value?.replace(/\D/g, "");
-            if (CnpjValidator) {
-                this.getInfoFromSubsidiaryCNPJAndFillName(sanitizedCnpj);
             }
         });
 
@@ -239,42 +229,4 @@ export class AdminClientSavePage extends BaseAppPageFormView implements OnInit {
         });
     }
 
-    private getInfoFromSubsidiaryCNPJAndFillName(subsidiaryCnpj: string): void {
-        this.receitaService.getDataByCNPJ(subsidiaryCnpj).subscribe({
-            next: (data) => {
-                this.inputSubsidiaryCnpj.changeValue(data.cnpj);
-                this.inputSubsidiaryName.changeValue(data.nome);
-            },
-            error: () => {
-                console.log("Erro ao buscar dados do CNPJ de subsidiária.");
-            },
-        });
-    }
-
-    addSubsidiary(): void {
-        const name = this.inputSubsidiaryName.getValue();
-        const cnpj = this.inputSubsidiaryCnpj.getValue();
-
-        if (!name || !cnpj) {
-            this.notifier.showError("Preencha o nome e o CNPJ da subsidiária.");
-            return;
-        }
-
-        if (!this.cnpjValidator.isValid(cnpj)) {
-            this.notifier.showError("CNPJ inválido.");
-            return;
-        }
-
-        const exists = this.subsidiaries.some((s) => s.cnpj === cnpj);
-        if (exists) {
-            this.notifier.showError("Este CNPJ já está na lista.");
-            return;
-        }
-
-        this.subsidiaries.push({ name, cnpj });
-    }
-
-    removeSubsidiary(index: number): void {
-        this.subsidiaries.splice(index, 1);
-    }
 }

@@ -128,7 +128,7 @@ export class AppUrls {
         },
 
         ADMIN: {
-            CLIENT: (code?: string) => `${environment.apiUrl}/api/admin/clients${code ? `/${code}` : ""}`,
+            CLIENT: (code?: string) => `${environment.apiUrl}/api/clients${code ? `/${code}` : ""}`,
             CLIENT_INSURANCE_COMPANIES: (code?: string, insuranceCompanyRegistrationCode?: string) =>
                 `${environment.apiUrl}/api/admin/clients${code ? `/${code}` : ""}/insurance-companies${insuranceCompanyRegistrationCode ? `/${insuranceCompanyRegistrationCode}` : ""
                 }`,
