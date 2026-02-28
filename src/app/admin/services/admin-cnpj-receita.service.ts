@@ -6,7 +6,7 @@ import { CnpjResponse } from '../models/cnpj-response.dto';
 
 @Injectable({providedIn: 'root'})
 export class ReceitaService {
-    private readonly apiUrl = `${environment.apiUrl}/api/admin/cnpj`;
+    private readonly apiUrl = `${environment.apiUrl}/api/cnpj`;
     constructor(private readonly http: HttpClient) {}
 
     getDataByCNPJ(cnpj: string): Observable<CnpjResponse> {
