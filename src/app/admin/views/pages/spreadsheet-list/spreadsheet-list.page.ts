@@ -74,14 +74,15 @@ export class SpreadSheetListPage extends BaseAppPageView {
 
     uploadModal = UploadSpreadSheetModal;
 
-    handleUpload(data: { team: number; service: string; file: File }) {
+    handleUpload(data: { team: number; client: number, service: string; file: File }) {
+
         const formData = new FormData();
         formData.append("file", data.file);
         console.log("file", formData.get("file"))
         formData.append("service", data.service);
         formData.append("team_id", String(data.team));
         formData.append("status", "active");
-
+        formData.append("clientId", String(data.client));
         this.spinner.show();
 
         this.spreadSheetService.importSpreadsheet(formData).subscribe({

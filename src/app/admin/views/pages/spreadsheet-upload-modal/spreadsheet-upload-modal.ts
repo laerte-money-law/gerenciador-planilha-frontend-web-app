@@ -1,48 +1,84 @@
-import { Component } from "@angular/core";
-import { FormBuilder, Validators } from "@angular/forms";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { TeamDto } from "src/app/admin/models/spreadsheet.dto";
+import {Component, OnInit, ViewChild} from "@angular/core";
+import {FormBuilder, Validators} from "@angular/forms";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {TeamDto} from "src/app/admin/models/spreadsheet.dto";
+import {
+    SelectOption,
+    SelectSingleChoiceComponent
+} from "../../../../shared/views/components/atoms/select-single-choice/select-single-choice.component";
+import {AdminClientService} from "../../../services/admin-client.service";
+import {NotificationService} from "../../../../shared/services/notification.service";
 
 @Component({
-  selector: "app-upload-spreadsheet-modal",
-  templateUrl: "./spreadsheet-upload-modal.html",
+    selector: "app-upload-spreadsheet-modal",
+    templateUrl: "./spreadsheet-upload-modal.html",
 })
-export class UploadSpreadSheetModal {
-  teams: TeamDto[] = [
-    { id: 1, name: 'Client 1' },
-  
-  ];
+export class UploadSpreadSheetModal implements OnInit {
 
-  form = this.fb.group({
-    team: [null as number | null, Validators.required],
-    service: ["", Validators.required],
-  });
+    @ViewChild("selectClient") selectClient: SelectSingleChoiceComponent;
+    @ViewChild("selectService") selectService: SelectSingleChoiceComponent;
 
-  file: File | null = null;
+    clients: SelectOption[] = []
 
-  constructor(
-    private fb: FormBuilder,
-    public activeModal: NgbActiveModal
-  ) {}
+    services: SelectOption[] = [
+        {value: "CONCILIACAO", text: "Conciliação"},
+        {value: "DNI", text: "DNI"},
+        {value: "RECUPERACAO", text: "Recuperação"}]
 
-  onFileChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files?.length) {
-      this.file = input.files[0];
+    file: File | null = null;
+
+    constructor(
+        public activeModal: NgbActiveModal,
+        private readonly clientsService: AdminClientService,
+        private readonly notifier: NotificationService,
+    ) {
     }
-  }
 
-  submit() {
-    if (this.form.invalid || !this.file) return;
+    ngOnInit() {
+        this.loadClientsSelectOptions();
+    }
 
-    this.activeModal.close({
-      team: this.form.value.team,
-      service: this.form.value.service,
-      file: this.file,
-    });
-  }
+    onFileChange(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (input.files?.length) {
+            this.file = input.files[0];
+        }
+    }
 
-  cancel() {
-    this.activeModal.dismiss();
-  }
+    submit() {
+        if (this.isFormValid()) {
+            this.activeModal.close({
+                client: this.selectClient.getSelectedValue(),
+                service: this.selectService.getSelectedValue(),
+                file: this.file,
+            });
+        }
+
+        return;
+    }
+
+    public isFormValid(): boolean {
+        let isValid = true;
+        isValid = this.file && isValid;
+        return isValid;
+    }
+
+    cancel() {
+        this.activeModal.dismiss();
+    }
+
+    private loadClientsSelectOptions() {
+        this.clientsService.findAllClients().subscribe({
+            next: (clients) => {
+                this.clients = clients.map(client => ({
+                    value: client.id.toString(),
+                    text: client.companyName,
+                }));
+            },
+            error: (e) => {
+                this.notifier.showError("Erro ao carregar clientes", "Tente novamente mais tarde");
+                console.error(e);
+            }
+        })
+    }
 }
