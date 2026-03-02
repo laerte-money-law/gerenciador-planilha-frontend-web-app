@@ -148,11 +148,11 @@
                                         ngbDropdownMenu
                                     >
                                         <div class="menu-item px-3">
-                                            <a role="button" class="menu-link px-3" (click)="onEdit(client.code)"> Editar </a>
+                                            <a role="button" class="menu-link px-3" (click)="onEdit(client.id.toString())"> Editar </a>
                                         </div>
 
                                         <div class="menu-item px-3">
-                                            <a role="button" class="menu-link px-3" (click)="onUpdateStatus(client.code)">
+                                            <a role="button" class="menu-link px-3" (click)="onUpdateStatus(client.id.toString())">
                                                 Ativar/Inativar
                                             </a>
                                         </div>
@@ -161,19 +161,9 @@
                                             <a
                                                 role="button"
                                                 class="menu-link px-3"
-                                                [routerLink]="URLS.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT(false, client.code)"
+                                                [routerLink]="URLS.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT(false, client.id.toString())"
                                             >
                                                 Usuários
-                                            </a>
-                                        </div>
-
-                                        <div class="menu-item px-3">
-                                            <a
-                                                role="button"
-                                                class="menu-link px-3"
-                                                (click)="onSeeInsuranceCompaniesClientRegistration(client.code)"
-                                            >
-                                                Ver cadastro nas seguradoras
                                             </a>
                                         </div>
 

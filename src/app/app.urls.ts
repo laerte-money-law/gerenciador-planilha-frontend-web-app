@@ -140,7 +140,7 @@ export class AppUrls {
             INSURANCE_COMPANIES_CERTIFICATE: (code: string, type: "admin" | "susep") =>
                 `${environment.apiUrl}/api/admin/insurance-companies/${code}/certificates/${type}`,
             CLIENT_USERS_MANAGEMENT: (code: string, userCode?: string) =>
-                `${environment.apiUrl}/api/admin/clients/${code}/users${userCode ? `/${userCode}` : ""}`,
+                `${environment.apiUrl}/api/clients/${code}/users${userCode ? `/${userCode}` : ""}`,
             CLIENT_USER_STATUS: (code: string, userCode: string) =>
                 `${environment.apiUrl}/api/admin/clients/${code}/users/${userCode}/status`,
             DASHBOARD: (code: string, userCode: string) => `${environment.apiUrl}/api/admin/dashboard${code ? `/${code}` : ""}`,
