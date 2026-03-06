@@ -33,8 +33,8 @@ export class AppUrls {
                 ROOT: (relative: boolean = false) => (relative ? "clientes" : `${this.PATHS.ADMIN.ROOT(relative)}/clientes`),
                 CREATE: (relative: boolean = false) => `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/cadastrar`,
                 EDIT: (relative: boolean = false, code?: string) => `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/editar/${code || ":code"}`,
-                USERS_MANAGEMENT: (relative: boolean = false, code?: string) =>
-                    `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/${code || ":code"}/usuarios`,
+                USERS_MANAGEMENT: (relative: boolean = false) =>
+                    `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/usuarios`,
                 INSURANCE_COMPANIES_REGISTRATION: (relative: boolean = false, code?: string) =>
                     `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/${code || ":code"}/seguradoras/cadastro`,
             },
@@ -176,8 +176,11 @@ export class AppUrls {
                 DELETE: (id: string) => `${environment.apiUrl}/api/attachments/${id}`,
             },
             EXPORT: (id: string) => `${environment.apiUrl}/api/spreadsheets/${id}/export`,
-
-            },
+            CREATE_USER: () => `${environment.apiUrl}/api/users`,
+            TEAMS_LIST: () => `${environment.apiUrl}/api/teams`,
+            USERS_LIST: () => `${environment.apiUrl}/api/users`,
+            DELETE_USER: (userId: number) => `${environment.apiUrl}/api/users/${userId}`,
+        },
         CLIENT: {
             UPDATE_INSURANCE_COMPANY_REGISTRATIONS: (insuranceCompanyRegistrationCode, clientCode: string) =>
                 `${environment.apiUrl}/api/client/insurance-companies/${insuranceCompanyRegistrationCode}?clientCode=${clientCode}`,

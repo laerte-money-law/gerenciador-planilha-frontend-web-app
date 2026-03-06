@@ -92,6 +92,7 @@ import { SpreadsheetDetailsModal } from "./admin/views/pages/spreadsheet-details
 import { SpreadsheetAddColumnModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-add-column-modal";
 import { SpreadsheetDeleteColumnModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-delete-column-modal";
 import { UploadAttachmentModal } from "./admin/views/pages/attachment-upload-modal/attachment-upload-modal";
+import { AdminUsersManagementPage } from "./admin/views/pages/user-save/admin-user-management";
 registerLocaleData(localePt);
 
 dayjs.extend(duration);
@@ -166,6 +167,7 @@ dayjs.locale("pt-br");
         SaveInsuranceCompanyFormComponent,
         UpdatePremiumFormComponent,
         CompactNumberPipe,
+        AdminUsersManagementPage
     ],
     imports: [
         BrowserAnimationsModule,

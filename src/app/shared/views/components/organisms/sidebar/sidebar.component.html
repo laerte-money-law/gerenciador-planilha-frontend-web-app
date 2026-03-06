@@ -7,7 +7,7 @@
                 <span class="label" *ngIf="!isSidebarCollapsed">Clientes</span>
             </a>
 
-            <a routerLinkActive="active" class="menu-item mt-3">
+            <a [routerLink]="[URLS.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT()]" routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-users fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Usuários e Times</span>
             </a>
