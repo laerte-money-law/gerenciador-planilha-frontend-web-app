@@ -32,9 +32,13 @@ export class UsersService {
 
   deleteUser(userId: number): Observable<void> {
 
-  return this.http.delete<void>(
-      AppUrls.API_ENDPOINTS.ADMIN.DELETE_USER(userId)
-    )
+    return this.http.delete<void>(
+        AppUrls.API_ENDPOINTS.ADMIN.DELETE_USER(userId)
+      )
+  }
+  
+  updateUser(id: number, payload: any){
+    return this.http.patch(AppUrls.API_ENDPOINTS.ADMIN.UPDATE_USER(id), payload);
   }
 
   private toHttpParams<T extends object>(obj: T): HttpParams {

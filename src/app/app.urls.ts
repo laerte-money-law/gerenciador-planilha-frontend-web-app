@@ -180,6 +180,7 @@ export class AppUrls {
             TEAMS_LIST: () => `${environment.apiUrl}/api/teams`,
             USERS_LIST: () => `${environment.apiUrl}/api/users`,
             DELETE_USER: (userId: number) => `${environment.apiUrl}/api/users/${userId}`,
+            UPDATE_USER: (userId: number) => `${environment.apiUrl}/api/users/${userId}`,
         },
         CLIENT: {
             UPDATE_INSURANCE_COMPANY_REGISTRATIONS: (insuranceCompanyRegistrationCode, clientCode: string) =>
