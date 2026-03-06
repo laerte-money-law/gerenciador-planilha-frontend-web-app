@@ -33,6 +33,7 @@ import { AdminQuotationRequestPage } from "./admin/views/pages/admin-quotation-r
 import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin-policy-list.page";
 import { SpreadSheetListPage } from "./admin/views/pages/spreadsheet-list/spreadsheet-list.page";
 import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/spreadsheet-details.page";
+import { AdminUsersManagementPage } from "./admin/views/pages/user-save/admin-user-management";
 
 const routes: Routes = [
     {
@@ -53,7 +54,7 @@ const routes: Routes = [
             { path: AppUrls.PATHS.ADMIN.CLIENT.ROOT(true), component: AdminClientListPage },
             { path: AppUrls.PATHS.ADMIN.CLIENT.CREATE(true), component: AdminClientSavePage },
             { path: AppUrls.PATHS.ADMIN.CLIENT.EDIT(true), component: AdminClientSavePage },
-            { path: AppUrls.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT(true), component: AdminClientUsersManagementPage },
+            { path: AppUrls.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT(true), component: AdminUsersManagementPage },
             {
                 path: AppUrls.PATHS.ADMIN.CLIENT.INSURANCE_COMPANIES_REGISTRATION(true),
                 component: AdminClientInsuranceCompaniesRegistrationPage,

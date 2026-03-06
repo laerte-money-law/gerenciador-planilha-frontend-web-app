@@ -1,0 +1,151 @@
+<div class="modal-header">
+
+  <h4 class="modal-title">
+    {{ isEditMode ? "Editar usuário" : "Criar usuário" }}
+  </h4>
+
+  <button
+    type="button"
+    class="btn-close"
+    (click)="close()">
+  </button>
+
+</div>
+
+<div class="modal-body">
+
+  <div class="row">
+
+    <div class="col-md-6 mb-4">
+
+      <label class="form-label">Nome</label>
+
+      <input
+        class="form-control"
+        [(ngModel)]="form.name"
+      />
+
+    </div>
+
+    <div class="col-md-6 mb-4">
+
+      <label class="form-label">Email</label>
+
+      <input
+        class="form-control"
+        [(ngModel)]="form.email"
+      />
+
+    </div>
+
+    <div class="col-md-6 mb-4">
+
+      <label class="form-label">Time</label>
+
+      <div class="d-flex gap-2">
+
+        <select
+          class="form-select"
+          [(ngModel)]="form.teamId">
+
+          <option *ngFor="let team of teams" [value]="team.value">
+            {{team.text}}
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-6 mb-4">
+
+      <label class="form-label">Perfil</label>
+
+      <select
+        class="form-select"
+        [(ngModel)]="form.role">
+
+        <option *ngFor="let role of roles" [value]="role.value">
+          {{role.text}}
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="col-md-6 mb-4" *ngIf="!isEditMode">
+      <label class="form-label">Senha</label>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="form.fields.password.value"
+        />
+        <span class="input-group-text" role="button" (click)="onGeneratePassword()">Gerar senha</span>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal-footer">
+
+  <button
+    class="btn btn-light"
+    (click)="close()">
+    Cancelar
+  </button>
+
+  <button
+    class="btn btn-primary"
+    (click)="save()">
+    Salvar
+  </button>
+
+</div>
+
+<ng-template #createTeamModal let-modal>
+
+  <div class="modal-header">
+    <h4 class="modal-title">Criar Time</h4>
+
+    <button
+      type="button"
+      class="btn-close"
+      (click)="modal.dismiss()">
+    </button>
+  </div>
+
+  <div class="modal-body">
+
+    <label class="form-label">Nome</label>
+
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="newTeamName"
+      placeholder="Ex: Financeiro"
+    />
+
+  </div>
+
+  <div class="modal-footer">
+
+    <button
+      class="btn btn-light"
+      (click)="modal.dismiss()">
+      Cancelar
+    </button>
+
+    <button
+      class="btn btn-primary"
+      (click)="createTeam(modal)">
+      Salvar
+    </button>
+
+  </div>
+
+</ng-template>
