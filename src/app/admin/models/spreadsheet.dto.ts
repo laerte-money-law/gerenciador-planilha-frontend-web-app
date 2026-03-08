@@ -5,6 +5,7 @@ export class SpreadSheetDto {
     team: TeamDto;
     service: string;
     status: string;
+    client: ClientDto;
     createdAt: Date;
     teamName: String
 }
@@ -19,6 +20,11 @@ export class SpreadSheetRequestParamsDto {
 export class TeamDto{
     id: number;
     name: string;
+}
+
+export class ClientDto {
+    id: number;
+    companyName: string;
 }
 
 export class SpreadSheetDetailsDto {
