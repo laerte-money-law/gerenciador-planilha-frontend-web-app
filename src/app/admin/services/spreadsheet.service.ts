@@ -43,6 +43,10 @@ export class SpreadSheetService {
         );
     }
 
+    deleteSpreadsheet(id: string): Observable<any> {
+        return this.http.delete(AppUrls.API_ENDPOINTS.ADMIN.DELETE_SPREADSHEET(id));
+    }
+
     addColumn(spreadsheetId: string, data: { columnName: string }): Observable<any> {
         return this.http.post(
             AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_ADD_COLUMN(spreadsheetId),

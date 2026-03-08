@@ -8,6 +8,7 @@ import { SpreadSheetService } from "src/app/admin/services/spreadsheet.service";
 import { PaginationSpreadsheet } from "src/app/shared/utils/pagination-spreadsheet";
 import { Router } from "@angular/router";
 import { UploadSpreadSheetModal } from "../spreadsheet-upload-modal/spreadsheet-upload-modal";
+import {NotificationService} from "../../../../shared/services/notification.service";
 
 @Component({
     selector: "spreadsheet-list-page",
@@ -32,6 +33,7 @@ export class SpreadSheetListPage extends BaseAppPageView {
         private readonly spinner: NgxSpinnerService,
         private readonly pageService: PageService,
         private readonly spreadSheetService: SpreadSheetService,
+        private readonly notificationService: NotificationService,
         private readonly router: Router
 
     ) {
@@ -115,6 +117,18 @@ export class SpreadSheetListPage extends BaseAppPageView {
 
             URL.revokeObjectURL(objectUrl);
         });
+    }
+
+    deleteSpreadsheet(spreadsheetId: string): void {
+        this.spreadSheetService.deleteSpreadsheet(spreadsheetId).subscribe({
+            next: () => {
+                this.loadRecords();
+                this.notificationService.showSuccess("Planilha deletada com sucesso!");
+            },
+            error: (e) => {
+                this.notificationService.showError("Erro ao deletar planilha.");
+            }
+        })
     }
 
     private extractFileName(contentDisposition: string | null): string {

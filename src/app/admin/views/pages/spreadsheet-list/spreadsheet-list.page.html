@@ -137,7 +137,7 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <a [routerLink]="['detalhes', spreadsheet.id]"
-                                            class="menu-link px-3">
+                                               class="menu-link px-3">
                                                 Acessar
                                             </a>
                                         </div>
@@ -151,12 +151,22 @@
 
                                         <div class="menu-item px-3">
                                             <a
-                                            role="button"
-                                            class="menu-link px-3"
-                                            (click)="exportSpreadsheet(spreadsheet.id); $event.preventDefault()">
+                                                role="button"
+                                                class="menu-link px-3"
+                                                (click)="exportSpreadsheet(spreadsheet.id); $event.preventDefault()">
                                             Exportar
                                             </a>
                                         </div>
+
+                                        <div class="menu-item px-3">
+                                            <a
+                                                role="button"
+                                                class="menu-link px-3"
+                                                (click)="deleteSpreadsheet(spreadsheet.id); $event.preventDefault()">
+                                            Remover
+                                            </a>
+                                        </div>
+
                                     </div>
                                     <!--end::Menu-->
                                 </span>
@@ -173,48 +183,48 @@
                 ></div>
 
                 <!-- Paginação -->
-                 <!--
-                <div id="" class="row" *ngIf="pagination?.getTotalPages() > 1">
-                    <div
-                        id=""
-                        class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
-                    ></div>
-                    <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-                        <div class="dt-paging paging_simple_numbers">
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="dt-paging-button page-item" [class]="pagination?.isFirstPage() ? 'disabled' : ''">
-                                        <button
-                                            class="page-link previous"
-                                            role="link"
-                                            type="button"
-                                            (click)="pagination?.goToPreviousPage()"
-                                        >
-                                            <i class="previous"></i>
-                                        </button>
-                                    </li>
-                                    <li
-                                        class="dt-paging-button page-item"
-                                        *ngFor="let pageNumber of pagination?.getTotalPagesAsArray()"
-                                        [ngClass]="{ active: pageNumber === pagination?.getCurrentPage() }"
-                                    >
-                                        <button class="page-link" role="link" type="button" (click)="pagination?.goToPage(pageNumber)">
-                                            {{ pageNumber }}
-                                        </button>
-                                    </li>
-                                    <li class="dt-paging-button page-item" [class]="pagination?.isLastPage() ? 'disabled' : ''">
-                                        <button class="page-link next" role="link" type="button" (click)="pagination?.goToNextPage()">
-                                            <i class="next"></i>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
+                <!--
+               <div id="" class="row" *ngIf="pagination?.getTotalPages() > 1">
+                   <div
+                       id=""
+                       class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar"
+                   ></div>
+                   <div id="" class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
+                       <div class="dt-paging paging_simple_numbers">
+                           <nav>
+                               <ul class="pagination">
+                                   <li class="dt-paging-button page-item" [class]="pagination?.isFirstPage() ? 'disabled' : ''">
+                                       <button
+                                           class="page-link previous"
+                                           role="link"
+                                           type="button"
+                                           (click)="pagination?.goToPreviousPage()"
+                                       >
+                                           <i class="previous"></i>
+                                       </button>
+                                   </li>
+                                   <li
+                                       class="dt-paging-button page-item"
+                                       *ngFor="let pageNumber of pagination?.getTotalPagesAsArray()"
+                                       [ngClass]="{ active: pageNumber === pagination?.getCurrentPage() }"
+                                   >
+                                       <button class="page-link" role="link" type="button" (click)="pagination?.goToPage(pageNumber)">
+                                           {{ pageNumber }}
+                                       </button>
+                                   </li>
+                                   <li class="dt-paging-button page-item" [class]="pagination?.isLastPage() ? 'disabled' : ''">
+                                       <button class="page-link next" role="link" type="button" (click)="pagination?.goToNextPage()">
+                                           <i class="next"></i>
+                                       </button>
+                                   </li>
+                               </ul>
+                           </nav>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   -->
+                <!--end::Table-->
             </div>
         </div>
-    -->
-        <!--end::Table-->
-    </div>
-</div>

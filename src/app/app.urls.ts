@@ -162,6 +162,8 @@ export class AppUrls {
             SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}`,
 
+            DELETE_SPREADSHEET: (id: string) =>
+                `${environment.apiUrl}/api/spreadsheets/${id}`,
             SPREADSHEET_ADD_COLUMN: (id: string) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}/column`,
 
