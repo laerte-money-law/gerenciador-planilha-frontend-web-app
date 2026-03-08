@@ -158,10 +158,10 @@ export class AppUrls {
             GET_POLICIES: () => `${environment.apiUrl}/api/admin/policies`,
             SPREADSHEET_LIST: () =>
                 `${environment.apiUrl}/api/spreadsheets`,
-
             SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}`,
-
+            SPREADSHEET_COLUMNS: (spreadsheetId: string) =>
+                `${environment.apiUrl}/api/spreadsheets/${spreadsheetId}/columns`,
             DELETE_SPREADSHEET: (id: string) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}`,
             SPREADSHEET_ADD_COLUMN: (id: string) =>

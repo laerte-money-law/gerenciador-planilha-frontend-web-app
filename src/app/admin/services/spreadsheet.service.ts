@@ -61,6 +61,10 @@ export class SpreadSheetService {
         );
     }
 
+    getSpreadsheetColumns(spreadsheetId: string): Observable<any> {
+        return this.http.get(AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_COLUMNS(spreadsheetId),)
+    }
+
     updateRow(spreadsheetId: string, rowId: number, body: Record<string, any>): Observable<any> {
         return this.http.post(
             AppUrls.API_ENDPOINTS.ADMIN.SPREADSHEET_UPDATE_ROW(spreadsheetId, rowId),
@@ -76,6 +80,4 @@ export class SpreadSheetService {
     private toHttpParams<T extends object>(obj: T): HttpParams {
         return new HttpParams({ fromObject: obj as any });
     }
-
-
 }
