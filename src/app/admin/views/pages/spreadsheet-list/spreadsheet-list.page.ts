@@ -9,6 +9,7 @@ import { PaginationSpreadsheet } from "src/app/shared/utils/pagination-spreadshe
 import { Router } from "@angular/router";
 import { UploadSpreadSheetModal } from "../spreadsheet-upload-modal/spreadsheet-upload-modal";
 import {NotificationService} from "../../../../shared/services/notification.service";
+import {ConfirmationService} from "../../../../shared/services/confirmation.service";
 
 @Component({
     selector: "spreadsheet-list-page",
@@ -34,6 +35,7 @@ export class SpreadSheetListPage extends BaseAppPageView {
         private readonly pageService: PageService,
         private readonly spreadSheetService: SpreadSheetService,
         private readonly notificationService: NotificationService,
+        private readonly confirmationService: ConfirmationService,
         private readonly router: Router
 
     ) {
@@ -119,7 +121,14 @@ export class SpreadSheetListPage extends BaseAppPageView {
         });
     }
 
-    deleteSpreadsheet(spreadsheetId: string): void {
+    async deleteSpreadsheet(spreadsheetId: string) {
+        const isConfirmed = await this.confirmationService.confirm({
+            title: "Remover planilha",
+            message: "Esta ação irá remover permanentemente a planilha."
+        });
+
+        if (isConfirmed == false) return;
+
         this.spreadSheetService.deleteSpreadsheet(spreadsheetId).subscribe({
             next: () => {
                 this.loadRecords();
