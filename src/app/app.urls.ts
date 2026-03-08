@@ -171,7 +171,7 @@ export class AppUrls {
                 `${environment.apiUrl}/api/spreadsheets/${id}/column`,
             SPREADSHEET_UPDATE_ROW: (id: string, rowId: number) =>
                 `${environment.apiUrl}/api/spreadsheets/${id}/${rowId}`,
-            IMPORT: () => `${environment.apiUrl}/api/import`,
+            IMPORT: () => `${environment.apiUrl}/api/spreadsheets/import`,
             ATTACHMENT: {
                 LIST:(spreadsheetMetadataId: string, rowId: number) => `${environment.apiUrl}/api/attachments?spreadsheetMetadataId=${spreadsheetMetadataId}&rowId=${rowId}`,
                 UPLOAD: () => `${environment.apiUrl}/api/attachments`,
