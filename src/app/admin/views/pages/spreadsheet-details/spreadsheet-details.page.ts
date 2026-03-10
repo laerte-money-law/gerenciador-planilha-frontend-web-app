@@ -77,7 +77,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         const params: SpreadSheetRequestParamsDto = {
             page: this.inProgressPage,
             limit: this.inProgressLimit,
-            status: "ANDAMENTO",
+            status: "EM_ANALISE",
         };
         this.spinner.show();
 
