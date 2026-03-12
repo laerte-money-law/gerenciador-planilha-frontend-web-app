@@ -15,8 +15,10 @@
                     [(ngModel)]="editableData[entry[0]]"
                     [name]="'field_status_' + i">
 
-                <option value="VALIDADO">VALIDADO</option>
-                <option value="ANDAMENTO">ANDAMENTO</option>
+                <option *ngFor="let status of rowStatusOptions"
+                        [value]="status">
+                  {{ status }}
+                </option>
 
             </select>
 
@@ -47,6 +49,7 @@
       <!-- Bloco da esquerda -->
       <div>
         <div class="fw-bold" (click)="openAttachment(attachment.url)">{{ attachment.name }}</div>
+        <div class="text-muted small" (click)="openAttachment(attachment.url)">{{ attachment.fileType }}</div>
         <div class="text-muted small" (click)="openAttachment(attachment.url)">{{ attachment.description }}</div>
       </div>
 

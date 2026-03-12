@@ -175,26 +175,25 @@ export class AdminUserModalComponent implements OnInit {
   });
 
 }
-createTeam(modal): void {
+  createTeam(modal): void {
 
-  if (!this.newTeamName.trim()) return;
+    if (!this.newTeamName.trim()) return;
 
-  this.teamService.createTeam(this.newTeamName)
-    .subscribe(team => {
+    this.teamService.createTeam(this.newTeamName)
+      .subscribe(team => {
 
-      this.teams.push({
-        text: team.name,
-        value: String(team.id)
+        this.teams.push({
+          text: team.name,
+          value: String(team.id)
+        });
+
+        this.form.teamId = String(team.id);
+
+        this.newTeamName = "";
+
+        modal.close();
+
       });
-
-      this.form.teamId = String(team.id);
-
-      this.newTeamName = "";
-
-      modal.close();
-
-    });
-
-}
+  }
 
 }

@@ -1,15 +1,19 @@
 import { Component } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { ATTACHMENT_TYPE } from "src/app/shared/models/enums/upload-attachament.enum";
 
 @Component({
     selector: "app-upload-attachment-modal",
     templateUrl: "./attachment-upload-modal.html",
 })
 export class UploadAttachmentModal {
+
+    attachmentTypes = Object.values(ATTACHMENT_TYPE);
      
     form = this.fb.group({
         description: ["", Validators.required],
+        type: [null, Validators.required]
     });
 
     
@@ -53,10 +57,10 @@ export class UploadAttachmentModal {
         if (this.form.invalid || !this.file) return;
 
         this.activeModal.close({
-            description: this.form.value.description,
+            description: this.form.get('description')?.value,
+            type: this.form.get('type')?.value,
             file: this.file,
         });
-
     }
 
    cancel() {

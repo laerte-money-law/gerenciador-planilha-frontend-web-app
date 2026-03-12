@@ -76,6 +76,4 @@ export class SpreadSheetService {
     private toHttpParams<T extends object>(obj: T): HttpParams {
         return new HttpParams({ fromObject: obj as any });
     }
-
-
 }

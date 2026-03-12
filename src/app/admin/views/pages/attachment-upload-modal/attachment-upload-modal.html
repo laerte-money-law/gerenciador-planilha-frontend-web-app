@@ -22,6 +22,20 @@
       <small *ngIf="file" class="text-muted">{{ file.name }}</small>
     </div>
     <div class="mb-2">
+     <label class="form-label">Tipo do anexo</label>
+
+      <select class="form-select" formControlName="type">
+
+      <option [ngValue]="null">Selecione</option>
+
+      <option *ngFor="let type of attachmentTypes"
+              [ngValue]="type">
+        {{ type }}
+      </option>
+
+    </select>
+    </div>
+    <div class="mb-2">
       <label class="form-label">Descrição</label>
       <input
         type="text"
@@ -29,7 +43,7 @@
         formControlName="description"
       />
     </div>
-
+    {{ form.invalid }} | {{ file }}
   </div>
 
   <div class="modal-footer">
