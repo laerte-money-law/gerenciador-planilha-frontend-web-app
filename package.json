@@ -1,6 +1,6 @@
 {
     "name": "money-law-insurance-frontend-web-app",
-    "version": "2025.1.128",
+    "version": "2025.1.129",
     "scripts": {
         "ng": "ng",
         "start": "ng serve ",
