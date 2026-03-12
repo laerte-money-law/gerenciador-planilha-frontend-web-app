@@ -5,6 +5,8 @@ import {AttachmentService} from "src/app/admin/services/attachment.service";
 import {AttachmentDto} from "src/app/admin/attachments.dto";
 import {SpreadSheetService} from "src/app/admin/services/spreadsheet.service";
 import {ToastrService} from "ngx-toastr";
+import { ROW_STATUS } from "src/app/shared/models/enums/row-status.enum";
+import { ATTACHMENT_TYPE } from "src/app/shared/models/enums/upload-attachament.enum";
 
 @Component({
     selector: "app-spreadsheet-details-modal",
@@ -28,6 +30,7 @@ export class SpreadsheetDetailsModal {
     attachments: AttachmentDto[] = [];
     isLoadingAttachments = false;
     isSaving = false;
+    rowStatusOptions = Object.values(ROW_STATUS);
 
     // editable copy of the row data
     editableData: Record<string, any> = {};
@@ -107,6 +110,7 @@ export class SpreadsheetDetailsModal {
                 next: (res) => {
                     this.attachments = res;
                     this.isLoadingAttachments = false;
+                    console.log('Attachments loaded', res);
                 },
                 error: () => {
                     this.isLoadingAttachments = false;
@@ -132,6 +136,7 @@ export class SpreadsheetDetailsModal {
         formData.append("spreadsheetMetadataId", this.spreadsheetId);
         formData.append("rowId", this.rowId.toString());
         formData.append("description", payload.description);
+        formData.append("fileType", payload.type);
 
         this.attachmentService.uploadAttachment(formData).subscribe(() => {
             this.loadAttachments();

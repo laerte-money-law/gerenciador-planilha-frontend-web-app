@@ -8,6 +8,7 @@ import {
 } from "../../../../shared/views/components/atoms/select-single-choice/select-single-choice.component";
 import {AdminClientService} from "../../../services/admin-client.service";
 import {NotificationService} from "../../../../shared/services/notification.service";
+import { TeamService } from "src/app/admin/services/team.service";
 
 @Component({
     selector: "app-upload-spreadsheet-modal",
@@ -17,8 +18,10 @@ export class UploadSpreadSheetModal implements OnInit {
 
     @ViewChild("selectClient") selectClient: SelectSingleChoiceComponent;
     @ViewChild("selectService") selectService: SelectSingleChoiceComponent;
+    @ViewChild("selectTeam") selectTeam: SelectSingleChoiceComponent;
 
     clients: SelectOption[] = []
+    teams: SelectOption[] = []
 
     services: SelectOption[] = [
         {value: "CONCILIACAO", text: "Conciliação"},
@@ -31,11 +34,13 @@ export class UploadSpreadSheetModal implements OnInit {
         public activeModal: NgbActiveModal,
         private readonly clientsService: AdminClientService,
         private readonly notifier: NotificationService,
+        private readonly teamService: TeamService,
     ) {
     }
 
     ngOnInit() {
         this.loadClientsSelectOptions();
+        this.loadTeamsSelectOptions();
     }
 
     onFileChange(event: Event) {
@@ -51,6 +56,7 @@ export class UploadSpreadSheetModal implements OnInit {
                 client: this.selectClient.getSelectedValue(),
                 service: this.selectService.getSelectedValue(),
                 file: this.file,
+                team: this.selectTeam.getSelectedValue(),
             });
         }
 
@@ -81,4 +87,19 @@ export class UploadSpreadSheetModal implements OnInit {
             }
         })
     }
+
+    private loadTeamsSelectOptions() {
+        this.teamService.findAllTeams().subscribe({
+            next: (teams: TeamDto[]) => { 
+                this.teams = teams.map(team => ({
+                    value: team.id.toString(),
+                    text: team.name,
+                }));
+            },
+            error: (e) => {
+                this.notifier.showError("Erro ao carregar times", "Tente novamente mais tarde");
+                console.error(e);
+            }
+        });
+    };
 }

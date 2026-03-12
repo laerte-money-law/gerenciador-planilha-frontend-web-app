@@ -84,14 +84,13 @@ export class SpreadSheetListPage extends BaseAppPageView {
         formData.append("file", data.file);
         console.log("file", formData.get("file"))
         formData.append("service", data.service);
-        formData.append("team_id", String(data.team));
+        formData.append("teamId", String(data.team));
         formData.append("status", "active");
         formData.append("clientId", String(data.client));
         this.spinner.show();
 
         this.spreadSheetService.importSpreadsheet(formData).subscribe({
             next: () => {
-                console.log("fui chamado")
             this.spinner.hide();
             this.loadRecords();
             },
