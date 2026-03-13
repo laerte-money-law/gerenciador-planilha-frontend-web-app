@@ -1,10 +1,10 @@
-import {Component, Input} from "@angular/core";
-import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {UploadAttachmentModal} from "../attachment-upload-modal/attachment-upload-modal";
-import {AttachmentService} from "src/app/admin/services/attachment.service";
-import {AttachmentDto} from "src/app/admin/attachments.dto";
-import {SpreadSheetService} from "src/app/admin/services/spreadsheet.service";
-import {ToastrService} from "ngx-toastr";
+import { Component, Input } from "@angular/core";
+import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { UploadAttachmentModal } from "../attachment-upload-modal/attachment-upload-modal";
+import { AttachmentService } from "src/app/admin/services/attachment.service";
+import { AttachmentDto } from "src/app/admin/attachments.dto";
+import { SpreadSheetService } from "src/app/admin/services/spreadsheet.service";
+import { ToastrService } from "ngx-toastr";
 import { ROW_STATUS } from "src/app/shared/models/enums/row-status.enum";
 import { ATTACHMENT_TYPE } from "src/app/shared/models/enums/upload-attachament.enum";
 
@@ -174,7 +174,7 @@ export class SpreadsheetDetailsModal {
             .subscribe({
                 next: (res) => {
                     this.toastr.success("Registro atualizado com sucesso");
-                    this.activeModal.close({action: "update", payload: res});
+                    this.activeModal.close({ action: "update", payload: res });
                     if (this.onUpdateSuccess) {
                         this.onUpdateSuccess();
                     }
@@ -198,7 +198,7 @@ export class SpreadsheetDetailsModal {
                     console.error('Erro ao deletar anexo', err);
                     this.toastr.error("Erro ao deletar anexo");
                 }
-         });
+            });
     }
 
     cancel(): void {
@@ -206,6 +206,6 @@ export class SpreadsheetDetailsModal {
     }
 
     isStatusField(key: string): boolean {
-        return key === 'status_ml';
+        return key === 'ML_STATUS';
     }
 }
