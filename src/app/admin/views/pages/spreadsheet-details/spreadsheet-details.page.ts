@@ -1,4 +1,4 @@
-import { Component} from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { PageService } from "../../../../shared/services/page.service";
 import { BaseAppPageView } from "../../../../shared/views/base-app-page.view";
@@ -181,7 +181,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         modalRef.componentInstance.data = row;
         modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
-        modalRef.componentInstance.rowId = row["id_ml"];
+        modalRef.componentInstance.rowId = row["ML_ID"];
         modalRef.componentInstance.onUpdateSuccess = () => {
             this.loadInProgress();
             this.loadValidated();
@@ -189,7 +189,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         modalRef.result.then((result) => {
             if (result?.action === 'upload') {
-            this.handleUpload(result.payload, row["id_ml"]);
+                this.handleUpload(result.payload, row["ML_ID"]);
             }
         });
     }
@@ -226,23 +226,23 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         });
     }
 
-    exportSpreadsheet(): void{
+    exportSpreadsheet(): void {
         this.spreadsheetService.exportSpreadsheet(this.spreadsheetId)
-        .subscribe((response) => {
+            .subscribe((response) => {
 
-            const contentDisposition = response.headers.get('content-disposition');
-            const fileName = this.extractFileName(contentDisposition);
+                const contentDisposition = response.headers.get('content-disposition');
+                const fileName = this.extractFileName(contentDisposition);
 
-            const blob = response.body!;
-            const objectUrl = URL.createObjectURL(blob);
+                const blob = response.body!;
+                const objectUrl = URL.createObjectURL(blob);
 
-            const a = document.createElement('a');
-            a.href = objectUrl;
-            a.download = fileName;
-            a.click();
+                const a = document.createElement('a');
+                a.href = objectUrl;
+                a.download = fileName;
+                a.click();
 
-            URL.revokeObjectURL(objectUrl);
-        });
+                URL.revokeObjectURL(objectUrl);
+            });
     }
 
     private handleUpload(payload: any, rowId: number) {
@@ -254,12 +254,12 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         this.attachmentService.uploadAttachment(formData)
             .subscribe({
-            next: () => {
-                console.log('Upload realizado com sucesso');
-            },
-            error: (err) => {
-                console.error('Erro no upload', err);
-            }
+                next: () => {
+                    console.log('Upload realizado com sucesso');
+                },
+                error: (err) => {
+                    console.error('Erro no upload', err);
+                }
             });
     }
 
