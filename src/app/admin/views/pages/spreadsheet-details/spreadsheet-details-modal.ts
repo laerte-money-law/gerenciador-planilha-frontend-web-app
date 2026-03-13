@@ -206,6 +206,6 @@ export class SpreadsheetDetailsModal {
     }
 
     isStatusField(key: string): boolean {
-        return key === 'ML_STATUS';
+        return key === 'status_ml';
     }
 }
