@@ -5,6 +5,9 @@ import { TeamService } from "src/app/admin/services/team.service";
 import { UserResponseDto } from "src/app/admin/models/user.dto";
 import { SelectOption } from "src/app/shared/views/components/atoms/select-single-choice/select-single-choice.component";
 import { KeyGenerator } from "src/app/shared/utils/key-generator";
+import { AdminClientService } from "src/app/admin/services/admin-client.service";
+import { AuthService } from "src/app/auth/services/auth.service";
+import { UserRoleEnum } from "src/app/auth/models/enum/user-role.enum";
 
 @Component({
   selector: "admin-user-modal",
@@ -20,6 +23,11 @@ export class AdminUserModalComponent implements OnInit {
   isEditMode = false;
 
   teams: SelectOption[] = [];
+  clients: SelectOption[] = [];
+
+  get isAdmin(): boolean {
+    return this.authService.userInfo?.role === UserRoleEnum.ADMIN;
+  }
 
   roles: SelectOption[] = [
     { text: "Administrador", value: "ADMIN" },
@@ -32,6 +40,7 @@ export class AdminUserModalComponent implements OnInit {
     name: "",
     email: "",
     teamId: "",
+    clientId: "",
     role: "USER" as "ADMIN" | "USER",
 
     fields: {
@@ -64,12 +73,20 @@ export class AdminUserModalComponent implements OnInit {
   private modal: NgbActiveModal,
   private usersService: UsersService,
   private teamService: TeamService,
+  private adminClientService: AdminClientService,
+  private authService: AuthService,
   private modalService: NgbModal
 ) {}
 
   ngOnInit(): void {
 
     this.loadTeams();
+
+    if (this.isAdmin) {
+      this.loadClients();
+    } else {
+      this.loadTeams();
+    }
 
     if (this.user) {
 
@@ -78,7 +95,12 @@ export class AdminUserModalComponent implements OnInit {
       this.form.name = this.user.name;
       this.form.email = this.user.email;
       this.form.teamId = String(this.user.team?.id);
+      this.form.clientId = String(this.user.client?.id || "");
       this.form.role = this.user.role as "ADMIN" | "USER";
+
+      if (this.isAdmin && this.form.clientId) {
+        this.loadTeams(Number(this.form.clientId));
+      }
 
       this.isPasswordInEditMode = false;
 
@@ -86,13 +108,34 @@ export class AdminUserModalComponent implements OnInit {
 
   }
 
-  loadTeams(): void {
+  loadTeams(clientId?: number): void {
 
-    this.teamService.findAllTeams().subscribe(teams => {
+    this.teamService.findAllTeams(clientId).subscribe(teams => {
 
       this.teams = teams.map(t => ({
         text: t.name,
         value: String(t.id)
+      }));
+
+    });
+
+  }
+
+  onClientChange(): void {
+    this.form.teamId = "";
+    this.teams = [];
+    if (this.form.clientId) {
+      this.loadTeams(Number(this.form.clientId));
+    }
+  }
+
+  loadClients(): void {
+
+    this.adminClientService.findAllClients().subscribe(clients => {
+
+      this.clients = clients.map(c => ({
+        text: c.companyName,
+        value: String(c.id)
       }));
 
     });
@@ -117,6 +160,7 @@ export class AdminUserModalComponent implements OnInit {
       email: this.form.email,
       password: this.form.fields.password.value,
       team_id: Number(this.form.teamId),
+      client_id: this.isAdmin && this.form.clientId ? Number(this.form.clientId) : null,
       role: this.form.role
 
     }).subscribe(() => {
@@ -136,6 +180,7 @@ export class AdminUserModalComponent implements OnInit {
       name: this.form.name,
       email: this.form.email,
       team_id: Number(this.form.teamId),
+      client_id: this.isAdmin && this.form.clientId ? Number(this.form.clientId) : null,
       role: this.form.role
 
     }).subscribe(() => {
@@ -179,7 +224,7 @@ export class AdminUserModalComponent implements OnInit {
 
     if (!this.newTeamName.trim()) return;
 
-    this.teamService.createTeam(this.newTeamName)
+    this.teamService.createTeam(this.newTeamName, this.isAdmin ? Number(this.form.clientId) : undefined)
       .subscribe(team => {
 
         this.teams.push({

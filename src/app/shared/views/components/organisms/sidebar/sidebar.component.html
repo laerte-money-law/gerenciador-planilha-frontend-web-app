@@ -1,18 +1,18 @@
 <div class="sidebar" [class.collapsed]="isSidebarCollapsed" (mouseenter)="expandSidebar()" (mouseleave)="collapseSidebar()">
     <nav class="menu">
-        <ng-container *ngIf="userInfo && userInfo.role === USER_ROLE.ADMIN">
+        <ng-container *ngIf="userInfo">
 
-            <a [routerLink]="[URLS.PATHS.ADMIN.CLIENT.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+            <a *ngIf="userInfo.role === USER_ROLE.ADMIN" [routerLink]="[URLS.PATHS.ADMIN.CLIENT.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-building-shield fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Clientes</span>
             </a>
 
-            <a [routerLink]="[URLS.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT()]" routerLinkActive="active" class="menu-item mt-3">
+            <a *ngIf="userInfo.role === USER_ROLE.ADMIN || userInfo.role === USER_ROLE.CLIENT" [routerLink]="[URLS.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT()]" routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-users fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Usuários e Times</span>
             </a>
 
-            <a [routerLink]="[URLS.PATHS.ADMIN.SPREADSHEET.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
+            <a *ngIf="userInfo.role === USER_ROLE.ADMIN || userInfo.role === USER_ROLE.CLIENT || userInfo.role === USER_ROLE.USER" [routerLink]="[URLS.PATHS.ADMIN.SPREADSHEET.ROOT()]" routerLinkActive="active" class="menu-item mt-3">
                 <i class="fa-solid fa-file-shield fa-lg"></i>
                 <span class="label" *ngIf="!isSidebarCollapsed">Planilhas</span>
             </a>

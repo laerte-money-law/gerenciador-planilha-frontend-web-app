@@ -3,6 +3,6 @@ export interface CreateUserRequestDto {
   email: string
   password: string
   team_id: number
+  client_id?: number
   role: "ADMIN" | "USER"
-
 }
