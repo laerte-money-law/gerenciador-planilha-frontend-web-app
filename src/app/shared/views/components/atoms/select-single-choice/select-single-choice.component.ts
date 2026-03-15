@@ -22,6 +22,7 @@ export class SelectSingleChoiceComponent extends BaseInputComponent implements O
     @Input() validators: BaseValidator[] = [];
     @Input() readOnly: boolean = false;
     @Input() displayInline: boolean = false;
+    @Input() disabled: boolean = false;
     @Input() fieldName: string;
     @Output() optionChanged = new EventEmitter<string>();
     protected selectedValue: string = "";

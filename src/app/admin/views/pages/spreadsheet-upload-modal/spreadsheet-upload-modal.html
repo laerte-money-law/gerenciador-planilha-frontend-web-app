@@ -10,12 +10,13 @@
 
 <form (ngSubmit)="submit()">
     <div class="modal-body">
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="isAdmin">
             <app-select-single-choice
                 #selectClient
                 label="Cliente"
                 [required]="true"
                 [options]="clients"
+                (optionChanged)="onClientSelected($event)"
             ></app-select-single-choice>
         </div>
         <div class="mb-3">
@@ -24,6 +25,7 @@
                 label="Time"
                 [required]="true"
                 [options]="teams"
+                [disabled]="!clientSelected"
             ></app-select-single-choice>
         </div>
 

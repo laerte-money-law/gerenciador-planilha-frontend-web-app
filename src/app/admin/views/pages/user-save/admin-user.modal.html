@@ -64,7 +64,7 @@
 
 
 
-    <div class="col-md-6 mb-4">
+    <div class="col-md-6 mb-4" *ngIf="isAdmin">
       <label class="form-label">Perfil</label>
 
       <select class="form-select" [(ngModel)]="form.role">

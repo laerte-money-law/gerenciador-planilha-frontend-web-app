@@ -9,6 +9,7 @@ import {
 import {AdminClientService} from "../../../services/admin-client.service";
 import {NotificationService} from "../../../../shared/services/notification.service";
 import { TeamService } from "src/app/admin/services/team.service";
+import { AuthService } from "src/app/auth/services/auth.service";
 
 @Component({
     selector: "app-upload-spreadsheet-modal",
@@ -29,18 +30,35 @@ export class UploadSpreadSheetModal implements OnInit {
         {value: "RECUPERACAO", text: "Recuperação"}]
 
     file: File | null = null;
+    clientSelected: boolean = false;
+    isAdmin: boolean = false;
 
     constructor(
         public activeModal: NgbActiveModal,
         private readonly clientsService: AdminClientService,
         private readonly notifier: NotificationService,
         private readonly teamService: TeamService,
+        private readonly authService: AuthService,
     ) {
     }
 
     ngOnInit() {
-        this.loadClientsSelectOptions();
-        this.loadTeamsSelectOptions();
+        this.isAdmin = this.authService.isAdmin();
+        if (this.isAdmin) {
+            this.loadClientsSelectOptions();
+        } else {
+            this.clientSelected = true;
+            this.loadTeamsSelectOptions();
+        }
+    }
+
+    onClientSelected(clientId: string) {
+        this.clientSelected = !!clientId;
+        this.selectTeam.setValue(null);
+        this.teams = [];
+        if (clientId) {
+            this.loadTeamsSelectOptions(Number(clientId));
+        }
     }
 
     onFileChange(event: Event) {
@@ -53,7 +71,7 @@ export class UploadSpreadSheetModal implements OnInit {
     submit() {
         if (this.isFormValid()) {
             this.activeModal.close({
-                client: this.selectClient.getSelectedValue(),
+                client: this.selectClient?.getSelectedValue() || null,
                 service: this.selectService.getSelectedValue(),
                 file: this.file,
                 team: this.selectTeam.getSelectedValue(),
@@ -88,8 +106,8 @@ export class UploadSpreadSheetModal implements OnInit {
         })
     }
 
-    private loadTeamsSelectOptions() {
-        this.teamService.findAllTeams().subscribe({
+    private loadTeamsSelectOptions(clientId?: number) {
+        this.teamService.findAllTeams(clientId).subscribe({
             next: (teams: TeamDto[]) => { 
                 this.teams = teams.map(team => ({
                     value: team.id.toString(),

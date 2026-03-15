@@ -4,5 +4,5 @@ export interface CreateUserRequestDto {
   password: string
   team_id: number
   client_id?: number
-  role: "ADMIN" | "USER"
+  role: "ADMIN" | "USER" | "CLIENT"
 }
