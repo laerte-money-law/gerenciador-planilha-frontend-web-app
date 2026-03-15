@@ -91,11 +91,19 @@ export class AuthService {
                 this.router.navigate([AppUrls.PATHS.ADMIN.SPREADSHEET.ROOT()]);
                 break;
 
-            case UserRoleEnum.CLIENT, UserRoleEnum.USER:
+            case UserRoleEnum.USER: {
+                console.log("Chegou ate aqua asdas das ")
                 this.spinner.hide();
                 this.router.navigate([AppUrls.PATHS.CLIENT.ROOT()]);
                 break;
-
+            }
+            case UserRoleEnum.CLIENT: {
+                this.spinner.hide();
+                this.router.navigate([AppUrls.PATHS.CLIENT.ROOT()]);
+                break;            
+            }
+                
+        
             default:
                 break;
         }

@@ -31,7 +31,8 @@ export class AdminUserModalComponent implements OnInit {
 
   roles: SelectOption[] = [
     { text: "Administrador", value: "ADMIN" },
-    { text: "Usuário", value: "USER" }
+    { text: "Usuário", value: "USER" },
+    { text: "Cliente", value: "CLIENT" }
   ];
 
   isPasswordInEditMode = true;
@@ -41,7 +42,7 @@ export class AdminUserModalComponent implements OnInit {
     email: "",
     teamId: "",
     clientId: "",
-    role: "USER" as "ADMIN" | "USER",
+    role: "USER" as "ADMIN" | "USER" | "CLIENT",
 
     fields: {
       password: {
@@ -96,7 +97,7 @@ export class AdminUserModalComponent implements OnInit {
       this.form.email = this.user.email;
       this.form.teamId = String(this.user.team?.id);
       this.form.clientId = String(this.user.client?.id || "");
-      this.form.role = this.user.role as "ADMIN" | "USER";
+      this.form.role = this.user.role as "ADMIN" | "USER" | "CLIENT";
 
       if (this.isAdmin && this.form.clientId) {
         this.loadTeams(Number(this.form.clientId));
@@ -161,7 +162,7 @@ export class AdminUserModalComponent implements OnInit {
       password: this.form.fields.password.value,
       team_id: Number(this.form.teamId),
       client_id: this.isAdmin && this.form.clientId ? Number(this.form.clientId) : null,
-      role: this.form.role
+      role: this.isAdmin ? this.form.role : "USER"
 
     }).subscribe(() => {
 
@@ -181,7 +182,7 @@ export class AdminUserModalComponent implements OnInit {
       email: this.form.email,
       team_id: Number(this.form.teamId),
       client_id: this.isAdmin && this.form.clientId ? Number(this.form.clientId) : null,
-      role: this.form.role
+      role: this.isAdmin ? this.form.role : "USER"
 
     }).subscribe(() => {
 

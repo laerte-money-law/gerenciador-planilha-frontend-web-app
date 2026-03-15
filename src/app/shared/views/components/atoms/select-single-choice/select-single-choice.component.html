@@ -6,6 +6,7 @@
         [id]="inputId"
         [(ngModel)]="selectedValue"
         [ngClass]="{ 'is-invalid': !valid && isValidated, readonly: readOnly }"
+        [disabled]="disabled"
         (change)="onChange($event)"
     >
         <option value="" disabled>{{ placeholder || "Selecione uma opção" }}</option>
