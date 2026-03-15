@@ -7,6 +7,9 @@
             "hosting": {
                 "qa": [
                     "money-law-gep-frontend-qa"
+                ],
+                "prod": [
+                    "money-law-gep-frontend-prod"
                 ]
             }
         }
