@@ -139,7 +139,6 @@ export class ClientDashboardPage extends BaseAppPageView implements OnInit {
     this.clientDashboardService.getProcessesTablePage(page, limit).subscribe({
       next: (resp) => {
         this.processesDashboardList = resp.rows ?? [];
-        this.processesDashboardList = this.processesDashboardList.map(p => { return { ...p, processDischargeDate: new Date(this.getRandomDate(new Date(2023, 0, 1), new Date(2025, 11, 31))) } })
         this.processesMeta = { ...this.processesMeta, ...resp.meta, limit };
         this.pagination.sync(resp.rows, resp.meta);
         this.cdr.markForCheck();
