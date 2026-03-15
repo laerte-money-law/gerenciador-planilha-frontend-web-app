@@ -34,6 +34,8 @@ import { AdminPolicyListPage } from "./admin/views/pages/admin-policy-list/admin
 import { SpreadSheetListPage } from "./admin/views/pages/spreadsheet-list/spreadsheet-list.page";
 import { SpreadSheetDetailsPage } from "./admin/views/pages/spreadsheet-details/spreadsheet-details.page";
 import { AdminUsersManagementPage } from "./admin/views/pages/user-save/admin-user-management";
+import { roleGuard } from "./auth/services/role.guard";
+import { UserRoleEnum } from "./auth/models/enum/user-role.enum";
 
 const routes: Routes = [
     {
@@ -51,10 +53,30 @@ const routes: Routes = [
             { path: "", redirectTo: AppUrls.PATHS.ADMIN.DASHBOARD(true), pathMatch: "full" }, // Default route
             { path: AppUrls.PATHS.ADMIN.DASHBOARD(true), component: AdminDashboardPage },
             { path: AppUrls.PATHS.ADMIN.DEPOSIT_INVOICE.ROOT(true), component: AdminDepositInvoiceListPage },
-            { path: AppUrls.PATHS.ADMIN.CLIENT.ROOT(true), component: AdminClientListPage },
-            { path: AppUrls.PATHS.ADMIN.CLIENT.CREATE(true), component: AdminClientSavePage },
-            { path: AppUrls.PATHS.ADMIN.CLIENT.EDIT(true), component: AdminClientSavePage },
-            { path: AppUrls.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT(true), component: AdminUsersManagementPage },
+            { 
+                path: AppUrls.PATHS.ADMIN.CLIENT.ROOT(true), 
+                component: AdminClientListPage,
+                canActivate: [roleGuard],
+                data: { roles: [UserRoleEnum.ADMIN] }
+            },
+            { 
+                path: AppUrls.PATHS.ADMIN.CLIENT.CREATE(true), 
+                component: AdminClientSavePage,
+                canActivate: [roleGuard],
+                data: { roles: [UserRoleEnum.ADMIN] }
+            },
+            { 
+                path: AppUrls.PATHS.ADMIN.CLIENT.EDIT(true), 
+                component: AdminClientSavePage,
+                canActivate: [roleGuard],
+                data: { roles: [UserRoleEnum.ADMIN] }
+            },
+            { 
+                path: AppUrls.PATHS.ADMIN.CLIENT.USERS_MANAGEMENT(true), 
+                component: AdminUsersManagementPage,
+                canActivate: [roleGuard],
+                data: { roles: [UserRoleEnum.ADMIN, UserRoleEnum.CLIENT] }
+            },
             {
                 path: AppUrls.PATHS.ADMIN.CLIENT.INSURANCE_COMPANIES_REGISTRATION(true),
                 component: AdminClientInsuranceCompaniesRegistrationPage,
@@ -64,8 +86,18 @@ const routes: Routes = [
                 component: AdminClientInsuranceCompaniesRegistrationPage,
             },
             { path: AppUrls.PATHS.ADMIN.POLICY.ROOT(true), component: AdminPolicyListPage },
-            { path: AppUrls.PATHS.ADMIN.SPREADSHEET.ROOT(true), component: SpreadSheetListPage },
-            { path: AppUrls.PATHS.ADMIN.SPREADSHEET.DETAIL(true), component: SpreadSheetDetailsPage },
+            { 
+                path: AppUrls.PATHS.ADMIN.SPREADSHEET.ROOT(true), 
+                component: SpreadSheetListPage,
+                canActivate: [roleGuard],
+                data: { roles: [UserRoleEnum.ADMIN, UserRoleEnum.CLIENT, UserRoleEnum.USER] }
+            },
+            { 
+                path: AppUrls.PATHS.ADMIN.SPREADSHEET.DETAIL(true), 
+                component: SpreadSheetDetailsPage,
+                canActivate: [roleGuard],
+                data: { roles: [UserRoleEnum.ADMIN, UserRoleEnum.CLIENT, UserRoleEnum.USER] }
+            },
             { path: AppUrls.PATHS.ADMIN.POLICY.CREATE(true), component: AdminPolicySavePage },
             { path: AppUrls.PATHS.ADMIN.CONSULTANT.ROOT(true), component: AdminConsultantListPage },
             { path: AppUrls.PATHS.ADMIN.CONSULTANT.CREATE(true), component: AdminConsultantSavePage },

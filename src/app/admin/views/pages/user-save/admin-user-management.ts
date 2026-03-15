@@ -5,6 +5,8 @@ import { UserResponseDto } from "src/app/admin/models/user.dto";
 import { AdminUserModalComponent } from "./admin-user.modal";
 import { PaginationSpreadsheet } from "src/app/shared/utils/pagination-spreadsheet";
 import { NgxSpinnerService } from "ngx-spinner";
+import { AuthService } from "src/app/auth/services/auth.service";
+import { UserRoleEnum } from "src/app/auth/models/enum/user-role.enum";
 
 @Component({
   selector: "admin-user-management-page",
@@ -18,14 +20,24 @@ export class AdminUsersManagementPage implements OnInit {
   limit = 15;
   total = 0;
 
+  get isAdmin(): boolean {
+    return this.authService.userInfo?.role === UserRoleEnum.ADMIN;
+  }
+
   constructor(
     private readonly usersService: UsersService,
     private readonly modalService: NgbModal,
     private readonly spinner: NgxSpinnerService,
-
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    const currentUser = this.authService.userInfo;
+    if (currentUser) {
+        console.log("Current user has access. Role is present:", currentUser.role);
+    } else {
+        console.warn("No current user found or role is missing.");
+    }
     this.loadRecords();
   }
 

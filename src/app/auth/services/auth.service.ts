@@ -91,7 +91,7 @@ export class AuthService {
                 this.router.navigate([AppUrls.PATHS.ADMIN.SPREADSHEET.ROOT()]);
                 break;
 
-            case UserRoleEnum.CLIENT:
+            case UserRoleEnum.CLIENT, UserRoleEnum.USER:
                 this.spinner.hide();
                 this.router.navigate([AppUrls.PATHS.CLIENT.ROOT()]);
                 break;

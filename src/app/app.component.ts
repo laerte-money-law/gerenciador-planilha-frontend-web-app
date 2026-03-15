@@ -8,9 +8,9 @@ import packageJson from "../../package.json";
 })
 export class AppComponent implements OnInit {
     public version: string = packageJson.version;
-    title = "money-law-insurance-frontend-web-app";
+    title = "money-law-gep-frontend-web-app";
 
     ngOnInit(): void {
-        console.log(`Money Law Insurance: frontend-web-app v${this.version}`);
+        console.log(`Money Law GEP: frontend-web-app v${this.version}`);
     }
 }
