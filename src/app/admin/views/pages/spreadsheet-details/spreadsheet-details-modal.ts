@@ -47,6 +47,8 @@ export class SpreadsheetDetailsModal {
         "team_id",
         "created_at",
         "attachments",
+        "ml_id",
+        "ml_user_atribuido",
     ]);
 
 
@@ -73,6 +75,10 @@ export class SpreadsheetDetailsModal {
 
     isPrimitive(value: any): boolean {
         return this.isString(value) || this.isNumber(value) || typeof value === "boolean";
+    }
+
+    formatColumnName(column: string): string {
+        return column ? column.replace(/_/g, ' ') : '';
     }
 
     ngOnInit() {
@@ -153,7 +159,7 @@ export class SpreadsheetDetailsModal {
 
         this.isSaving = true;
 
-        const payload: Record<string, any> = {};
+        const payload: Record<string, any> = { ...this.data };
 
         // copy editableData and parse JSON fields back into objects where applicable
         Object.keys(this.editableData).forEach((k) => {

@@ -7,7 +7,7 @@
     <form>
       <ng-container *ngFor="let entry of entries; let i = index">
         <div class="row mb-3 align-items-start">
-          <label class="col-sm-4 col-form-label text-muted" style="word-break: break-word;">{{ entry[0] }}</label>
+          <label class="col-sm-4 col-form-label text-muted" style="word-break: break-word;">{{ formatColumnName(entry[0]) }}</label>
           <div class="col-sm-8">
             <!-- STATUS SELECT -->
             <select *ngIf="isStatusField(entry[0])"
