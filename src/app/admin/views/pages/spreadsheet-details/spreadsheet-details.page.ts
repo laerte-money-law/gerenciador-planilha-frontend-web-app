@@ -245,6 +245,20 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
             });
     }
 
+    truncateText(text: any, limit: number = 30): string {
+        if (text === null || text === undefined) return '';
+        const str = text.toString();
+        return str.length > limit ? str.substring(0, limit) + '...' : str;
+    }
+
+    formatColumnName(column: string): string {
+        return column ? column.replace(/_/g, ' ') : '';
+    }
+
+    shouldDisplayColumn(column: string): boolean {
+        return column !== 'ML_ID' && column !== 'ML_USER_ATRIBUIDO';
+    }
+
     private handleUpload(payload: any, rowId: number) {
         const formData = new FormData();
         formData.append('file', payload.file);

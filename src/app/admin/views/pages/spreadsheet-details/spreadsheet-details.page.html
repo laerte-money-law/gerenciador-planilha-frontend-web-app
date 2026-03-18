@@ -55,7 +55,7 @@
         -->
             <div id="" class="table-responsive">
                 <table
-                    class="table table-striped align-middle table-row-dashed fs-7 gy-5 dataTable"
+                    class="table align-middle table-row-dashed fs-7 gy-5 dataTable"
                     id="kt_table_users"
                     style="width: 100%"
                     *ngIf="allRecordsInProgress"
@@ -67,19 +67,25 @@
 
                         >
                             <th class="w-10px"></th>
-                            <th *ngFor="let column of allRecordsInProgress.columns">
-                            {{ column }}
-                            </th>
+                            <ng-container *ngFor="let column of allRecordsInProgress.columns">
+                                <th *ngIf="shouldDisplayColumn(column)" style="font-weight: bold;">
+                                {{ formatColumnName(column) }}
+                                </th>
+                            </ng-container>
                         </tr>
                     </thead>
                    <tbody class="text-gray-600 fw-semibold">
-                        <tr *ngFor="let row of allRecordsInProgress?.rows"
+                        <tr *ngFor="let row of allRecordsInProgress?.rows; let i = index"
                             (dblclick)="openRowDetails(row)"
+                            [style.background-color]="i % 2 === 0 ? '#ffffff' : '#f2f2f2'"
+                            [style.--bs-table-bg]="i % 2 === 0 ? '#ffffff' : '#f2f2f2'"
                             style="cursor: pointer;">
                             <th class="w-10px"></th>
-                            <td *ngFor="let column of allRecordsInProgress.columns">
-                            {{ row[column] }}
-                            </td>
+                            <ng-container *ngFor="let column of allRecordsInProgress.columns">
+                                <td *ngIf="shouldDisplayColumn(column)" [title]="row[column]">
+                                {{ truncateText(row[column]) }}
+                                </td>
+                            </ng-container>
                         </tr>
                         </tbody>
                 </table>
@@ -171,7 +177,7 @@
         -->
             <div id="" class="table-responsive">
                 <table
-                    class="table table-striped align-middle table-row-dashed fs-7 gy-5 dataTable"
+                    class="table align-middle table-row-dashed fs-7 gy-5 dataTable"
                     id="kt_table_users"
                     style="width: 100%"
                     *ngIf="allRecordsValidated"
@@ -182,21 +188,27 @@
                             style="font-size: 0.97rem"
                             >
                             <th class="w-10px"></th>
-                            <th *ngFor="let column of allRecordsValidated.columns">
-                            {{ column }}
-                            </th>
+                            <ng-container *ngFor="let column of allRecordsValidated.columns">
+                                <th *ngIf="shouldDisplayColumn(column)" style="font-weight: bold;">
+                                {{ formatColumnName(column) }}
+                                </th>
+                            </ng-container>
                         </tr>
                     </thead>
                    <tbody class="text-gray-600 fw-semibold">
                         <tr
-                            *ngFor="let row of allRecordsValidated?.rows"
+                            *ngFor="let row of allRecordsValidated?.rows; let i = index"
                             (dblclick)="openRowDetails(row)"
+                            [style.background-color]="i % 2 === 0 ? '#ffffff' : '#f2f2f2'"
+                            [style.--bs-table-bg]="i % 2 === 0 ? '#ffffff' : '#f2f2f2'"
                             style="cursor: pointer;"
                         >
                             <th class="w-10px"></th>
-                            <td *ngFor="let column of allRecordsValidated.columns">
-                            {{ row[column] }}
-                            </td>
+                            <ng-container *ngFor="let column of allRecordsValidated.columns">
+                                <td *ngIf="shouldDisplayColumn(column)" [title]="row[column]">
+                                {{ truncateText(row[column]) }}
+                                </td>
+                            </ng-container>
                         </tr>
                     </tbody>
 
