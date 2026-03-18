@@ -8,6 +8,7 @@ import { SpreadSheetService } from "src/app/admin/services/spreadsheet.service";
 import { SpreadsheetDetailsModal } from "./spreadsheet-details-modal";
 import { SpreadsheetAddColumnModal } from "./spreadsheet-add-column-modal";
 import { SpreadsheetDeleteColumnModal } from "./spreadsheet-delete-column-modal";
+import { SpreadsheetColumnConfigModal } from "./spreadsheet-column-config-modal";
 
 import {
     SpreadSheetDetailsDto,
@@ -35,6 +36,17 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
     spreadsheetId!: string;
     isLoading = false;
+
+    inProgressVisibleColumns: string[] = [];
+    validatedVisibleColumns: string[] = [];
+
+    get inProgressStorageKey(): string {
+        return `spreadsheet_${this.spreadsheetId}_table_inProgress`;
+    }
+
+    get validatedStorageKey(): string {
+        return `spreadsheet_${this.spreadsheetId}_table_validated`;
+    }
 
     constructor(
         private readonly pageService: PageService,
@@ -87,6 +99,13 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
                     this.allRecordsInProgress = response;
                     this.totalRecordsInProgress = response.total;
 
+                    const savedCols = localStorage.getItem(this.inProgressStorageKey);
+                    if (savedCols) {
+                        this.inProgressVisibleColumns = JSON.parse(savedCols).filter((c: string) => this.allRecordsInProgress!.columns.includes(c));
+                    } else {
+                        this.inProgressVisibleColumns = [...this.allRecordsInProgress!.columns];
+                    }
+
                     this.updateBreadcrumb(response.name);
                     this.spinner.hide();
                 },
@@ -112,6 +131,13 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
                 next: (response) => {
                     this.allRecordsValidated = response;
                     this.totalRecordsValidated = response.total;
+
+                    const savedCols = localStorage.getItem(this.validatedStorageKey);
+                    if (savedCols) {
+                        this.validatedVisibleColumns = JSON.parse(savedCols).filter((c: string) => this.allRecordsValidated!.columns.includes(c));
+                    } else {
+                        this.validatedVisibleColumns = [...this.allRecordsValidated!.columns];
+                    }
 
                     this.updateBreadcrumb(response.name);
                     this.spinner.hide();
@@ -257,6 +283,50 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
     shouldDisplayColumn(column: string): boolean {
         return column !== 'ML_ID' && column !== 'ML_USER_ATRIBUIDO';
+    }
+
+    shouldDisplayColumnInProgress(column: string): boolean {
+        return this.shouldDisplayColumn(column) && this.inProgressVisibleColumns.includes(column);
+    }
+
+    shouldDisplayColumnValidated(column: string): boolean {
+        return this.shouldDisplayColumn(column) && this.validatedVisibleColumns.includes(column);
+    }
+
+    openConfigColumnsInProgress(): void {
+        const modalRef = this.modalService.open(SpreadsheetColumnConfigModal, {
+            centered: true,
+            scrollable: true,
+        });
+
+        const availableColumns = (this.allRecordsInProgress?.columns || []).filter(c => this.shouldDisplayColumn(c));
+        modalRef.componentInstance.allColumns = availableColumns;
+        modalRef.componentInstance.visibleColumnsArray = this.inProgressVisibleColumns;
+
+        modalRef.result.then((result) => {
+            if (result?.visibleColumns) {
+                this.inProgressVisibleColumns = result.visibleColumns;
+                localStorage.setItem(this.inProgressStorageKey, JSON.stringify(this.inProgressVisibleColumns));
+            }
+        }).catch(() => {});
+    }
+
+    openConfigColumnsValidated(): void {
+        const modalRef = this.modalService.open(SpreadsheetColumnConfigModal, {
+            centered: true,
+            scrollable: true,
+        });
+
+        const availableColumns = (this.allRecordsValidated?.columns || []).filter(c => this.shouldDisplayColumn(c));
+        modalRef.componentInstance.allColumns = availableColumns;
+        modalRef.componentInstance.visibleColumnsArray = this.validatedVisibleColumns;
+
+        modalRef.result.then((result) => {
+            if (result?.visibleColumns) {
+                this.validatedVisibleColumns = result.visibleColumns;
+                localStorage.setItem(this.validatedStorageKey, JSON.stringify(this.validatedVisibleColumns));
+            }
+        }).catch(() => {});
     }
 
     private handleUpload(payload: any, rowId: number) {

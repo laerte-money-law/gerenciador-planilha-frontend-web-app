@@ -91,6 +91,7 @@ import { UploadSpreadSheetModal } from "./admin/views/pages/spreadsheet-upload-m
 import { SpreadsheetDetailsModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-details-modal";
 import { SpreadsheetAddColumnModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-add-column-modal";
 import { SpreadsheetDeleteColumnModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-delete-column-modal";
+import { SpreadsheetColumnConfigModal } from "./admin/views/pages/spreadsheet-details/spreadsheet-column-config-modal";
 import { UploadAttachmentModal } from "./admin/views/pages/attachment-upload-modal/attachment-upload-modal";
 import { AdminUsersManagementPage } from "./admin/views/pages/user-save/admin-user-management";
 import { AdminUserModalComponent } from "./admin/views/pages/user-save/admin-user.modal";
@@ -163,6 +164,7 @@ dayjs.locale("pt-br");
         SpreadsheetDetailsModal,
         SpreadsheetAddColumnModal,
         SpreadsheetDeleteColumnModal,
+        SpreadsheetColumnConfigModal,
         SaveInsuredFormComponent,
         SaveClientFormComponent,
         SaveInsuranceCompanyFormComponent,
