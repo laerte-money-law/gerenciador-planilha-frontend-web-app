@@ -50,8 +50,8 @@ const routes: Routes = [
         path: AppUrls.PATHS.ADMIN.ROOT(true),
         component: AdminPage,
         children: [
-            { path: "", redirectTo: AppUrls.PATHS.CLIENT.SPREADSHEET.ROOT(true), pathMatch: "full" },
-            //{ path: AppUrls.PATHS.ADMIN.DASHBOARD(true), component: AdminDashboardPage },
+            { path: "", redirectTo: AppUrls.PATHS.ADMIN.DASHBOARD(true), pathMatch: "full" }, // Default route
+            { path: AppUrls.PATHS.ADMIN.DASHBOARD(true), component: AdminDashboardPage },
             { path: AppUrls.PATHS.ADMIN.DEPOSIT_INVOICE.ROOT(true), component: AdminDepositInvoiceListPage },
             { 
                 path: AppUrls.PATHS.ADMIN.CLIENT.ROOT(true), 
