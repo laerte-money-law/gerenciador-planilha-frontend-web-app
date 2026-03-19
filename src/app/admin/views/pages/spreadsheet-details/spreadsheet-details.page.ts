@@ -96,6 +96,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
             .getSpreadSheetPaged(this.spreadsheetId, params)
             .subscribe({
                 next: (response) => {
+                    response.rows?.forEach(row => this.formatRowData(row));
                     this.allRecordsInProgress = response;
                     this.totalRecordsInProgress = response.total;
 
@@ -129,6 +130,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
             .getSpreadSheetPaged(this.spreadsheetId, params)
             .subscribe({
                 next: (response) => {
+                    response.rows?.forEach(row => this.formatRowData(row));
                     this.allRecordsValidated = response;
                     this.totalRecordsValidated = response.total;
 
@@ -275,6 +277,41 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         if (text === null || text === undefined) return '';
         const str = text.toString();
         return str.length > limit ? str.substring(0, limit) + '...' : str;
+    }
+
+    formatCellValue(value: any): any {
+        if (!value || typeof value !== 'string') return value;
+        let str = value.trim();
+
+        const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
+        const dateMatch = str.match(dateRegex);
+        if (dateMatch) {
+            let month = dateMatch[1].padStart(2, '0');
+            let day = dateMatch[2].padStart(2, '0');
+            let year = dateMatch[3];
+            if (year.length === 2) {
+                year = '20' + year;
+            }
+            return `${day}/${month}/${year}`;
+        }
+
+        const moneyRegex = /^(R\$\s*)?(-?[\d,]+)\.(\d{2})$/;
+        const moneyMatch = str.match(moneyRegex);
+        if (moneyMatch) {
+            const prefix = moneyMatch[1] || '';
+            let integerPart = moneyMatch[2].replace(/,/g, '.');
+            let decimalPart = moneyMatch[3];
+            return `${prefix}${integerPart},${decimalPart}`;
+        }
+
+        return value;
+    }
+
+    private formatRowData(row: Record<string, any>) {
+        if (!row) return;
+        Object.keys(row).forEach(key => {
+            row[key] = this.formatCellValue(row[key]);
+        });
     }
 
     formatColumnName(column: string): string {
