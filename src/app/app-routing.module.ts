@@ -50,8 +50,8 @@ const routes: Routes = [
         path: AppUrls.PATHS.ADMIN.ROOT(true),
         component: AdminPage,
         children: [
-            { path: "", redirectTo: AppUrls.PATHS.ADMIN.DASHBOARD(true), pathMatch: "full" }, // Default route
-            { path: AppUrls.PATHS.ADMIN.DASHBOARD(true), component: AdminDashboardPage },
+            { path: "", redirectTo: AppUrls.PATHS.CLIENT.SPREADSHEET.ROOT(true), pathMatch: "full" },
+            //{ path: AppUrls.PATHS.ADMIN.DASHBOARD(true), component: AdminDashboardPage },
             { path: AppUrls.PATHS.ADMIN.DEPOSIT_INVOICE.ROOT(true), component: AdminDepositInvoiceListPage },
             { 
                 path: AppUrls.PATHS.ADMIN.CLIENT.ROOT(true), 
@@ -112,18 +112,19 @@ const routes: Routes = [
             { path: AppUrls.PATHS.ADMIN.BILLING.CREATE(true), component: AdminBillingSavePage },
             { path: AppUrls.PATHS.ADMIN.QUOTATIONS.ROOT(true), component: ClientInsuranceCompanyQuotationListPage },
             { path: AppUrls.PATHS.ADMIN.QUOTATIONS.REQUEST(true), component: AdminQuotationRequestPage },
+    
         ],
     },
     {
         path: AppUrls.PATHS.CLIENT.ROOT(true),
         component: ClientPage,
         children: [
-            { path: "", redirectTo: AppUrls.PATHS.CLIENT.DASHBOARD(true), pathMatch: "full" }, // Default route
-            { path: AppUrls.PATHS.CLIENT.DASHBOARD(true), component: ClientDashboardPage },
+            { path: "", redirectTo: AppUrls.PATHS.CLIENT.SPREADSHEET.ROOT(true), pathMatch: "full" }, // Default route
+            //{ path: AppUrls.PATHS.CLIENT.DASHBOARD(true), component: ClientDashboardPage },
             { path: AppUrls.PATHS.CLIENT.INSURANCE_COMPANY.REGISTRATION(true), component: ClientInsuranceCompanyRegistrationPage },
             {
-                path: AppUrls.PATHS.CLIENT.QUOTATIONS.ROOT(true),
-                component: ClientInsuranceCompanyQuotationListPage,
+                path: AppUrls.PATHS.CLIENT.SPREADSHEET.ROOT(true),
+                component: SpreadSheetListPage
             },
             {
                 path: AppUrls.PATHS.CLIENT.QUOTATIONS.REQUEST(true),
