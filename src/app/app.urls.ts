@@ -114,6 +114,10 @@ export class AppUrls {
             AGENDA: {
                 ROOT: (relative: boolean = false) => (relative ? "agenda" : `${this.PATHS.CLIENT.ROOT(relative)}/agenda`),
             },
+            SPREADSHEET: {
+                ROOT: (relative: boolean = false) =>
+                    relative ? "planilhas" : `${this.PATHS.CLIENT.ROOT(relative)}/planilhas`
+            }
 
 
         },

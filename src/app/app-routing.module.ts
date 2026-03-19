@@ -112,18 +112,19 @@ const routes: Routes = [
             { path: AppUrls.PATHS.ADMIN.BILLING.CREATE(true), component: AdminBillingSavePage },
             { path: AppUrls.PATHS.ADMIN.QUOTATIONS.ROOT(true), component: ClientInsuranceCompanyQuotationListPage },
             { path: AppUrls.PATHS.ADMIN.QUOTATIONS.REQUEST(true), component: AdminQuotationRequestPage },
+    
         ],
     },
     {
         path: AppUrls.PATHS.CLIENT.ROOT(true),
         component: ClientPage,
         children: [
-            { path: "", redirectTo: AppUrls.PATHS.CLIENT.DASHBOARD(true), pathMatch: "full" }, // Default route
-            { path: AppUrls.PATHS.CLIENT.DASHBOARD(true), component: ClientDashboardPage },
+            { path: "", redirectTo: AppUrls.PATHS.CLIENT.SPREADSHEET.ROOT(true), pathMatch: "full" }, // Default route
+            //{ path: AppUrls.PATHS.CLIENT.DASHBOARD(true), component: ClientDashboardPage },
             { path: AppUrls.PATHS.CLIENT.INSURANCE_COMPANY.REGISTRATION(true), component: ClientInsuranceCompanyRegistrationPage },
             {
-                path: AppUrls.PATHS.CLIENT.QUOTATIONS.ROOT(true),
-                component: ClientInsuranceCompanyQuotationListPage,
+                path: AppUrls.PATHS.CLIENT.SPREADSHEET.ROOT(true),
+                component: SpreadSheetListPage
             },
             {
                 path: AppUrls.PATHS.CLIENT.QUOTATIONS.REQUEST(true),
