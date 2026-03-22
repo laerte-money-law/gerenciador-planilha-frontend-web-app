@@ -43,12 +43,16 @@ export class AuthService {
         return this.http.post<any>(AppUrls.API_ENDPOINTS.AUTH.LOG_IN(), data);
     }
 
+    redefinePassword(password: string): Observable<any> {
+        return this.http.post<any>(AppUrls.API_ENDPOINTS.AUTH.REDEFINE_PASSWORD(), { password });
+    }
+
     logout(): void {
         localStorage.removeItem(AuthService.ACCESS_TOKEN);
         localStorage.removeItem(AuthService.REFRESH_TOKEN);
         this._userInfo = null;
         this._userClientInfo = null;
-        this.router.navigate([AppUrls.PATHS.AUTH.ROOT()]);
+        this.router.navigate([AppUrls.PATHS.AUTH.LOG_IN()]);
     }
 
     isLoggedIn(): boolean {
@@ -85,6 +89,13 @@ export class AuthService {
 
     redirectToApp(): void {
         const jwtTokenDecoded = jwtDecode(AuthService.accessToken);
+
+        if (jwtTokenDecoded["shouldRedefinePassword"]) {
+            this.spinner.hide();
+            this.router.navigate([AppUrls.PATHS.AUTH.REDEFINE_PASSWORD()]);
+            return;
+        }
+
         switch (jwtTokenDecoded["role"]) {
             case UserRoleEnum.ADMIN:
                 this.spinner.hide();

@@ -11,6 +11,7 @@ import { AdminClientListPage } from "./admin/views/pages/admin-client-list/admin
 import { AdminBillingListPage } from "./admin/views/pages/admin-billing-list/admin-billing-list.page";
 import { AuthBasePage } from "./auth/views/pages/auth-base.page";
 import { AuthLoginPage } from "./auth/views/pages/auth-login/auth-login.page";
+import { AuthRedefinePasswordPage } from "./auth/views/pages/auth-redefine-password/auth-redefine-password.page";
 import { AdminClientSavePage } from "./admin/views/pages/admin-client-save/admin-client-save.page";
 import { AdminPolicySavePage } from "./admin/views/pages/admin-policy-save/admin-policy-save.page";
 import { AdminDepositInvoiceListPage } from "./admin/views/pages/admin-deposit-invoice-list/admin-deposit-invoice-list.page";
@@ -44,6 +45,7 @@ const routes: Routes = [
         children: [
             { path: "", redirectTo: AppUrls.PATHS.AUTH.LOG_IN(true), pathMatch: "full" }, // Default route
             { path: AppUrls.PATHS.AUTH.LOG_IN(true), component: AuthLoginPage },
+            { path: AppUrls.PATHS.AUTH.REDEFINE_PASSWORD(true), component: AuthRedefinePasswordPage },
         ],
     },
     {
