@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
 import { AuthService } from './auth.service';
 import { UserRoleEnum } from '../models/enum/user-role.enum';
+import { AppUrls } from '../../app.urls';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
@@ -11,6 +12,10 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const userRole = authService.userInfo?.role as UserRoleEnum;
 
   if (authService.isLoggedIn() && allowedRoles.includes(userRole)) {
+    if (authService.userInfo?.shouldRedefinePassword) {
+      router.navigate([AppUrls.PATHS.AUTH.REDEFINE_PASSWORD()]);
+      return false;
+    }
     return true;
   }
 

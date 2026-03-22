@@ -21,6 +21,7 @@ export class AppUrls {
             LOG_IN: (relative: boolean = false) => (relative ? "entrar" : `${this.PATHS.AUTH.ROOT(relative)}/entrar`),
             SIGN_UP: (relative: boolean = false) => (relative ? "cadastro" : "/acesso/cadastro"),
             PASSWORD_FORGOT: (relative: boolean = false) => (relative ? "senha/esqueci" : "/acesso/senha/esqueci"),
+            REDEFINE_PASSWORD: (relative: boolean = false) => (relative ? "senha/redefinir" : "/acesso/senha/redefinir"),
         },
         ADMIN: {
             ROOT: (relative: boolean = false) => (relative ? "admin" : "/admin"),
@@ -128,6 +129,7 @@ export class AppUrls {
             SIGN_UP: () => `${environment.apiUrl}/api/auth/signup`,
             LOG_IN: () => `${environment.apiUrl}/api/auth/login`,
             PASSWORD_FORGOT: () => `${environment.apiUrl}/api/auth/password/forgot`,
+            REDEFINE_PASSWORD: () => `${environment.apiUrl}/api/auth/redefine`,
             REFRESH_TOKEN: () => `${environment.apiUrl}/api/auth/token/refresh`,
         },
 

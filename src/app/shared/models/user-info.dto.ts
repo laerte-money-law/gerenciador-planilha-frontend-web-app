@@ -6,6 +6,7 @@ export class UserInfoDto {
     email: string;
     phone: string;
     role: UserRoleEnum;
+    shouldRedefinePassword?: boolean;
 
     constructor(props: Partial<UserInfoDto>) {
         Object.assign(this, props);

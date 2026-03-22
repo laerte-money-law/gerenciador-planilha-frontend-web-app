@@ -34,6 +34,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthBasePage } from "./auth/views/pages/auth-base.page";
 import { AuthLoginPage } from "./auth/views/pages/auth-login/auth-login.page";
+import { AuthRedefinePasswordPage } from "./auth/views/pages/auth-redefine-password/auth-redefine-password.page";
 import "./shared/extensions/array.extension";
 import "./shared/extensions/string.extension";
 import "./shared/extensions/number.extension";
@@ -140,6 +141,7 @@ dayjs.locale("pt-br");
         AdminQuotationRequestPage,
         AuthBasePage,
         AuthLoginPage,
+        AuthRedefinePasswordPage,
         ClientPage,
         ClientDashboardPage,
         ClientInsuranceCompanyRegistrationPage,
