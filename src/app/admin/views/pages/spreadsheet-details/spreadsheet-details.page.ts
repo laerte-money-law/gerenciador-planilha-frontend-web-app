@@ -10,10 +10,7 @@ import { SpreadsheetAddColumnModal } from "./spreadsheet-add-column-modal";
 import { SpreadsheetDeleteColumnModal } from "./spreadsheet-delete-column-modal";
 import { SpreadsheetColumnConfigModal } from "./spreadsheet-column-config-modal";
 
-import {
-    SpreadSheetDetailsDto,
-    SpreadSheetRequestParamsDto,
-} from "src/app/admin/models/spreadsheet.dto";
+import { SpreadSheetDetailsDto, SpreadSheetRequestParamsDto } from "src/app/admin/models/spreadsheet.dto";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AttachmentService } from "src/app/admin/services/attachment.service";
 
@@ -54,20 +51,13 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         private readonly spreadsheetService: SpreadSheetService,
         private readonly attachmentService: AttachmentService,
         private readonly route: ActivatedRoute,
-        private modalService: NgbModal
-
+        private modalService: NgbModal,
     ) {
         super();
     }
 
     override getBreadcrumbs(): PageRoute[] {
-        return [
-            new PageRoute(
-                this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(),
-                "Planilhas",
-                "Planilhas"
-            ),
-        ];
+        return [new PageRoute(this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(), "Planilhas", "Planilhas")];
     }
 
     ngOnInit(): void {
@@ -92,29 +82,29 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         };
         this.spinner.show();
 
-        this.spreadsheetService
-            .getSpreadSheetPaged(this.spreadsheetId, params)
-            .subscribe({
-                next: (response) => {
-                    response.rows?.forEach(row => this.formatRowData(row));
-                    this.allRecordsInProgress = response;
-                    this.totalRecordsInProgress = response.total;
+        this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, params).subscribe({
+            next: (response) => {
+                response.rows?.forEach((row) => this.formatRowData(row));
+                this.allRecordsInProgress = response;
+                this.totalRecordsInProgress = response.total;
 
-                    const savedCols = localStorage.getItem(this.inProgressStorageKey);
-                    if (savedCols) {
-                        this.inProgressVisibleColumns = JSON.parse(savedCols).filter((c: string) => this.allRecordsInProgress!.columns.includes(c));
-                    } else {
-                        this.inProgressVisibleColumns = [...this.allRecordsInProgress!.columns];
-                    }
+                const savedCols = localStorage.getItem(this.inProgressStorageKey);
+                if (savedCols) {
+                    this.inProgressVisibleColumns = JSON.parse(savedCols).filter((c: string) =>
+                        this.allRecordsInProgress!.columns.includes(c),
+                    );
+                } else {
+                    this.inProgressVisibleColumns = [...this.allRecordsInProgress!.columns];
+                }
 
-                    this.updateBreadcrumb(response.name);
-                    this.spinner.hide();
-                },
-                error: (error) => {
-                    console.error("Erro ao carregar registros IN PROGRESS", error);
-                    this.spinner.hide();
-                },
-            });
+                this.updateBreadcrumb(response.name);
+                this.spinner.hide();
+            },
+            error: (error) => {
+                console.error("Erro ao carregar registros IN PROGRESS", error);
+                this.spinner.hide();
+            },
+        });
     }
 
     private loadValidated(): void {
@@ -126,48 +116,42 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         this.spinner.show();
 
-        this.spreadsheetService
-            .getSpreadSheetPaged(this.spreadsheetId, params)
-            .subscribe({
-                next: (response) => {
-                    response.rows?.forEach(row => this.formatRowData(row));
-                    this.allRecordsValidated = response;
-                    this.totalRecordsValidated = response.total;
+        this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, params).subscribe({
+            next: (response) => {
+                response.rows?.forEach((row) => this.formatRowData(row));
+                this.allRecordsValidated = response;
+                this.totalRecordsValidated = response.total;
 
-                    const savedCols = localStorage.getItem(this.validatedStorageKey);
-                    if (savedCols) {
-                        this.validatedVisibleColumns = JSON.parse(savedCols).filter((c: string) => this.allRecordsValidated!.columns.includes(c));
-                    } else {
-                        this.validatedVisibleColumns = [...this.allRecordsValidated!.columns];
-                    }
+                const savedCols = localStorage.getItem(this.validatedStorageKey);
+                if (savedCols) {
+                    this.validatedVisibleColumns = JSON.parse(savedCols).filter((c: string) =>
+                        this.allRecordsValidated!.columns.includes(c),
+                    );
+                } else {
+                    this.validatedVisibleColumns = [...this.allRecordsValidated!.columns];
+                }
 
-                    this.updateBreadcrumb(response.name);
-                    this.spinner.hide();
-                },
-                error: (error) => {
-                    console.error("Erro ao carregar registros VALIDATED", error);
-                    this.spinner.hide();
-                },
-            });
+                this.updateBreadcrumb(response.name);
+                this.spinner.hide();
+            },
+            error: (error) => {
+                console.error("Erro ao carregar registros VALIDATED", error);
+                this.spinner.hide();
+            },
+        });
     }
 
     private updateBreadcrumb(sheetName: string): void {
         this.pageService.setToolbar([
-            new PageRoute(
-                this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(),
-                "Planilhas",
-                "Planilhas"
-            ),
+            new PageRoute(this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(), "Planilhas", "Planilhas"),
             new PageRoute(null, sheetName, sheetName),
         ]);
     }
 
-
     get inProgressTotalPages(): number {
         if (!this.totalRecordsInProgress) return 0;
-        return Math.ceil(this.totalRecordsInProgress / 15);
+        return Math.ceil(this.totalRecordsInProgress / this.inProgressLimit);
     }
-
 
     get validatedTotalPages(): number {
         return Math.ceil(this.totalRecordsValidated / this.validatedLimit);
@@ -216,7 +200,7 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         };
 
         modalRef.result.then((result) => {
-            if (result?.action === 'upload') {
+            if (result?.action === "upload") {
                 this.handleUpload(result.payload, row["ML_ID"]);
             }
         });
@@ -255,42 +239,40 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
     }
 
     exportSpreadsheet(): void {
-        this.spreadsheetService.exportSpreadsheet(this.spreadsheetId)
-            .subscribe((response) => {
+        this.spreadsheetService.exportSpreadsheet(this.spreadsheetId).subscribe((response) => {
+            const contentDisposition = response.headers.get("content-disposition");
+            const fileName = this.extractFileName(contentDisposition);
 
-                const contentDisposition = response.headers.get('content-disposition');
-                const fileName = this.extractFileName(contentDisposition);
+            const blob = response.body!;
+            const objectUrl = URL.createObjectURL(blob);
 
-                const blob = response.body!;
-                const objectUrl = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = objectUrl;
+            a.download = fileName;
+            a.click();
 
-                const a = document.createElement('a');
-                a.href = objectUrl;
-                a.download = fileName;
-                a.click();
-
-                URL.revokeObjectURL(objectUrl);
-            });
+            URL.revokeObjectURL(objectUrl);
+        });
     }
 
     truncateText(text: any, limit: number = 30): string {
-        if (text === null || text === undefined) return '';
+        if (text === null || text === undefined) return "";
         const str = text.toString();
-        return str.length > limit ? str.substring(0, limit) + '...' : str;
+        return str.length > limit ? str.substring(0, limit) + "..." : str;
     }
 
     formatCellValue(value: any): any {
-        if (!value || typeof value !== 'string') return value;
+        if (!value || typeof value !== "string") return value;
         let str = value.trim();
 
         const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/;
         const dateMatch = str.match(dateRegex);
         if (dateMatch) {
-            let month = dateMatch[1].padStart(2, '0');
-            let day = dateMatch[2].padStart(2, '0');
+            let month = dateMatch[1].padStart(2, "0");
+            let day = dateMatch[2].padStart(2, "0");
             let year = dateMatch[3];
             if (year.length === 2) {
-                year = '20' + year;
+                year = "20" + year;
             }
             return `${day}/${month}/${year}`;
         }
@@ -298,8 +280,8 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         const moneyRegex = /^(R\$\s*)?(-?[\d,]+)\.(\d{2})$/;
         const moneyMatch = str.match(moneyRegex);
         if (moneyMatch) {
-            const prefix = moneyMatch[1] || '';
-            let integerPart = moneyMatch[2].replace(/,/g, '.');
+            const prefix = moneyMatch[1] || "";
+            let integerPart = moneyMatch[2].replace(/,/g, ".");
             let decimalPart = moneyMatch[3];
             return `${prefix}${integerPart},${decimalPart}`;
         }
@@ -309,17 +291,17 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
     private formatRowData(row: Record<string, any>) {
         if (!row) return;
-        Object.keys(row).forEach(key => {
+        Object.keys(row).forEach((key) => {
             row[key] = this.formatCellValue(row[key]);
         });
     }
 
     formatColumnName(column: string): string {
-        return column ? column.replace(/_/g, ' ') : '';
+        return column ? column.replace(/_/g, " ") : "";
     }
 
     shouldDisplayColumn(column: string): boolean {
-        return column !== 'ML_ID' && column !== 'ML_USER_ATRIBUIDO';
+        return column !== "ML_ID" && column !== "ML_USER_ATRIBUIDO";
     }
 
     shouldDisplayColumnInProgress(column: string): boolean {
@@ -336,16 +318,18 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
             scrollable: true,
         });
 
-        const availableColumns = (this.allRecordsInProgress?.columns || []).filter(c => this.shouldDisplayColumn(c));
+        const availableColumns = (this.allRecordsInProgress?.columns || []).filter((c) => this.shouldDisplayColumn(c));
         modalRef.componentInstance.allColumns = availableColumns;
         modalRef.componentInstance.visibleColumnsArray = this.inProgressVisibleColumns;
 
-        modalRef.result.then((result) => {
-            if (result?.visibleColumns) {
-                this.inProgressVisibleColumns = result.visibleColumns;
-                localStorage.setItem(this.inProgressStorageKey, JSON.stringify(this.inProgressVisibleColumns));
-            }
-        }).catch(() => {});
+        modalRef.result
+            .then((result) => {
+                if (result?.visibleColumns) {
+                    this.inProgressVisibleColumns = result.visibleColumns;
+                    localStorage.setItem(this.inProgressStorageKey, JSON.stringify(this.inProgressVisibleColumns));
+                }
+            })
+            .catch(() => {});
     }
 
     openConfigColumnsValidated(): void {
@@ -354,47 +338,48 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
             scrollable: true,
         });
 
-        const availableColumns = (this.allRecordsValidated?.columns || []).filter(c => this.shouldDisplayColumn(c));
+        const availableColumns = (this.allRecordsValidated?.columns || []).filter((c) => this.shouldDisplayColumn(c));
         modalRef.componentInstance.allColumns = availableColumns;
         modalRef.componentInstance.visibleColumnsArray = this.validatedVisibleColumns;
 
-        modalRef.result.then((result) => {
-            if (result?.visibleColumns) {
-                this.validatedVisibleColumns = result.visibleColumns;
-                localStorage.setItem(this.validatedStorageKey, JSON.stringify(this.validatedVisibleColumns));
-            }
-        }).catch(() => {});
+        modalRef.result
+            .then((result) => {
+                if (result?.visibleColumns) {
+                    this.validatedVisibleColumns = result.visibleColumns;
+                    localStorage.setItem(this.validatedStorageKey, JSON.stringify(this.validatedVisibleColumns));
+                }
+            })
+            .catch(() => {});
     }
 
     private handleUpload(payload: any, rowId: number) {
         const formData = new FormData();
-        formData.append('file', payload.file);
-        formData.append('spreadsheetMetadataId', this.spreadsheetId);
-        formData.append('rowId', rowId.toString());
-        formData.append('description', payload.description);
+        formData.append("file", payload.file);
+        formData.append("spreadsheetMetadataId", this.spreadsheetId);
+        formData.append("rowId", rowId.toString());
+        formData.append("description", payload.description);
 
-        this.attachmentService.uploadAttachment(formData)
-            .subscribe({
-                next: () => {
-                    console.log('Upload realizado com sucesso');
-                },
-                error: (err) => {
-                    console.error('Erro no upload', err);
-                }
-            });
+        this.attachmentService.uploadAttachment(formData).subscribe({
+            next: () => {
+                console.log("Upload realizado com sucesso");
+            },
+            error: (err) => {
+                console.error("Erro no upload", err);
+            },
+        });
     }
 
     private extractFileName(contentDisposition: string | null): string {
         if (!contentDisposition) {
-            return 'download.xlsx';
+            return "download.xlsx";
         }
 
         const match = contentDisposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/);
 
         if (match && match[1]) {
-            return decodeURIComponent(match[1].replace(/["']/g, ''));
+            return decodeURIComponent(match[1].replace(/["']/g, ""));
         }
 
-        return 'download.xlsx';
+        return "download.xlsx";
     }
 }
