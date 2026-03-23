@@ -12,7 +12,7 @@ export class UploadAttachmentModal {
     attachmentTypes = Object.values(ATTACHMENT_TYPE);
      
     form = this.fb.group({
-        description: ["", Validators.required],
+        description: [""],
         type: [null, Validators.required]
     });
 
@@ -57,7 +57,7 @@ export class UploadAttachmentModal {
         if (this.form.invalid || !this.file) return;
 
         this.activeModal.close({
-            description: this.form.get('description')?.value,
+            description: this.form.get('description')?.value ?? '',
             type: this.form.get('type')?.value,
             file: this.file,
         });
