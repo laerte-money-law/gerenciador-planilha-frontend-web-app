@@ -69,7 +69,7 @@
                         >
                             <th class="w-10px"></th>
                             <ng-container *ngFor="let column of allRecordsInProgress.columns">
-                                <th *ngIf="shouldDisplayColumnInProgress(column)" style="font-weight: bold;">
+                                <th *ngIf="shouldDisplayColumnInProgress(column)" style="font-weight: bold; color: #276955;">
                                 {{ formatColumnName(column) }}
                                 </th>
                             </ng-container>
