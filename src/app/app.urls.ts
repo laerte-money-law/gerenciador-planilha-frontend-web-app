@@ -34,8 +34,7 @@ export class AppUrls {
                 ROOT: (relative: boolean = false) => (relative ? "clientes" : `${this.PATHS.ADMIN.ROOT(relative)}/clientes`),
                 CREATE: (relative: boolean = false) => `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/cadastrar`,
                 EDIT: (relative: boolean = false, code?: string) => `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/editar/${code || ":code"}`,
-                USERS_MANAGEMENT: (relative: boolean = false) =>
-                    `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/usuarios`,
+                USERS_MANAGEMENT: (relative: boolean = false) => `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/usuarios`,
                 INSURANCE_COMPANIES_REGISTRATION: (relative: boolean = false, code?: string) =>
                     `${this.PATHS.ADMIN.CLIENT.ROOT(relative)}/${code || ":code"}/seguradoras/cadastro`,
             },
@@ -45,7 +44,8 @@ export class AppUrls {
             },
             SPREADSHEET: {
                 ROOT: (relative: boolean = false) => (relative ? "spreadsheet" : `${this.PATHS.ADMIN.ROOT(relative)}/spreadsheet`),
-                DETAIL: (relative: boolean = false, id?: string) => `${this.PATHS.ADMIN.SPREADSHEET.ROOT(relative)}/detalhes/${id || ":id"}`,
+                DETAIL: (relative: boolean = false, id?: string) =>
+                    `${this.PATHS.ADMIN.SPREADSHEET.ROOT(relative)}/detalhes/${id || ":id"}`,
             },
             CONSULTANT: {
                 ROOT: (relative: boolean = false) => (relative ? "consultores" : `${this.PATHS.ADMIN.ROOT(relative)}/consultores`),
@@ -102,25 +102,26 @@ export class AppUrls {
                 // DETAILS: (relative: boolean = false, insuredDocument?: string) =>
                 //     `${relative ? "" : "/cliente/"}seguradoras/cotações/detalhes/${insuredDocument || ":insuredDocument"}`,
                 DETAILS: (relative: boolean = false, clientCode?: string, insuredCode?: string) =>
-                    `${this.PATHS.CLIENT.QUOTATIONS.ROOT(relative)}/detalhes/${clientCode || ":clientCode"}/${insuredCode || ":insuredCode"
+                    `${this.PATHS.CLIENT.QUOTATIONS.ROOT(relative)}/detalhes/${clientCode || ":clientCode"}/${
+                        insuredCode || ":insuredCode"
                     }`,
                 REQUEST: (relative: boolean = false) => `${this.PATHS.CLIENT.QUOTATIONS.ROOT(relative)}/solicitar`,
             },
             POLICY: {
                 ROOT: (relative: boolean = false) => (relative ? "apolices" : `${this.PATHS.CLIENT.ROOT(relative)}/apolices`),
                 DETAILS: (relative: boolean = false, insuredDocument?: string, policyNumber?: string) =>
-                    `${this.PATHS.CLIENT.POLICY.ROOT(relative)}/${insuredDocument || ":insuredDocument"}/${policyNumber || ":policyNumber"
+                    `${this.PATHS.CLIENT.POLICY.ROOT(relative)}/${insuredDocument || ":insuredDocument"}/${
+                        policyNumber || ":policyNumber"
                     }/detalhes`,
             },
             AGENDA: {
                 ROOT: (relative: boolean = false) => (relative ? "agenda" : `${this.PATHS.CLIENT.ROOT(relative)}/agenda`),
             },
             SPREADSHEET: {
-                ROOT: (relative: boolean = false) =>
-                    relative ? "planilhas" : `${this.PATHS.CLIENT.ROOT(relative)}/planilhas`
-            }
-
-
+                ROOT: (relative: boolean = false) => (relative ? "planilhas" : `${this.PATHS.CLIENT.ROOT(relative)}/planilhas`),
+                DETAIL: (relative: boolean = false, id?: string) =>
+                    `${this.PATHS.CLIENT.SPREADSHEET.ROOT(relative)}/detalhes/${id || ":id"}`,
+            },
         },
     };
 
@@ -136,7 +137,8 @@ export class AppUrls {
         ADMIN: {
             CLIENT: (code?: string) => `${environment.apiUrl}/api/clients${code ? `/${code}` : ""}`,
             CLIENT_INSURANCE_COMPANIES: (code?: string, insuranceCompanyRegistrationCode?: string) =>
-                `${environment.apiUrl}/api/admin/clients${code ? `/${code}` : ""}/insurance-companies${insuranceCompanyRegistrationCode ? `/${insuranceCompanyRegistrationCode}` : ""
+                `${environment.apiUrl}/api/admin/clients${code ? `/${code}` : ""}/insurance-companies${
+                    insuranceCompanyRegistrationCode ? `/${insuranceCompanyRegistrationCode}` : ""
                 }`,
             CLIENT_STATUS: (code: string) => `${environment.apiUrl}/api/admin/clients/${code}/status`,
             CONSULTANT: (code?: string) => `${environment.apiUrl}/api/admin/consultants${code ? `/${code}` : ""}`,
@@ -162,24 +164,19 @@ export class AppUrls {
             QUOTATION_UPDATE_PREMIUM: (quotationCode: string) => `${environment.apiUrl}/api/admin/quotations/${quotationCode}/premium`,
             ADD_POLICY: () => `${environment.apiUrl}/api/admin/policies`,
             GET_POLICIES: () => `${environment.apiUrl}/api/admin/policies`,
-            SPREADSHEET_LIST: () =>
-                `${environment.apiUrl}/api/spreadsheets`,
+            SPREADSHEET_LIST: () => `${environment.apiUrl}/api/spreadsheets`,
 
-            SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) =>
-                `${environment.apiUrl}/api/spreadsheets/${id}`,
+            SPREADSHEET_LIST_DETAIL: (id: string, relative: boolean = false) => `${environment.apiUrl}/api/spreadsheets/${id}`,
 
-            DELETE_SPREADSHEET: (id: string) =>
-                `${environment.apiUrl}/api/spreadsheets/${id}`,
-            SPREADSHEET_ADD_COLUMN: (id: string) =>
-                `${environment.apiUrl}/api/spreadsheets/${id}/column`,
+            DELETE_SPREADSHEET: (id: string) => `${environment.apiUrl}/api/spreadsheets/${id}`,
+            SPREADSHEET_ADD_COLUMN: (id: string) => `${environment.apiUrl}/api/spreadsheets/${id}/column`,
 
-            SPREADSHEET_DELETE_COLUMN: (id: string) =>
-                `${environment.apiUrl}/api/spreadsheets/${id}/column`,
-            SPREADSHEET_UPDATE_ROW: (id: string, rowId: number) =>
-                `${environment.apiUrl}/api/spreadsheets/${id}/${rowId}`,
+            SPREADSHEET_DELETE_COLUMN: (id: string) => `${environment.apiUrl}/api/spreadsheets/${id}/column`,
+            SPREADSHEET_UPDATE_ROW: (id: string, rowId: number) => `${environment.apiUrl}/api/spreadsheets/${id}/${rowId}`,
             IMPORT: () => `${environment.apiUrl}/api/spreadsheets/import`,
             ATTACHMENT: {
-                LIST:(spreadsheetMetadataId: string, rowId: number) => `${environment.apiUrl}/api/attachments?spreadsheetMetadataId=${spreadsheetMetadataId}&rowId=${rowId}`,
+                LIST: (spreadsheetMetadataId: string, rowId: number) =>
+                    `${environment.apiUrl}/api/attachments?spreadsheetMetadataId=${spreadsheetMetadataId}&rowId=${rowId}`,
                 UPLOAD: () => `${environment.apiUrl}/api/attachments`,
                 DELETE: (id: string) => `${environment.apiUrl}/api/attachments/${id}`,
             },
@@ -209,7 +206,8 @@ export class AppUrls {
                 `${environment.apiUrl}/api/client/quotations/${clientCode}/${insuredCode}/${insuranceCompanyRegistrationCode}/accept`,
             PROPOSAL_BANK_SLIP: (insuredDocument: string) => `${environment.apiUrl}/api/client/proposal/${insuredDocument}/bank-slip`,
             POLICY_DETAILS: (insuredDocument?: string, policyNumber?: string) =>
-                `${environment.apiUrl}/api/client/policies${insuredDocument ? `/${insuredDocument}` : ""}${policyNumber ? `/${policyNumber}` : ""
+                `${environment.apiUrl}/api/client/policies${insuredDocument ? `/${insuredDocument}` : ""}${
+                    policyNumber ? `/${policyNumber}` : ""
                 }`,
             POLICIES: (clientCode: string) => `${environment.apiUrl}/api/client/policies?clientCode=${clientCode}`,
             POLICY_BANK_SLIP_DOCUMENT: (insuredDocument: string, policyNumber: string) =>
