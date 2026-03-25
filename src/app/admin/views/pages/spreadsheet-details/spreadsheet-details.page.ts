@@ -13,255 +13,238 @@ import { SpreadsheetColumnConfigModal } from "./spreadsheet-column-config-modal"
 import { SpreadSheetDetailsDto, SpreadSheetRequestParamsDto } from "src/app/admin/models/spreadsheet.dto";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AttachmentService } from "src/app/admin/services/attachment.service";
+import { SPREADSHEET_VIEW } from "src/app/shared/models/enums/spreadsheet-view-param-status.const";
 
+interface ViewState {
+  name: string;
+  data: any;
+  page: number;
+  limit: number;
+  total: number;
+  visibleColumns: string[];
+  storageKey: () => string;
+}
 @Component({
-    selector: "spreadsheet-details-page",
-    templateUrl: "./spreadsheet-details.page.html",
-    styles: [],
+  selector: "spreadsheet-details-page",
+  templateUrl: "./spreadsheet-details.page.html",
 })
 export class SpreadSheetDetailsPage extends BaseAppPageView {
-    allRecordsInProgress?: SpreadSheetDetailsDto;
-    allRecordsValidated?: SpreadSheetDetailsDto;
 
-    inProgressPage = 1;
-    inProgressLimit = 8;
-    totalRecordsInProgress = 0;
+  override getBreadcrumbs(): PageRoute[] {
+    return [new PageRoute(this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(), "Planilhas", "Planilhas")];
+  }
 
-    validatedPage = 1;
-    validatedLimit = 8;
-    totalRecordsValidated = 0;
+  spreadsheetId!: string;
 
-    spreadsheetId!: string;
-    isLoading = false;
+  views: Record<string, ViewState> = {
+    inicial: this.createView("inicial"),
+    pendente: this.createView("pendente"),
+    analise: this.createView("analise"),
+    concluido: this.createView("concluido"),
+  };
 
-    inProgressVisibleColumns: string[] = [];
-    validatedVisibleColumns: string[] = [];
+  
 
-    get inProgressStorageKey(): string {
-        return `spreadsheet_${this.spreadsheetId}_table_inProgress`;
-    }
+  constructor(
+    private spreadsheetService: SpreadSheetService,
+    private route: ActivatedRoute,
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
+    private attachmentService: AttachmentService,
+  ) {
+    super();
+  }
+  private loadingCount = 0;
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get("id");
+    if (!id) return;
 
-    get validatedStorageKey(): string {
-        return `spreadsheet_${this.spreadsheetId}_table_validated`;
-    }
+    this.spreadsheetId = id;
 
-    constructor(
-        private readonly pageService: PageService,
-        private readonly spinner: NgxSpinnerService,
-        private readonly spreadsheetService: SpreadSheetService,
-        private readonly attachmentService: AttachmentService,
-        private readonly route: ActivatedRoute,
-        private modalService: NgbModal,
-    ) {
-        super();
-    }
+    this.loadAll();
+  }
 
-    override getBreadcrumbs(): PageRoute[] {
-        return [new PageRoute(this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(), "Planilhas", "Planilhas")];
-    }
+  // ===== FACTORY DE VIEW =====
 
-    ngOnInit(): void {
-        this.pageService.setToolbar(this.getBreadcrumbs());
+  private createView(view: string) {
+    return {
+      name: view,
+      data: null,
+      page: 1,
+      limit: 8,
+      total: 0,
+      visibleColumns: [],
+      storageKey: () => `spreadsheet_${this.spreadsheetId}_${view}`,
+    };
+  }
 
-        const id = this.route.snapshot.paramMap.get("id");
-        if (!id) {
-            console.error("ID da planilha não encontrado na rota");
-            return;
+  // ===== LOAD =====
+
+  loadAll() {
+    Object.keys(this.views).forEach((v) => this.loadView(v));
+  }
+
+  loadView(viewKey: string) {
+    const view = this.views[viewKey];
+
+    // incrementa antes da chamada
+    this.loadingCount++;
+    this.spinner.show();
+
+    this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, {
+        view: view.name,
+        page: view.page,
+        limit: view.limit,
+    }).subscribe({
+        next: (res) => {
+        res.rows?.forEach((r: any) => this.formatRowData(r));
+
+        view.data = res;
+        view.total = res.total;
+
+        view.visibleColumns = this.loadColumns(
+            view.storageKey(),
+            res.columns
+        );
+
+        this.handleLoadingFinish();
+        },
+        error: (err) => {
+        console.error("Erro ao carregar view:", viewKey, err);
+        this.handleLoadingFinish();
         }
-
-        this.spreadsheetId = id;
-
-        this.loadInProgress();
-        this.loadValidated();
+    });
     }
 
-    private loadInProgress(): void {
-        const params: SpreadSheetRequestParamsDto = {
-            page: this.inProgressPage,
-            limit: this.inProgressLimit,
-        };
-        this.spinner.show();
+  // ===== PAGINAÇÃO =====
 
-        this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, params).subscribe({
-            next: (response) => {
-                response.rows?.forEach((row) => this.formatRowData(row));
-                this.allRecordsInProgress = response;
-                this.totalRecordsInProgress = response.total;
+  goToPage(viewKey: string, page: number) {
+    const view = this.views[viewKey];
 
-                const savedCols = localStorage.getItem(this.inProgressStorageKey);
-                if (savedCols) {
-                    this.inProgressVisibleColumns = JSON.parse(savedCols).filter((c: string) =>
-                        this.allRecordsInProgress!.columns.includes(c),
-                    );
-                } else {
-                    this.inProgressVisibleColumns = [...this.allRecordsInProgress!.columns];
-                }
+    view.page = page;
+    this.loadView(viewKey);
+  }
 
-                this.updateBreadcrumb(response.name);
-                this.spinner.hide();
-            },
-            error: (error) => {
-                console.error("Erro ao carregar registros IN PROGRESS", error);
-                this.spinner.hide();
-            },
-        });
-    }
+  getTotalPages(viewKey: string): number {
+    const view = this.views[viewKey];
+    return Math.ceil(view.total / view.limit);
+  }
 
-    private loadValidated(): void {
-        const params: SpreadSheetRequestParamsDto = {
-            page: this.validatedPage,
-            limit: this.validatedLimit,
-            status: "VALIDADO",
-        };
+  // ===== CONFIG COLUNAS =====
 
-        this.spinner.show();
+  openConfig(viewKey: string) {
+    const view = this.views[viewKey];
 
-        this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, params).subscribe({
-            next: (response) => {
-                response.rows?.forEach((row) => this.formatRowData(row));
-                this.allRecordsValidated = response;
-                this.totalRecordsValidated = response.total;
+    const modalRef = this.modalService.open(SpreadsheetColumnConfigModal);
 
-                const savedCols = localStorage.getItem(this.validatedStorageKey);
-                if (savedCols) {
-                    this.validatedVisibleColumns = JSON.parse(savedCols).filter((c: string) =>
-                        this.allRecordsValidated!.columns.includes(c),
-                    );
-                } else {
-                    this.validatedVisibleColumns = [...this.allRecordsValidated!.columns];
-                }
+    modalRef.componentInstance.allColumns =
+      (view.data?.columns || []).filter((c: string) =>
+        this.shouldDisplayColumn(c)
+      );
 
-                this.updateBreadcrumb(response.name);
-                this.spinner.hide();
-            },
-            error: (error) => {
-                console.error("Erro ao carregar registros VALIDATED", error);
-                this.spinner.hide();
-            },
-        });
-    }
+    modalRef.componentInstance.visibleColumnsArray =
+      view.visibleColumns;
 
-    private updateBreadcrumb(sheetName: string): void {
-        this.pageService.setToolbar([
-            new PageRoute(this.URLS.PATHS.ADMIN.SPREADSHEET.ROOT(), "Planilhas", "Planilhas"),
-            new PageRoute(null, sheetName, sheetName),
-        ]);
-    }
+    modalRef.result.then((result) => {
+      if (result?.visibleColumns) {
+        view.visibleColumns = result.visibleColumns;
 
-    get inProgressTotalPages(): number {
-        if (!this.totalRecordsInProgress) return 0;
-        return Math.ceil(this.totalRecordsInProgress / this.inProgressLimit);
-    }
+        localStorage.setItem(
+          view.storageKey(),
+          JSON.stringify(result.visibleColumns)
+        );
+      }
+    });
+  }
 
-    get validatedTotalPages(): number {
-        return Math.ceil(this.totalRecordsValidated / this.validatedLimit);
-    }
+  // ===== DISPLAY =====
 
-    goToInProgressPage(page: number): void {
-        if (page < 1 || page > this.inProgressTotalPages) return;
-        this.inProgressPage = page;
-        this.loadInProgress();
-    }
+  shouldDisplayColumn(column: string): boolean {
+    return column !== "ML_ID" && column !== "ML_USER_ATRIBUIDO";
+  }
 
-    goToValidatedPage(page: number): void {
-        if (page < 1 || page > this.validatedTotalPages) return;
-        this.validatedPage = page;
-        this.loadValidated();
-    }
+  shouldDisplay(viewKey: string, column: string): boolean {
+    const view = this.views[viewKey];
+    return this.shouldDisplayColumn(column) &&
+           view.visibleColumns.includes(column);
+  }
 
-    getVisiblePages(current: number, total: number, delta = 2): number[] {
-        const pages: number[] = [];
+  // ===== UTILS =====
 
-        const start = Math.max(1, current - delta);
-        const end = Math.min(total, current + delta);
+  private loadColumns(storageKey: string, columns: string[]): string[] {
+    const saved = localStorage.getItem(storageKey);
+    if (!saved) return [...columns];
 
-        for (let i = start; i <= end; i++) {
-            pages.push(i);
+    try {
+        return JSON.parse(saved).filter((c: string) =>
+            columns.includes(c)
+        );
+        } catch {
+        return [...columns];
         }
-
-        return pages;
     }
 
-    trackByRowId(_: number, row: any): any {
-        return row.id;
-    }
-    openRowDetails(row: Record<string, any>): void {
+    private handleLoadingFinish() {
+        this.loadingCount--;
+
+        if (this.loadingCount <= 0) {
+            this.loadingCount = 0; // evita negativo
+            this.spinner.hide();
+        }
+}
+  // ===== RELOAD GLOBAL =====
+
+  reloadAll() {
+    this.loadAll();
+  }
+
+  // ===== MODAIS =====
+
+  openAddColumnModal() {
+    const modalRef = this.modalService.open(SpreadsheetAddColumnModal);
+
+    modalRef.result.then((r) => {
+      if (r?.success) this.reloadAll();
+    });
+  }
+
+  openDeleteColumnModal() {
+    const modalRef = this.modalService.open(SpreadsheetDeleteColumnModal);
+
+    modalRef.result.then((r) => {
+      if (r?.success) this.reloadAll();
+    });
+  }
+
+  openRowDetails(row: Record<string, any>, viewKey: string): void {
         const modalRef = this.modalService.open(SpreadsheetDetailsModal, {
             centered: true,
             scrollable: true,
         });
 
+        const view = this.views[viewKey];
+
         modalRef.componentInstance.data = row;
         modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
         modalRef.componentInstance.rowId = row["ML_ID"];
+        modalRef.componentInstance.columns = view.data?.columns || [];
+        modalRef.componentInstance.view = viewKey;
+
         modalRef.componentInstance.onUpdateSuccess = () => {
-            this.loadInProgress();
-            this.loadValidated();
+            this.loadAll();
         };
 
-        modalRef.result.then((result) => {
+        modalRef.result
+        .then((result) => {
             if (result?.action === "upload") {
-                this.handleUpload(result.payload, row["ML_ID"]);
+            this.handleUpload(result.payload, row["ML_ID"]);
             }
-        });
+        })
+        .catch(() => {});    
     }
 
-    openAddColumnModal(): void {
-        const modalRef = this.modalService.open(SpreadsheetAddColumnModal, {
-            centered: true,
-            scrollable: true,
-        });
-
-        modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
-
-        modalRef.result.then((result) => {
-            if (result?.success) {
-                this.loadInProgress();
-                this.loadValidated();
-            }
-        });
-    }
-
-    openDeleteColumnModal(): void {
-        const modalRef = this.modalService.open(SpreadsheetDeleteColumnModal, {
-            centered: true,
-            scrollable: true,
-        });
-
-        modalRef.componentInstance.spreadsheetId = this.spreadsheetId;
-
-        modalRef.result.then((result) => {
-            if (result?.success) {
-                this.loadInProgress();
-                this.loadValidated();
-            }
-        });
-    }
-
-    exportSpreadsheet(): void {
-        this.spreadsheetService.exportSpreadsheet(this.spreadsheetId).subscribe((response) => {
-            const contentDisposition = response.headers.get("content-disposition");
-            const fileName = this.extractFileName(contentDisposition);
-
-            const blob = response.body!;
-            const objectUrl = URL.createObjectURL(blob);
-
-            const a = document.createElement("a");
-            a.href = objectUrl;
-            a.download = fileName;
-            a.click();
-
-            URL.revokeObjectURL(objectUrl);
-        });
-    }
-
-    truncateText(text: any, limit: number = 30): string {
-        if (text === null || text === undefined) return "";
-        const str = text.toString();
-        return str.length > limit ? str.substring(0, limit) + "..." : str;
-    }
-
-    formatCellValue(value: any): any {
+  // ===== Utils =====
+  formatCellValue(value: any): any {
         if (!value || typeof value !== "string") return value;
         let str = value.trim();
 
@@ -296,62 +279,6 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         });
     }
 
-    formatColumnName(column: string): string {
-        return column ? column.replace(/_/g, " ") : "";
-    }
-
-    shouldDisplayColumn(column: string): boolean {
-        return column !== "ML_ID" && column !== "ML_USER_ATRIBUIDO";
-    }
-
-    shouldDisplayColumnInProgress(column: string): boolean {
-        return this.shouldDisplayColumn(column) && this.inProgressVisibleColumns.includes(column);
-    }
-
-    shouldDisplayColumnValidated(column: string): boolean {
-        return this.shouldDisplayColumn(column) && this.validatedVisibleColumns.includes(column);
-    }
-
-    openConfigColumnsInProgress(): void {
-        const modalRef = this.modalService.open(SpreadsheetColumnConfigModal, {
-            centered: true,
-            scrollable: true,
-        });
-
-        const availableColumns = (this.allRecordsInProgress?.columns || []).filter((c) => this.shouldDisplayColumn(c));
-        modalRef.componentInstance.allColumns = availableColumns;
-        modalRef.componentInstance.visibleColumnsArray = this.inProgressVisibleColumns;
-
-        modalRef.result
-            .then((result) => {
-                if (result?.visibleColumns) {
-                    this.inProgressVisibleColumns = result.visibleColumns;
-                    localStorage.setItem(this.inProgressStorageKey, JSON.stringify(this.inProgressVisibleColumns));
-                }
-            })
-            .catch(() => {});
-    }
-
-    openConfigColumnsValidated(): void {
-        const modalRef = this.modalService.open(SpreadsheetColumnConfigModal, {
-            centered: true,
-            scrollable: true,
-        });
-
-        const availableColumns = (this.allRecordsValidated?.columns || []).filter((c) => this.shouldDisplayColumn(c));
-        modalRef.componentInstance.allColumns = availableColumns;
-        modalRef.componentInstance.visibleColumnsArray = this.validatedVisibleColumns;
-
-        modalRef.result
-            .then((result) => {
-                if (result?.visibleColumns) {
-                    this.validatedVisibleColumns = result.visibleColumns;
-                    localStorage.setItem(this.validatedStorageKey, JSON.stringify(this.validatedVisibleColumns));
-                }
-            })
-            .catch(() => {});
-    }
-
     private handleUpload(payload: any, rowId: number) {
         const formData = new FormData();
         formData.append("file", payload.file);
@@ -382,4 +309,54 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
 
         return "download.xlsx";
     }
+
+    truncateText(text: any, limit: number = 30): string {
+        if (text === null || text === undefined) return "";
+        const str = text.toString();
+        return str.length > limit ? str.substring(0, limit) + "..." : str;
+    }
+
+    exportSpreadsheet(): void {
+        this.spreadsheetService.exportSpreadsheet(this.spreadsheetId).subscribe((response) => {
+            const contentDisposition = response.headers.get("content-disposition");
+            const fileName = this.extractFileName(contentDisposition);
+            console.log("Nome do arquivo extraído:", fileName);
+
+            const blob = response.body!;
+            const objectUrl = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = objectUrl;
+            a.download = fileName;
+            a.click();
+
+            URL.revokeObjectURL(objectUrl);
+        });
+    }
+  formatColumnName(column: string): string {
+    return column ? column.replace(/_/g, ' ') : '';
+  }
+
+
+
+ trackByRowId(_: number, row: any): any {
+    return row["ML_ID"];    
 }
+// ======= Paginação =======
+    getVisiblePages(currentPage: number, totalPages: number): number[] {
+        const pages: number[] = [];
+
+        const start = Math.max(1, currentPage - 2);
+        const end = Math.min(totalPages, currentPage + 2);
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+
+        return pages;
+    }
+}
+
+
+    
+    
