@@ -14,7 +14,7 @@ export class SpreadSheetRequestParamsDto {
     limit: number;
     page: number;
     search?: string;
-    status?: string;
+    view?: string;
 }
 
 export class TeamDto{
