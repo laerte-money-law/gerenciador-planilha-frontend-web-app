@@ -22,6 +22,7 @@ interface ViewState {
   limit: number;
   total: number;
   visibleColumns: string[];
+  search?: string;
   storageKey: () => string;
 }
 @Component({
@@ -71,9 +72,10 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
       name: view,
       data: null,
       page: 1,
-      limit: 8,
+      limit: 10,
       total: 0,
       visibleColumns: [],
+      search: '',
       storageKey: () => `spreadsheet_${this.spreadsheetId}_${view}`,
     };
   }
@@ -91,11 +93,17 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
     this.loadingCount++;
     this.spinner.show();
 
-    this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, {
-        view: view.name,
-        page: view.page,
-        limit: view.limit,
-    }).subscribe({
+    const params: any = {
+      view: view.name,
+      page: view.page,
+      limit: view.limit,
+    };
+
+    if (view.search && view.search.trim()) {
+      params.search = view.search;
+    }
+
+    this.spreadsheetService.getSpreadSheetPaged(this.spreadsheetId, params).subscribe({
         next: (res) => {
         res.rows?.forEach((r: any) => this.formatRowData(r));
 
@@ -354,6 +362,25 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         }
 
         return pages;
+    }
+
+    searchTimeout: any;
+
+    onSearch(viewKey: string) {
+      clearTimeout(this.searchTimeout);
+
+      this.searchTimeout = setTimeout(() => {
+        const view = this.views[viewKey];
+        view.page = 1;
+        this.loadView(viewKey);
+      }, 300);
+    }
+
+    onLimitChange(viewKey: string) {
+      const view = this.views[viewKey];
+
+      view.page = 1; 
+      this.loadView(viewKey);
     }
 }
 
