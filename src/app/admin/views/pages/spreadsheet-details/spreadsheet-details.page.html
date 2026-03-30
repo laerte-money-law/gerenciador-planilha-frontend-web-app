@@ -11,8 +11,13 @@
     <div class="card-title flex-grow-1">
       <div class="d-flex align-items-center position-relative my-1 w-100">
         <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5"></i>
-        <input class="form-control form-control-solid ps-13" placeholder="Search" />
-      </div>
+          <input 
+            class="form-control form-control-solid ps-13"
+            placeholder="Busque por processo ou autor"
+            [(ngModel)]="views['inicial'].search"
+            (input)="onSearch('inicial')"
+          />      
+        </div>
     </div>
 
     <div class="card-toolbar">
@@ -86,55 +91,57 @@
     </div>
 
     <!-- PAGINAÇÃO -->
-      <div class="row mt-5">
+      
+<div class="row mt-5">
+  <div class="col-12 d-flex justify-content-end align-items-center gap-3">
 
-  <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
-  </div>
+    <!-- SELECT -->
+    <select 
+      class="form-select w-auto"
+      [(ngModel)]="views['inicial'].limit"
+      (change)="onLimitChange('inicial')"
+    >
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="30">30</option>
+    </select>
 
-  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    
+    <!-- PAGINAÇÃO -->
     <div class="dt-paging paging_simple_numbers">
+      <nav *ngIf="getTotalPages('inicial') > 1">
+        <ul class="pagination mb-0">
 
-        <nav *ngIf="getTotalPages('inicial') > 1">
-            <ul class="pagination justify-content-end mb-0">
+          <li class="page-item" [class.disabled]="views['inicial'].page === 1">
+            <button class="page-link"
+                    (click)="goToPage('inicial', views['inicial'].page - 1)">
+              ‹
+            </button>
+          </li>
 
-            <!-- anterior -->
-            <li class="page-item" [class.disabled]="views['inicial'].page === 1">
-                <button class="page-link"
-                        (click)="goToPage('inicial', views['inicial'].page - 1)">
-                ‹
-                </button>
-            </li>
+          <li class="page-item"
+              *ngFor="let page of getVisiblePages(views['inicial'].page, getTotalPages('inicial'))"
+              [class.active]="views['inicial'].page === page">
+            <button class="page-link"
+                    (click)="goToPage('inicial', page)">
+              {{ page }}
+            </button>
+          </li>
 
-            <!-- páginas -->
-            <li class="dt-paging-button page-item"
-                *ngFor="let page of getVisiblePages(views['inicial'].page, getTotalPages('inicial'))"
-                [class.active]="views['inicial'].page === page">
+          <li class="page-item"
+              [class.disabled]="views['inicial'].page === getTotalPages('inicial')">
+            <button class="page-link"
+                    (click)="goToPage('inicial', views['inicial'].page + 1)">
+              ›
+            </button>
+          </li>
 
-                <button class="page-link"
-                        (click)="goToPage('inicial', page)">
-                {{ page }}
-                </button>
-            </li>
-
-            <!-- próximo -->
-            <li class="page-item"
-                [class.disabled]="views['inicial'].page === getTotalPages('inicial')">
-
-                <button class="page-link"
-                        (click)="goToPage('inicial', views['inicial'].page + 1)">
-                ›
-                </button>
-            </li>
-
-            </ul>
-        </nav>
-
-        </div>
-    </div>
+        </ul>
+      </nav>
     </div>
 
   </div>
+</div>
+</div>
 </div>
   <!-- ===================== PENDENTE ===================== -->
 
@@ -150,7 +157,12 @@
     <div class="card-title flex-grow-1">
       <div class="d-flex align-items-center position-relative my-1 w-100">
         <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5"></i>
-        <input class="form-control form-control-solid ps-13" placeholder="Search" />
+        <input 
+          class="form-control form-control-solid ps-13"
+          placeholder="Busque por processo ou autor"
+          [(ngModel)]="views['pendente'].search"
+          (input)="onSearch('pendente')"
+        />
       </div>
     </div>
 
@@ -211,55 +223,56 @@
 
     <!-- PAGINAÇÃO -->
    <div class="row mt-5">
+  <div class="col-12 d-flex justify-content-end align-items-center gap-3">
 
-  <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
-  </div>
+    <!-- SELECT -->
+    <select 
+      class="form-select w-auto"
+      [(ngModel)]="views['inicial'].limit"
+      (change)="onLimitChange('inicial')"
+    >
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="30">30</option>
+    </select>
 
-  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    
+    <!-- PAGINAÇÃO -->
     <div class="dt-paging paging_simple_numbers">
+      <nav *ngIf="getTotalPages('pendente') > 1">
+        <ul class="pagination mb-0">
 
-        <nav *ngIf="getTotalPages('pendente') > 1">
-            <ul class="pagination justify-content-end mb-0">
+          <li class="page-item" [class.disabled]="views['pendente'].page === 1">
+            <button class="page-link"
+                    (click)="goToPage('pendente', views['pendente'].page - 1)">
+              ‹
+            </button>
+          </li>
 
-            <!-- anterior -->
-            <li class="page-item" [class.disabled]="views['pendente'].page === 1">
-                <button class="page-link"
-                        (click)="goToPage('pendente', views['pendente'].page - 1)">
-                ‹
-                </button>
-            </li>
+          <li class="page-item"
+              *ngFor="let page of getVisiblePages(views['pendente'].page, getTotalPages('pendente'))"
+              [class.active]="views['pendente'].page === page">
+            <button class="page-link"
+                    (click)="goToPage('pendente', page)">
+              {{ page }}
+            </button>
+          </li>
 
-            <!-- páginas -->
-            <li class="dt-paging-button page-item"
-                *ngFor="let page of getVisiblePages(views['pendente'].page, getTotalPages('pendente'))"
-                [class.active]="views['pendente'].page === page">
+          <li class="page-item"
+              [class.disabled]="views['pendente'].page === getTotalPages('pendente')">
+            <button class="page-link"
+                    (click)="goToPage('pendente', views['pendente'].page + 1)">
+              ›
+            </button>
+          </li>
 
-                <button class="page-link"
-                        (click)="goToPage('pendente', page)">
-                {{ page }}
-                </button>
-            </li>
-
-            <!-- próximo -->
-            <li class="page-item"
-                [class.disabled]="views['pendente'].page === getTotalPages('pendente')">
-
-                <button class="page-link"
-                        (click)="goToPage('pendente', views['pendente'].page + 1)">
-                ›
-                </button>
-            </li>
-
-            </ul>
-        </nav>
-
-        </div>
-    </div>
+        </ul>
+      </nav>
     </div>
 
   </div>
 </div>
+</div>
+  </div>
   <!-- ========= Aguardando Validação - Não Localizado - Sem Acesso ao Banco (em análise) ======== -->
 <div class="card mb-5">
   <div class="card-header border-0">
@@ -272,8 +285,13 @@
     <div class="card-title flex-grow-1">
       <div class="d-flex align-items-center position-relative my-1 w-100">
         <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5"></i>
-        <input class="form-control form-control-solid ps-13" placeholder="Search" />
-      </div>
+          <input 
+            class="form-control form-control-solid ps-13"
+            placeholder="Busque por processo ou autor"
+            [(ngModel)]="views['analise'].search"
+            (input)="onSearch('analise')"
+          />      
+        </div>
     </div>
 
     <div class="card-toolbar">
@@ -333,56 +351,56 @@
 
     <!-- PAGINAÇÃO -->
     <div class="row mt-5">
+  <div class="col-12 d-flex justify-content-end align-items-center gap-3">
 
-  <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
-  </div>
+    <!-- SELECT -->
+    <select 
+      class="form-select w-auto"
+      [(ngModel)]="views['inicial'].limit"
+      (change)="onLimitChange('inicial')"
+    >
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="30">30</option>
+    </select>
 
-  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    
+    <!-- PAGINAÇÃO -->
     <div class="dt-paging paging_simple_numbers">
+      <nav *ngIf="getTotalPages('analise') > 1">
+        <ul class="pagination mb-0">
 
-        <nav *ngIf="getTotalPages('analise') > 1">
-            <ul class="pagination justify-content-end mb-0">
+          <li class="page-item" [class.disabled]="views['analise'].page === 1">
+            <button class="page-link"
+                    (click)="goToPage('analise', views['analise'].page - 1)">
+              ‹
+            </button>
+          </li>
 
-            <!-- anterior -->
-            <li class="page-item" [class.disabled]="views['analise'].page === 1">
-                <button class="page-link"
-                        (click)="goToPage('analise', views['analise'].page - 1)">
-                ‹
-                </button>
-            </li>
+          <li class="page-item"
+              *ngFor="let page of getVisiblePages(views['analise'].page, getTotalPages('analise'))"
+              [class.active]="views['analise'].page === page">
+            <button class="page-link"
+                    (click)="goToPage('analise', page)">
+              {{ page }}
+            </button>
+          </li>
 
-            <!-- páginas -->
-            <li class="dt-paging-button page-item"
-                *ngFor="let page of getVisiblePages(views['analise'].page, getTotalPages('analise'))"
-                [class.active]="views['analise'].page === page">
+          <li class="page-item"
+              [class.disabled]="views['analise'].page === getTotalPages('analise')">
+            <button class="page-link"
+                    (click)="goToPage('analise', views['analise'].page + 1)">
+              ›
+            </button>
+          </li>
 
-                <button class="page-link"
-                        (click)="goToPage('analise', page)">
-                {{ page }}
-                </button>
-            </li>
-
-            <!-- próximo -->
-            <li class="page-item"
-                [class.disabled]="views['analise'].page === getTotalPages('analise')">
-
-                <button class="page-link"
-                        (click)="goToPage('analise', views['analise'].page + 1)">
-                ›
-                </button>
-            </li>
-
-            </ul>
-        </nav>
-
-        </div>
-    </div>
+        </ul>
+      </nav>
     </div>
 
   </div>
 </div>
-
+</div>
+</div>
 <!-- ======================= CONCLUIDO ========================================== -->
  <div class="card mb-5">
 <div class="card-header border-0">
@@ -395,8 +413,13 @@
     <div class="card-title flex-grow-1">
       <div class="d-flex align-items-center position-relative my-1 w-100">
         <i class="fa-solid fa-magnifying-glass fs-3 position-absolute ms-5"></i>
-        <input class="form-control form-control-solid ps-13" placeholder="Search" />
-      </div>
+          <input 
+            class="form-control form-control-solid ps-13"
+            placeholder="Busque por processo ou autor"
+            [(ngModel)]="views['concluido'].search"
+            (input)="onSearch('concluido')"
+          />      
+        </div>
     </div>
 
     <div class="card-toolbar">
@@ -455,53 +478,54 @@
     </div>
 
     <!-- PAGINAÇÃO -->
-    <div class="row mt-5">
+   <div class="row mt-5">
+  <div class="col-12 d-flex justify-content-end align-items-center gap-3">
 
-  <div class="col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start dt-toolbar">
-  </div>
+    <!-- SELECT -->
+    <select 
+      class="form-select w-auto"
+      [(ngModel)]="views['inicial'].limit"
+      (change)="onLimitChange('inicial')"
+    >
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="30">30</option>
+    </select>
 
-  <div class="col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end">
-    
+    <!-- PAGINAÇÃO -->
     <div class="dt-paging paging_simple_numbers">
+      <nav *ngIf="getTotalPages('concluido') > 1">
+        <ul class="pagination mb-0">
 
-        <nav *ngIf="getTotalPages('concluido') > 1">
-            <ul class="pagination justify-content-end mb-0">
+          <li class="page-item" [class.disabled]="views['concluido'].page === 1">
+            <button class="page-link"
+                    (click)="goToPage('concluido', views['concluido'].page - 1)">
+              ‹
+            </button>
+          </li>
 
-            <!-- anterior -->
-            <li class="page-item" [class.disabled]="views['concluido'].page === 1">
-                <button class="page-link"
-                        (click)="goToPage('concluido', views['concluido'].page - 1)">
-                ‹
-                </button>
-            </li>
+          <li class="page-item"
+              *ngFor="let page of getVisiblePages(views['concluido'].page, getTotalPages('concluido'))"
+              [class.active]="views['concluido'].page === page">
+            <button class="page-link"
+                    (click)="goToPage('concluido', page)">
+              {{ page }}
+            </button>
+          </li>
 
-            <!-- páginas -->
-            <li class="dt-paging-button page-item"
-                *ngFor="let page of getVisiblePages(views['concluido'].page, getTotalPages('concluido'))"
-                [class.active]="views['concluido'].page === page">
+          <li class="page-item"
+              [class.disabled]="views['concluido'].page === getTotalPages('concluido')">
+            <button class="page-link"
+                    (click)="goToPage('concluido', views['concluido'].page + 1)">
+              ›
+            </button>
+          </li>
 
-                <button class="page-link"
-                        (click)="goToPage('concluido', page)">
-                {{ page }}
-                </button>
-            </li>
-
-            <!-- próximo -->
-            <li class="page-item"
-                [class.disabled]="views['concluido'].page === getTotalPages('concluido')">
-
-                <button class="page-link"
-                        (click)="goToPage('concluido', views['concluido'].page + 1)">
-                ›
-                </button>
-            </li>
-
-            </ul>
-        </nav>
-
-        </div>
-    </div>
+        </ul>
+      </nav>
     </div>
 
   </div>
 </div>
+</div>
+ </div>
