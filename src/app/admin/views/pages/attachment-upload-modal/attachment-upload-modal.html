@@ -13,13 +13,21 @@
 
     <div class="mb-2">
       <label class="form-label">Arquivo</label>
-      <input
-        type="file"
-        class="form-control"
-        accept=".csv,.xlsx,.pdf,.png,.jpeg,.jpg"
-        (change)="onFileChange($event)"
-      />
-      <small *ngIf="file" class="text-muted">{{ file.name }}</small>
+      
+      <file-pond
+        *ngIf="!fileInfo"
+        [options]="filePondOptions"
+        (onaddfile)="pondHandleAddFile($event)">
+      </file-pond>
+
+      <app-file-display
+        *ngIf="fileInfo"
+        [isEditable]="true"
+        [fileInfo]="fileInfo"
+        (deleteFile)="onDeleteFile()"
+        (replaceFile)="onReplaceFile()"
+      ></app-file-display>
+      
     </div>
     <div class="mb-2">
      <label class="form-label">Tipo do anexo</label>
