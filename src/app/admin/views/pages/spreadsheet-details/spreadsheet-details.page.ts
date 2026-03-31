@@ -228,6 +228,8 @@ export class SpreadSheetDetailsPage extends BaseAppPageView {
         const modalRef = this.modalService.open(SpreadsheetDetailsModal, {
             centered: true,
             scrollable: true,
+            size: 'xl',
+            modalDialogClass: 'w-75 mw-100',
         });
 
         const view = this.views[viewKey];
